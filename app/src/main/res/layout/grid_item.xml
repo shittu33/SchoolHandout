@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="150dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="@dimen/cardview_compat_inset_shadow"
+        app:cardElevation="20dp">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/grid_btn"
+            android:padding="9dp"
+            android:src="@drawable/ic_school_black_24dp">
+
+            <!--android:background="@drawable/bar"-->
+        </ImageView>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:padding="9dp"
+        android:text="MY BOOKS"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+</LinearLayout>

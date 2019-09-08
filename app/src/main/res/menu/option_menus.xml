@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/upload"
+        android:icon="@drawable/ic_cloud_upload_white_24dp"
+        android:title="upload"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/open_with_pdf"
+        android:icon="@drawable/ic_picture_as_pdf_white_24dp"
+        android:title="to_pdf"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_delete_white"
+        android:title="delete"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="share"
+        app:showAsAction="ifRoom"
+        />
+
+    <!--<item-->
+        <!--android:id="@+id/select_all"-->
+        <!--android:title="select_all"-->
+        <!--app:showAsAction="withText"-->
+        <!--/>-->
+</menu>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#001e1e1e"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="18dp"
+        android:layout_gravity="center"
+        app:cardMaxElevation="14dp">
+
+        <com.robertlevonyan.views.customfloatingactionbutton.FloatingActionButton
+            android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabColor="@color/colorFabText"
+            app:fabSizes="normal"
+            app:fabElevation="10dp"
+            app:fabIcon="@drawable/add_draw_for_back_cover"
+            app:fabType="circle"
+            app:fabMenuStyle="popUp"
+            app:fabAnimateMenu="true"
+            app:fabTextAllCaps="true"
+            app:fabTextColor="#000"
+            app:fabText="Click to Add a New Page"
+            android:layout_gravity="center"
+            />
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@drawable/register_draw"-->
+        <!--android:layout_margin="0dp">-->
+        <!---->
+    <!--</RelativeLayout>-->
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

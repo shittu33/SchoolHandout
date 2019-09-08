@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <!--<item-->
+            <!--android:id="@+id/books"-->
+            <!--android:icon="@drawable/course_book"-->
+            <!--android:title="@string/books" />-->
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/my_profile" />
+        <item
+            android:id="@+id/guide"
+            android:icon="@drawable/ic_library_books_black_24dp"
+            android:title="@string/guide" />
+
+    </group>
+
+    <item
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="Application Details"
+        android:visible="true">
+        <menu>
+
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/setting" />
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="@string/about" />
+            <item
+                android:id="@+id/login"
+                android:title="Sign in/Sign Out"
+                android:icon="@drawable/ic_person_outline_black_24dp"
+                />
+        </menu>
+    </item>
+
+</menu>

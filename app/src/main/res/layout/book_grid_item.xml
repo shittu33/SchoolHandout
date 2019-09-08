@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="125dp"
+    android:layout_height="190dp"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="115dp"
+        android:layout_height="180dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="5dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="10dp"
+        app:contentPadding="1.2dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/card"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/p9_480"
+                    >
+
+                </ImageView>
+
+
+                <ImageView
+                    android:id="@+id/check_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="0dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_check_circle_black_24dp" />
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingStart="3dp"
+                    android:paddingLeft="3dp">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|top"
+                        android:layout_marginTop="2dp"
+                        android:gravity="start|top"
+                        android:text="CMP305ddddddddddddddddddddddddddddddddddddddddddddddddddd"
+                        android:maxLength="30"
+                        android:textAlignment="inherit"
+                        android:textAllCaps="false"
+                        android:textColor="#050504"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        android:typeface="sans" />
+
+                    <TextView
+                        android:id="@+id/no_pages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="bottom|start"
+                        android:text="10 pages"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="false"
+                        android:textColor="#606060"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                </FrameLayout>
+
+                    <ImageView
+                        android:id="@+id/option"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="15dp"
+                        android:src="@drawable/ic_more_vert_black_24dp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

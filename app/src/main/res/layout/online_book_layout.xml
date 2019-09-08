@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+   <Button
+       android:id="@+id/login_btn"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Upload A Book"
+       android:visibility="gone"
+       android:layout_centerInParent="true"/>
+
+
+   <!--<GridView-->
+       <!--android:id="@+id/online_grid_view"-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="match_parent"-->
+<!---->
+      <!--/>-->
+   <GridView
+       android:id="@+id/online_grid_view"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@drawable/card_bac"
+       android:numColumns="auto_fit"
+       android:horizontalSpacing="0.1dp"
+       android:gravity="center"
+       android:paddingEnd="2dp"
+       android:paddingRight="2dp"
+       android:paddingLeft="2dp"
+       android:paddingStart="2dp"
+       android:columnWidth="115dp"
+       android:stretchMode="columnWidth"
+       tools:listitem="@layout/online_book_grid_item" />
+
+</RelativeLayout>

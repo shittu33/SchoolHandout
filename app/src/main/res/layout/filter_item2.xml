@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/filer_txt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="6dp"
+    android:layout_margin="8dp"
+    android:text="Cmp"
+    android:background="@drawable/elipse_border"
+    android:textAppearance="@style/TextAppearance.AppCompat.Button">
+</TextView>

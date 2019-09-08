@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "513309496015",
+    "firebase_url": "https://udus-handout.firebaseio.com",
+    "project_id": "udus-handout",
+    "storage_bucket": "udus-handout.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513309496015:android:a8c0ed5205de40b2",
+        "android_client_info": {
+          "package_name": "com.example.abumuhsin.udusmini_library"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513309496015-jevh5t8j6rkrape8f8gkccs085cedmlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmmvD2v7Ic4XVsVOUeXODmfxT8biulG3Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

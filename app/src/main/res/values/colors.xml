@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#053001</color>
+    <color name="samplePrimaryDark">#54073004</color>
+    <color name="colorPrimary">#074821</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="handout_grid_btns_color">#076805</color>
+    <color name="handout_grid_btns_color_unselected">#188A15</color>
+    <color name="like_btn_txt_unselected">#188A15</color>
+
+    <color name="primary">#009688</color>
+    <color name="primaryDark">#00796b</color>
+    <color name="accent">#eeff41</color>
+    <color name="white">#ffffff</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="slightly_transparent">#d7161616</color>
+    <color name="accentLight">#F4FF81</color>
+    /*Drag colors*/
+    <color name="light_yellow">#7dffff89</color>
+    <color name="light_blue">#a22c5bb1</color>
+    <color name="light_green">#9c3cf420</color>
+    <color name="light_red">#b799080a</color>
+    <color name="red">#f599080a</color>
+
+    <color name="primaryColor">#d4e157</color>
+    <color name="primaryLightColor">#ffff89</color>
+    <color name="primaryDarkColor">#a0af22</color>
+    <color name="primaryTextColor">#292929</color>
+
+    <color name="primaryColorPink">#f48fb1</color>
+    <color name="primaryLightColorPink">#ffc1e3</color>
+    <color name="primaryDarkColorPink">#bf5f82</color>
+    <color name="primaryLightColorRed">#ffbcaf</color>
+    <color name="primaryTextColorPink">#000000</color>
+
+    <color name="cover_color_dark">#EB9CC7</color>
+    <color name="cover_color1">#6E197C</color>
+    <color name="cover_color2">#880A35</color>
+    <color name="cover_color3">#c85a54</color>
+    <color name="cover_color4">#0C6B62</color>
+    <color name="cover_color5">#440A06</color>
+    <color name="cover_color6">#485A03</color>
+    <color name="cover_color7">#270644</color>
+    <color name="cover_color8">#EB06492E</color>
+
+
+    <color name="primaryColorGreen">#c6ff00</color>
+    <color name="primaryLightColorGreen">#fdff58</color>
+    <color name="primaryDarkColorGreen">#90cc00</color>
+    <color name="primaryTextColorGreen">#000000</color>
+
+
+    <color name="primaryColorBrown">#ffab91</color>
+    <color name="primaryLightColorBrown">#ffddc1</color>
+    <color name="primaryDarkColorBrown">#c97b63</color>
+    <color name="primaryTextColorBrown">#000000</color>
+
+    <color name="primaryColor1">#18ffff</color>
+    <color name="primaryLightColor1">#76ffff</color>
+    <color name="primaryDarkColor1">#00cbcc</color>
+    <color name="primaryTextColor1">#000000</color>
+    <color name="selected_image_foreground">#a2161616</color>
+    <color name="wine_cover_color">#870324</color>
+    <color name="cover_purple">#F3EF5350</color>
+    <color name="little_ashes">#EEDADADA</color>
+</resources>

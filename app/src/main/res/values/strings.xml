@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Udus mini-Library</string>
+    <string name="title_activity_main">PageFlip Demo</string>
+    <string name="about_mesh_pixels">
+        1. Changing "Mesh Pixels" will only take effect in next time!
+    </string>
+    <string name="about_codes">
+        2. The codes are under Apache License 2.0. You can get it from
+        https://github.com/eschao/android-PageFlip and use freely.
+    </string>
+    <string name="about_contact">
+        3. Any question please mailto: esc.chao@gmail.com or file issue in github.
+    </string>
+    <string name="books">Books</string>
+    <string name="my_profile">My Profile</string>
+    <string name="setting">Settings</string>
+    <string name="about">about</string>
+    <string name="guide">Guide</string>
+    <string name="open">openDrawerContentDescRes</string>
+    <string name="close">closeDrawerContentDescRes</string>
+
+
+    <string name="first">First</string>
+    <string name="last">Last</string>
+    <string name="prepend">Prepend</string>
+    <string name="s_normal">normal</string>
+    <string name="s_fast">fast</string>
+    <string name="s_very_fast">very fast</string>
+    <string name="s_slow">slow</string>
+    <string name="select_all_txt">SELECT ALL</string>
+    <string name="deselect_all_txt">DESELECT ALL</string>
+    <string name="select_page">Select</string>
+    <string name="deselect_page">Deselect</string>
+    <string name="enter_course_code">Enter Course code (format-> Cmp 303)</string>
+    <string name="enter_note_title">Enter Note title</string>
+    <string name="save_handout">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="handouts">Handouts:</string>
+    <string name="by_1510310093">posted by 1510310093</string>
+
+</resources>

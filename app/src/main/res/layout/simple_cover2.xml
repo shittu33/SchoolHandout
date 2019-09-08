@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cover_bac"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DDD3D3"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleX="1.02"
+        android:scaleY="1.02"
+        android:background="@android:drawable/dialog_holo_light_frame">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cover_purple"
+            android:layout_margin="1dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:gravity="start"
+            android:orientation="vertical"
+            android:paddingStart="23dp"
+            android:paddingLeft="23dp"
+            android:paddingEnd="80dp"
+            android:paddingRight="80dp">
+
+            <TextView
+                android:id="@+id/course_code1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:shadowRadius="16"
+                android:text="CMP"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="100sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/course_code_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:shadowRadius="16"
+                android:text="303"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="100sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="10dp"
+                android:background="#000" />
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:fontFamily="sans-serif-thin"
+                android:shadowRadius="16"
+                android:text="Introduction to Computer Science"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="20sp"
+                />
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

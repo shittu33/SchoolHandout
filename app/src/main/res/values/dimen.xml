@@ -1,0 +1,8 @@
+
+<resources>
+    <dimen name="tab_height">100dp</dimen>
+    <dimen name="like_txt">1sp</dimen>
+    <dimen name="top_level_filter_padding">8dp</dimen>
+    <dimen name="second_level_margin">8dp</dimen>
+
+</resources>

@@ -1,0 +1,126 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.0"
+    defaultConfig {
+        applicationId "com.example.abumuhsin.udusmini_library"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            // Enables code shrinking, obfuscation, and optimization for only
+            // your project's release build type.
+            minifyEnabled true
+            // Enables resource shrinking, which is performed by the
+            // Android Gradle plugin.
+            shrinkResources true
+            // Includes the default ProGuard rules files that are packaged with
+            // the Android Gradle plugin. To learn more, go to the section about
+            // R8 configuration files.
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+    }
+    dependencies {
+        implementation fileTree(include: ['*.jar'], dir: 'libs')
+        androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1', {
+            exclude group: 'com.android.support', module: 'support-annotations'
+        })
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+        //Android libraries...
+        implementation "androidx.appcompat:appcompat:1.1.0-rc01"
+        implementation 'androidx.arch.core:core-runtime:2.1.0-rc01'
+        implementation "androidx.legacy:legacy-support-v4:1.0.0"
+        implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+        implementation 'com.google.android.material:material:1.1.0-alpha09'
+        implementation 'androidx.cardview:cardview:1.0.0'
+        implementation 'androidx.recyclerview:recyclerview:1.1.0-beta02'
+        annotationProcessor 'androidx.annotation:annotation:1.1.0'
+
+        //Shape
+
+//        implementation 'com.github.florent37:shapeofview:1.4.5'
+        implementation 'com.github.beigirad:ZigzagView:1.0.7'
+        implementation 'me.himanshusoni.chatmessageview:chat-message-view:1.0.7'
+        implementation 'com.github.linger1216:labelview:v1.1.2'
+
+//    FireBase
+        implementation 'com.google.firebase:firebase-core:17.0.1'
+        implementation 'com.google.firebase:firebase-auth:18.1.0'
+        implementation 'com.google.firebase:firebase-storage:18.1.1'
+        implementation 'com.google.firebase:firebase-database:18.0.1'
+        implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
+        //Floating_btn
+        implementation 'com.github.clans:fab:1.6.4'
+        implementation 'com.robertlevonyan.view:CustomFloatingActionButton:2.1.1'
+        //Animation
+        implementation 'com.andkulikov:transitionseverywhere:1.8.1'
+        //    Glide
+        implementation 'com.github.bumptech.glide:glide:4.9.0'
+        annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+        //Pdfs
+        implementation 'com.itextpdf:itextg:5.5.10'
+        implementation 'com.github.barteksc:pdfium-android:1.8.2'
+        implementation 'com.tom_roush:pdfbox-android:1.8.10.0'
+        //Others....
+        implementation 'com.squareup.picasso:picasso:2.5.2'
+        implementation 'de.hdodenhof:circleimageview:2.2.0'
+        implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
+        implementation 'ja.burhanrashid52:photoeditor:0.3.3'
+        api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+        implementation 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.2.2'
+//        compile 'com.github.andremion:counterfab:1.2.2-alpha2'
+//        compile 'com.github.jrvansuita:MaterialAbout:0.2.3'
+        implementation project(':PageFlip')
+        implementation project(':PhotoEditor')
+        testImplementation 'junit:junit:4.12'
+        implementation project(':adaptablecurlpage')
+        implementation project(':amazing_picker')
+        implementation project(path: ':mysqlitedbconnection')
+//        implementation project(path: ':shelfview')
+//    //Amazing views
+//    implementation 'com.github.renaudcerrato:DoorSignView:1.0.6'
+//    implementation 'com.bartoszlipinski.flippablestackview:library:1.2.1'
+//    implementation 'me.himanshusoni.chatmessageview:chat-message-view:1.0.7'
+//    implementation 'com.github.linger1216:labelview:v1.1.2'
+//    //swipe stack with staggered layer
+//    implementation 'link.fls:swipestack:0.3.0'
+        //shapeView
+        //    implementation 'com.github.florent37:shapeofview:1.4.5'
+        //panning and zooming view
+        //    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+//         implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
+//         tabLayout
+//         implementation 'cn.hugeterry.coordinatortablayout:coordinatortablayout:1.2.2'
+
+//    implementation 'com.github.pqpo:SmartCropper:v1.2.3@aar'
+//    implementation 'androidx.multidex:multidex:2.0.1'
+        //    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+
+//    implementation 'com.google.firebase:firebase-ads:17.1.2'
+//    implementation 'com.truizlop.fabreveallayout:library:1.0.0'
+        //Gson
+        //    implementation 'com.google.code.gson:gson:2.8.5'
+    }
+}
+
+//dependencies {
+//    implementation 'androidx.appcompat:appcompat:+'
+//    implementation 'androidx.constraintlayout:constraintlayout:+'
+//}

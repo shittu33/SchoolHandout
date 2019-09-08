@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scaleX="1.03"
+    android:scaleY="1.02"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@android:drawable/dialog_holo_light_frame">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:textAllCaps="false"
+    android:textColor="#525151"
+    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+    android:text="@string/handouts"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gallery_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:background="@drawable/grid_item_background_center"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/profile_book_item">
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="125dp"
+    android:layout_height="205dp"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop">
+
+        </ImageView>
+
+
+        <ImageView
+            android:id="@+id/check_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/ic_check_circle_black_24dp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/no_pages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|start"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="bottom|start"
+            android:shadowColor="#000"
+            android:shadowRadius="16"
+            android:text="10 pages"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="#E5FFE4"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingStart="3dp"
+            android:paddingLeft="3dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:gravity="start"
+                android:maxLength="40"
+                android:text="Engineering method and Skillsffffffffffffffffeeeeer..."
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="#050504"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:typeface="sans" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.example.abumuhsin.udusmini_library.Views.GridOptionButton
+                    android:id="@+id/download_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_file_download_black_24dp"
+                    android:tint="@color/handout_grid_btns_color" />
+
+                <com.example.abumuhsin.udusmini_library.Views.LikeButton
+                    android:id="@+id/like_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginRight="15dp">
+                </com.example.abumuhsin.udusmini_library.Views.LikeButton>
+
+                <com.example.abumuhsin.udusmini_library.Views.GridOptionButton
+                    android:id="@+id/comment_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/ic_chat_black_24dp"
+                    android:tint="@color/handout_grid_btns_color" />
+
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
+

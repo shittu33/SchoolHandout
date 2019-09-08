@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:showIn="@layout/bottom_sheet">
+    <!--android:layout_marginBottom="@dimen/nav_space"-->
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/more_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:src="@drawable/ic_more_horiz_black_24dp"
+        android:visibility="visible"
+        app:fab_colorNormal="@color/white"
+        app:fab_colorRipple="#c1ea88"
+        app:fab_hideAnimation="@anim/fab_slide_in_from_left"
+        app:fab_showAnimation="@anim/fab_scale_up"
+        app:fab_size="mini" />
+
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/remove_a_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="0dp"
+        android:src="@drawable/ic_remove_circle_outline_black"
+        android:visibility="visible"
+        app:backgroundTint="@color/primaryDark"
+        app:fab_colorNormal="@color/white"
+        app:fab_colorRipple="#c1ea88"
+        app:fab_hideAnimation="@anim/fab_slide_in_from_left"
+        app:fab_showAnimation="@anim/fab_scale_up"
+        app:fab_size="mini" />
+
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/play_pdf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:src="@drawable/ic_picture_as_pdf_black_24dp"
+        android:visibility="visible"
+        app:fab_colorNormal="@color/white"
+        app:fab_colorRipple="#c1ea88"
+        app:fab_hideAnimation="@anim/fab_slide_in_from_left"
+        app:fab_showAnimation="@anim/fab_scale_up"
+        app:fab_size="normal"
+        fab:fab_label="Menu item 1" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:src="@drawable/ic_add_black_24dp"
+        android:visibility="visible"
+        app:fab_colorNormal="@color/white"
+        app:fab_colorRipple="#c1ea88"
+        app:fab_hideAnimation="@anim/fab_slide_in_from_left"
+        app:fab_showAnimation="@anim/fab_scale_up"
+        app:fab_size="mini" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/lock_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:src="@drawable/ic_directions_run_black_24dp"
+        android:visibility="visible"
+        app:backgroundTint="@color/primaryDark"
+        app:fab_colorNormal="@color/white"
+        app:fab_colorRipple="#c1ea88"
+        app:fab_hideAnimation="@anim/fab_scale_down"
+        app:fab_size="mini" />
+</LinearLayout>

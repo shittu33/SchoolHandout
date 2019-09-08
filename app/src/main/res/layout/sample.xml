@@ -1,0 +1,22 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:flipview="http://schemas.android.com/apk/res-auto" >
+
+    <com.example.scrapbook.flipview.FlipView
+        android:id="@+id/flip_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/horizontal_photo_bac"
+        tools:context=".MainActivity" >
+    </com.example.scrapbook.flipview.FlipView>
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Empty!"
+        android:textSize="32sp"
+        android:visibility="visible" />
+
+</merge>

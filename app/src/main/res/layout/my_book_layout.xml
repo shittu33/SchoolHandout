@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="16dp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.example.abumuhsin.udusmini_library.Views.FilterBarView
+        android:id="@+id/filter_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <GridView
+        android:id="@+id/books_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/card_bac"
+        android:columnWidth="115dp"
+        android:gravity="center"
+        android:horizontalSpacing="0.1dp"
+        android:numColumns="auto_fit"
+        android:paddingStart="2dp"
+        android:paddingLeft="2dp"
+        android:paddingEnd="2dp"
+        android:paddingRight="2dp"
+        android:stretchMode="columnWidth"
+        tools:listitem="@layout/book_grid_item_two" />
+</LinearLayout>
