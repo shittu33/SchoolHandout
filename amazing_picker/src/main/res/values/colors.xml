@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#053001</color>
+    <color name="samplePrimaryDark">#54073004</color>
+    <color name="colorPrimary">#074821</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#ffffff</color>
+    <color name="transparent">#00ffffff</color>
+    /*Drag colors*/
+
+    <color name="primaryTextColor">#292929</color>
+
+    <color name="primaryDarkColorRed">#c85a54</color>
+
+
+</resources>

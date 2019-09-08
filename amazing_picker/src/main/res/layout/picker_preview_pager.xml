@@ -1,0 +1,138 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1a1919">
+
+    <com.example.amazing_picker.Veiws.ExtendedViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.example.amazing_picker.Veiws.ExtendedViewPager>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/indicator_seekbar"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:isb_indicator_color="@color/samplePrimaryDark"
+            app:isb_indicator_text_color="@color/white"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="1000"
+            app:isb_min="1.0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="25"
+            app:isb_seek_smoothly="true"
+            app:isb_show_indicator="rounded_rectangle"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="true"
+            app:isb_thumb_color="@color/colorPrimary"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_drawable="@mipmap/ic_launcher"
+            app:isb_tick_marks_size="13dp"
+            app:isb_tick_texts_color="@color/white"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="6"
+            app:isb_track_background_color="@color/colorPrimary"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/primaryDarkColorRed"
+            android:layout_marginBottom="2dp"
+            app:isb_track_progress_size="4dp" />
+
+        <FrameLayout
+            android:id="@+id/card_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#af000000"
+            android:orientation="horizontal"
+            android:padding="0dp">
+
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/radio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_margin="2dp"
+                android:button="@drawable/radio_btn_selector"
+                android:padding="10dp"
+                android:text="Deselect"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/copy_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="end|bottom"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/ellipse_shape"
+                android:padding="3dp"
+                android:text="Copy (55)"
+                android:textColor="#f4f4f4"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+        </FrameLayout>
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="57dp"
+    android:layout_gravity="top"
+    android:gravity="top"
+    android:weightSum="1"
+    android:background="#BF000000"
+    android:orientation="horizontal">
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/exit_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:src="@drawable/ic_arrow_back_black_24dp"
+        app:fab_colorNormal="#f13f78"
+        app:fab_size="mini" />
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7"
+        android:background="#4d000000"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Thisddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd "
+        android:textAlignment="center"
+        android:textColor="#cecece"
+        android:textSize="13sp"
+        android:textStyle="italic"
+        android:typeface="serif" />
+
+    <androidx.appcompat.widget.AppCompatRadioButton
+        android:id="@+id/radio_btn_all"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:button="@drawable/radio_btn_selector"
+        android:text="@string/deselect_all_txt"
+        android:checked="true"
+        android:layout_gravity="center"
+        android:gravity="end"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+</LinearLayout>
+
+</FrameLayout>

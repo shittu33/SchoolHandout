@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "513309496015",
+    "firebase_url": "https://udus-handout.firebaseio.com",
+    "project_id": "udus-handout",
+    "storage_bucket": "udus-handout.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513309496015:android:a8c0ed5205de40b2",
+        "android_client_info": {
+          "package_name": "com.example.abumuhsin.udusmini_library"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513309496015-jevh5t8j6rkrape8f8gkccs085cedmlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmmvD2v7Ic4XVsVOUeXODmfxT8biulG3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513309496015-jevh5t8j6rkrape8f8gkccs085cedmlh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513309496015:android:ee6ea03c3dd2a770",
+        "android_client_info": {
+          "package_name": "com.example.udushandoutadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513309496015-jevh5t8j6rkrape8f8gkccs085cedmlh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmmvD2v7Ic4XVsVOUeXODmfxT8biulG3Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513309496015-jevh5t8j6rkrape8f8gkccs085cedmlh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
