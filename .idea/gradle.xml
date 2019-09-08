@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/PageFlip" />
+            <option value="$PROJECT_DIR$/PhotoEditor" />
+            <option value="$PROJECT_DIR$/adaptablecurlpage" />
+            <option value="$PROJECT_DIR$/amazing_picker" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/mylibrary" />
+            <option value="$PROJECT_DIR$/mysqlitedbconnection" />
+            <option value="$PROJECT_DIR$/shelfview" />
+            <option value="$PROJECT_DIR$/testingmodle" />
+            <option value="$PROJECT_DIR$/udushandoutadmin" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

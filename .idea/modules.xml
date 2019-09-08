@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PageFlip/PageFlip.iml" filepath="$PROJECT_DIR$/PageFlip/PageFlip.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PhotoEditor/PhotoEditor.iml" filepath="$PROJECT_DIR$/PhotoEditor/PhotoEditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Udusmini-Library.iml" filepath="$PROJECT_DIR$/Udusmini-Library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adaptablecurlpage/adaptablecurlpage.iml" filepath="$PROJECT_DIR$/adaptablecurlpage/adaptablecurlpage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amazing_picker/amazing_picker.iml" filepath="$PROJECT_DIR$/amazing_picker/amazing_picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mysqlitedbconnection/mysqlitedbconnection.iml" filepath="$PROJECT_DIR$/mysqlitedbconnection/mysqlitedbconnection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shelfview/shelfview.iml" filepath="$PROJECT_DIR$/shelfview/shelfview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/testingmodle/testingmodle.iml" filepath="$PROJECT_DIR$/testingmodle/testingmodle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/udushandoutadmin/udushandoutadmin.iml" filepath="$PROJECT_DIR$/udushandoutadmin/udushandoutadmin.iml" />
+    </modules>
+  </component>
+</project>
