@@ -1,7 +1,6 @@
 package com.example.abumuhsin.udusmini_library.fragments;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.activities.FlipBooKActivity;
 import com.example.abumuhsin.udusmini_library.adapters.Device_pdf_recycler_adapter;
-import com.example.abumuhsin.udusmini_library.utils.DevicePdfLoaderTask;
+import com.example.abumuhsin.udusmini_library.utils.DevicePdfAsyncTask;
 import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
  * Created by Abu Muhsin on 31/05/2018.
  */
 
-public class PDFBook_fragment extends Fragment implements Device_pdf_recycler_adapter.PdfCLickListener {
+public class PDFBook_fragment extends Fragment implements Device_pdf_recycler_adapter.PdfCLickListener,DevicePdfAsyncTask.OnLoadingPdfs {
 
     private View view;
     private RecyclerView pdf_RecyclerView;
@@ -51,25 +50,16 @@ public class PDFBook_fragment extends Fragment implements Device_pdf_recycler_ad
     public void onResume() {
         super.onResume();
         try {
-            DevicePdfLoaderTask.get(PDFBook_fragment.this).LoadPdfsFromStorage();
+            pdf_paths.clear();
+
+            new DevicePdfAsyncTask(this.requireContext(),this).execute();
+//            DevicePdfLoaderTask.get(this.requireContext(),this).LoadPdfsFromStorage();
             Log.i(GALLERY_TAG, "Loading started");
         } catch (Exception e) {
             e.printStackTrace();
             Log.i(GALLERY_TAG, "Loading failed");
         }
     }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-//        DevicePdfLoaderTask.get(PDFBook_fragment.this).LoadPdfsFromStorage();
-    }
-
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        saveState();
-//    }
 
     private void init(View view) {
         intiViews(view);
@@ -118,4 +108,22 @@ public class PDFBook_fragment extends Fragment implements Device_pdf_recycler_ad
         new Fragment_Utils().RestoreState(getFragmentManager(), this, "yes");
     }
 
+    @Override
+    public void onPdfAdded(String pdf_name) {
+        pdf_paths.add(pdf_name);
+    }
+
+    @Override
+    public void onLoadFinished() {
+        if (isAdded()) {
+            this.requireActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pdf_recycler_adapter.notifyDataSetChanged();
+                }
+            });
+        }else {
+//            Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

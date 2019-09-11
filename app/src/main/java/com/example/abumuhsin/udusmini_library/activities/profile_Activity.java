@@ -1,7 +1,7 @@
 package com.example.abumuhsin.udusmini_library.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +51,7 @@ public class profile_Activity extends AppCompatActivity {
     }
 
     private void initAdapters() {
+        FirebaseHandoutOperation firebaseHandoutOperation = new FirebaseHandoutOperation(this);
         RecyclerView info_recycler = findViewById(R.id.info_recycler);
         RecyclerView gallery_recycler = findViewById(R.id.gallery_recycler);
         LinearLayoutManager info_linear = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -61,19 +62,39 @@ public class profile_Activity extends AppCompatActivity {
         coordinator_layout.setBackEnable(true);
         info_recycler.setAdapter(new Profile_infoAdapter(this));
         FirebaseUser current_user = FirebaseLoginOperation.getCurrentUser();
-        ImageView cover_image = coordinator_layout.getCover_img();
-        TextView display_tv = coordinator_layout.getUser_full_name();
+        final ImageView cover_image = coordinator_layout.getCover_img();
+        final TextView display_tv = coordinator_layout.getUser_full_name();
         //Set user photo
-        if (current_user != null) {
-            Uri photo_url = current_user.getPhotoUrl();
-            String user_name = current_user.getDisplayName();
-            display_tv.setText(user_name);
-            GlideApp.with(this).load(photo_url).placeholder(R.drawable.trimed_logo).into(cover_image);
-        }
+        firebaseHandoutOperation.LoadCurrentStudentImage(new FirebaseHandoutOperation.OnStudentImageLoaded() {
+            @Override
+            public void StudentImageLoaded(String student_image) {
+                try {
+                    GlideApp.with(profile_Activity.this).load(student_image).placeholder(R.drawable.trimed_logo).into(cover_image);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading succeed");
+            }
 
-//        front_pages.add("");
+            @Override
+            public void StudentImageLoadFailed(Object error) {
+                Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading failed");
+            }
+        });
+
+        firebaseHandoutOperation.LoadCurrentStudentName(new FirebaseHandoutOperation.OnStudentNameLoaded() {
+            @Override
+            public void StudentNameLoaded(String student_name) {
+                display_tv.setText(student_name);
+            }
+
+            @Override
+            public void StudentNameLoadFailed(Object error) {
+
+            }
+        });
         if (current_user != null) {
-            new FirebaseHandoutOperation(this).LoadUserHandouts(current_user.getUid(), new FirebaseHandoutOperation.OnGetUserHandouts() {
+            firebaseHandoutOperation.LoadStudentHandouts(current_user.getUid(), new FirebaseHandoutOperation.OnGetUserHandouts() {
                 @Override
                 public void onGetUserHandouts(Handout handout) {
                     front_pages.add(handout.getCover_url());

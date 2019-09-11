@@ -329,6 +329,35 @@ public class FileUtils {
             book_dir.mkdirs();
         return book_dir.getAbsolutePath();
     }
+    public static String getOnlineFilePathRoot() {
+        String path = getUdusAppRootDirectory() + File.separator + "Online_Files";
+        File book_dir = new File(path);
+        if (!book_dir.exists()) //noinspection ResultOfMethodCallIgnored
+            book_dir.mkdirs();
+        return book_dir.getAbsolutePath();
+    }
+    public static String getOnlineHandoutFile(String handout_id) {
+        String cover_name = "cover" + handout_id + ".handout";
+        return getOnlineFilePathRoot() + File.separator + cover_name;
+    }
+    public static String getOnlineProfileFile(String student_id) {
+        String pic_name = "profilePic" + student_id + ".profile";
+        return getOnlineFilePathRoot() + File.separator + pic_name;
+    }
+    public static boolean DeleteHandoutCoverImage(String handout_id) {
+        File handout_cover_file = new File(getOnlineHandoutFile(handout_id));
+        if (handout_cover_file.exists()) {
+            return handout_cover_file.delete();
+        }
+        return false;
+    }
+    public static boolean DeleteProfileImage(String student_id) {
+        File profile_image = new File(getOnlineProfileFile(student_id));
+        if (profile_image.exists()) {
+            return profile_image.delete();
+        }
+        return false;
+    }
 
     public static String getUploadFilePath() {
         String path = getUdusAppRootDirectory() + File.separator + "Uploaded_Books";

@@ -167,21 +167,12 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
     }
 
     public void onSerchQuery(String search_txt){
-        Filter search_filter = grid_adapter.getFilter();
-        if (search_filter!=null) {
+        if (grid_adapter!=null) {
+            Filter search_filter = grid_adapter.getFilter();
             search_filter.filter(search_txt);
         }
     }
 
-    public boolean ObjListContains(String txt, ArrayList<LocalHandout> handouts) {
-        for (int i = 0; i < handouts.size(); i++) {
-            String title = handouts.get(i).getTitle();
-            if (title.equals(txt)){
-                return true;
-            }
-        }
-        return false;
-    }
     @Override
     public void onHandoutDownloadFromOnline(Handout handout, File dest_file) {
         AddZipBook(Uri.fromFile(dest_file));

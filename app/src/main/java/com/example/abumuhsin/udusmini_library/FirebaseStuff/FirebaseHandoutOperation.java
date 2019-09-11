@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.RegisteredStudent;
 import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Student;
+import com.example.abumuhsin.udusmini_library.utils.FileUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,11 +51,69 @@ public class FirebaseHandoutOperation {
         storageReference = firebaseStorage.getReference();
     }
 
-    public void LoadUserHandouts(String user_id, final OnGetUserHandouts onGetUserHandouts) {
+    public void LoadCurrentStudentImage(final OnStudentImageLoaded onStudentImageLoaded) {
+        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            LoadStudentImage(currentUser.getUid(), onStudentImageLoaded);
+        }
+    }
+    public void LoadCurrentStudentName(final OnStudentNameLoaded onStudentNameLoaded) {
+        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            LoadStudentName(currentUser.getUid(), onStudentNameLoaded);
+        }
+    }
+
+    public void LoadStudentImage(final String uid, final OnStudentImageLoaded onStudentImageLoaded) {
+        databaseReference.child("Students Info").child(uid).child("student_image_path").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String url = dataSnapshot.getValue(String.class);
+                StorageReference student_image_bucket_file = null;
+                if (url != null) {
+                    student_image_bucket_file = firebaseStorage.getReferenceFromUrl(url);
+                    final File dest_file = new File(FileUtils.getOnlineProfileFile(uid));
+                    if (!dest_file.exists()) {
+                        student_image_bucket_file.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                onStudentImageLoaded.StudentImageLoaded(dest_file.getPath());
+                            }
+                        });
+                    }else {
+                        onStudentImageLoaded.StudentImageLoaded(dest_file.getPath());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                onStudentImageLoaded.StudentImageLoadFailed(databaseError);
+            }
+        });
+    }
+
+    public void LoadStudentName(final String uid, final OnStudentNameLoaded onStudentNameLoaded) {
+        databaseReference.child("Students Info").child(uid).child("full_name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String full_name = dataSnapshot.getValue(String.class);
+                onStudentNameLoaded.StudentNameLoaded(full_name);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                onStudentNameLoaded.StudentNameLoadFailed(databaseError);
+            }
+        });
+    }
+
+    public void LoadStudentHandouts(String user_id, final OnGetUserHandouts onGetUserHandouts) {
         databaseReference.child("Student Handouts").child(user_id).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String added_handout_id = dataSnapshot.getKey();
+                final String added_handout_id = dataSnapshot.getKey();
                 if (added_handout_id != null) {
                     DatabaseReference handouts_reference = firebaseDatabase.getReference().child("Handouts").child(added_handout_id);
                     handouts_reference.addValueEventListener(new ValueEventListener() {
@@ -62,10 +121,11 @@ public class FirebaseHandoutOperation {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             final Handout handout = dataSnapshot.getValue(Handout.class);
                             if (handout != null) {
+                                handout.setHandout_id(added_handout_id);
                                 final StorageReference cover_bucket_reference = firebaseStorage.getReferenceFromUrl(handout.getCover_url());
                                 final File dest_file;
-                                try {
-                                    dest_file = File.createTempFile("cover", "png");
+                                dest_file = new File(FileUtils.getOnlineHandoutFile(added_handout_id));
+                                if (!dest_file.exists()) {
                                     cover_bucket_reference.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                         @Override
                                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -74,9 +134,9 @@ public class FirebaseHandoutOperation {
                                             Log.i(OPERATION_TAG, "cover download success");
                                         }
                                     });
-                                } catch (IOException e) {
-                                    Log.i(OPERATION_TAG, "something happen to the file");
-                                    e.printStackTrace();
+                                } else {
+                                    handout.setCover_url(dest_file.getPath());
+                                    onGetUserHandouts.onGetUserHandouts(handout);
                                 }
                             }
                         }
@@ -96,7 +156,7 @@ public class FirebaseHandoutOperation {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
+//                FileUtils.DeleteHandoutCoverImage(handout.getHandout_id());
             }
 
             @Override
@@ -205,13 +265,14 @@ public class FirebaseHandoutOperation {
                     handout.setHandout_id(dataSnapshot.getKey());
                     final StorageReference cover_bucket_reference = firebaseStorage.getReferenceFromUrl(handout.getCover_url());
                     final File dest_file;
-                    try {
-                        dest_file = File.createTempFile("cover", "png");
+//                    try {
+//                        dest_file = File.createTempFile("cover", "png");
+                    dest_file = new File(FileUtils.getOnlineHandoutFile(handout.getHandout_id()));
+                    if (!dest_file.exists()) {
                         cover_bucket_reference.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                 handout.setCover_url(dest_file.getPath());
-                                onLoadingHandoutInformation.onHandoutAdded(handout);
                                 String poster_adm_no = handout.getPoster();
                                 databaseReference.child("registered student").child(poster_adm_no).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -219,6 +280,7 @@ public class FirebaseHandoutOperation {
                                         RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
                                         if (registeredStudent != null) {
                                             handout.setPoster(registeredStudent.getFull_name());
+                                            onLoadingHandoutInformation.onHandoutAdded(handout);
                                         }
                                     }
 
@@ -229,10 +291,28 @@ public class FirebaseHandoutOperation {
                                 Log.i(OPERATION_TAG, "cover download success");
                             }
                         });
-                    } catch (IOException e) {
-                        Log.i(OPERATION_TAG, "something happen to the file");
-                        e.printStackTrace();
+                    } else {
+                        handout.setCover_url(dest_file.getPath());
+                        String poster_adm_no = handout.getPoster();
+                        databaseReference.child("registered student").child(poster_adm_no).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
+                                if (registeredStudent != null) {
+                                    handout.setPoster(registeredStudent.getFull_name());
+                                    onLoadingHandoutInformation.onHandoutAdded(handout);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
                     }
+//                    } catch (IOException e) {
+//                        Log.i(OPERATION_TAG, "something happen to the file");
+//                        e.printStackTrace();
+//                    }
                 }
             }
 
@@ -250,6 +330,7 @@ public class FirebaseHandoutOperation {
                 Handout handout = dataSnapshot.getValue(Handout.class);
                 if (handout != null) {
                     handout.setHandout_id(dataSnapshot.getKey());
+                    FileUtils.DeleteHandoutCoverImage(handout.getHandout_id());
                 }
                 onLoadingHandoutInformation.onHandoutRemoved(handout);
             }
@@ -271,6 +352,7 @@ public class FirebaseHandoutOperation {
         databaseReference.child("registered student").child(adm_no).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
                 if (registeredStudent != null) {
                     onRequestRegistrationInfo.onStudentInfoRetrieved(registeredStudent);
@@ -379,24 +461,32 @@ public class FirebaseHandoutOperation {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             final Student liker = dataSnapshot.getValue(Student.class);
-                            if (liker!=null) {
+                            if (liker != null) {
                                 StorageReference student_image_bucket_file = firebaseStorage.getReferenceFromUrl(liker.getStudent_image_path());
-                                try {
-                                    final File dest_file = File.createTempFile("student", "png");
-//                                    if (dest_file.exists()) {
-                                        student_image_bucket_file.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                liker.setStudent_image_path(dest_file.getPath());
-                                                onGetLikers.onGetLiker(handout_uid, liker);
-                                                Log.i(OPERATION_TAG, "cover download success");
-                                            }
-                                        });
-//                                    }
-                                } catch (IOException e) {
-                                    Log.i(OPERATION_TAG, "something happen to the file");
-                                    e.printStackTrace();
+//                                try {
+//                                    final File dest_file = File.createTempFile("student", "png");
+                                final File dest_file = new File(FileUtils.getOnlineProfileFile(liker.getAdm_no()));
+                                if (!dest_file.exists()) {
+                                    student_image_bucket_file.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                            liker.setStudent_image_path(dest_file.getPath());
+                                            onGetLikers.onGetLiker(handout_uid, liker);
+                                            Log.i(OPERATION_TAG, "liker image download success");
+                                        }
+                                    });
+                                } else {
+                                    liker.setStudent_image_path(dest_file.getPath());
+                                    onGetLikers.onGetLiker(handout_uid, liker);
+                                    Log.i(OPERATION_TAG, "liker image download success");
                                 }
+//                                    }
+//                                } catch (IOException e) {
+//                                    Log.i(OPERATION_TAG, "something happen to the file");
+//                                    e.printStackTrace();
+//                                }
+                            } else {
+                                Log.i(OPERATION_TAG, "liker is null");
                             }
                         }
 
@@ -420,6 +510,7 @@ public class FirebaseHandoutOperation {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Student liker = dataSnapshot.getValue(Student.class);
+                            FileUtils.DeleteProfileImage(liker.getAdm_no());
                             onGetLikers.onLikerRemoved(handout_uid, liker);
                         }
 
@@ -640,6 +731,19 @@ public class FirebaseHandoutOperation {
         void onStudentInfoRetrieved(RegisteredStudent registeredStudent);
 
         void onStudentInfoRetrivalFailed(DatabaseError databaseError);
+
+    }
+
+    public interface OnStudentImageLoaded {
+        void StudentImageLoaded(String student_image);
+
+        void StudentImageLoadFailed(Object error);
+
+    }
+    public interface OnStudentNameLoaded {
+        void StudentNameLoaded(String student_image);
+
+        void StudentNameLoadFailed(Object error);
 
     }
 }

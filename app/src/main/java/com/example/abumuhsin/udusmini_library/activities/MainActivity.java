@@ -24,10 +24,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.abumuhsin.udusmini_library.FirebaseStuff.FirebaseHandoutOperation;
 import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.FirebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.adapters.pagerAdapter;
+import com.example.abumuhsin.udusmini_library.fragments.Discussion_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.GalleryBook_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.OnlineBook_fragment;
@@ -35,7 +37,6 @@ import com.example.abumuhsin.udusmini_library.fragments.PDFBook_fragment;
 import com.example.abumuhsin.udusmini_library.utils.GlideApp;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 
@@ -45,8 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int MY_BOOK_INDEX = 0;
     public static final int ONLINE_BOOK_INDEX = 1;
     public static final String STUDENT_INFO_EXTRA = "student_info_EXTRA";
-    public static final int PDF_FRAGMENT_INDEX = 2;
-    public static final int GALLERY_FRAGMENT_INDEX = 3;
+    public static final int DISCUSSION_FRAGMENT_INDEX = 2;
+    public static final int PDF_FRAGMENT_INDEX = 3;
+    public static final int GALLERY_FRAGMENT_INDEX = 4;
     public static final int DEPARTMENT_INDEX = 0;
     public static final int RECENT_INDEX = 1;
     //    public static final int FACULTY_INDEX = 1;
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageButton add_Btn;
     private Spinner filter_spinner;
     private ArrayAdapter<String> filter_adapter;
+    private Discussion_fragment discussion_fragment;
 
     public ViewPager getPager() {
         return pager;
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initAdapters() {
         adapter = new pagerAdapter(fragmentManager);
         final String[] filters = new String[]{"Department"};
-        final String[] filters_online = new String[]{"Faculty","author"};
+        final String[] filters_online = new String[]{"Faculty", "author"};
         filter_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, filters);
         filter_spinner.setAdapter(filter_adapter);
     }
@@ -194,17 +197,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HandleNavHeader();
     }
 
-    private void HandleNavHeader(){
-        FirebaseUser current_user = FirebaseLoginOperation.getCurrentUser();
+    private void HandleNavHeader() {
+        FirebaseHandoutOperation firebaseHandoutOperation = new FirebaseHandoutOperation(this);
         View headerView = nav.getHeaderView(0);
-        ImageView user_img_view = headerView.findViewById(R.id.user_img);
-        TextView display_tv = headerView.findViewById(R.id.user_full_name);
-        if (current_user != null) {
-            Uri photo_url = current_user.getPhotoUrl();
-            String user_name = current_user.getDisplayName();
-            display_tv.setText(user_name);
-            GlideApp.with(this).load(photo_url).placeholder(R.drawable.trimed_logo).into(user_img_view);
-        }
+        final ImageView user_img_view = headerView.findViewById(R.id.user_img);
+        final TextView display_tv = headerView.findViewById(R.id.user_full_name);
+        firebaseHandoutOperation.LoadCurrentStudentImage(new FirebaseHandoutOperation.OnStudentImageLoaded() {
+            @Override
+            public void StudentImageLoaded(String student_image) {
+                GlideApp.with(MainActivity.this).load(student_image).placeholder(R.drawable.trimed_logo).into(user_img_view);
+                Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading succeed");
+            }
+
+            @Override
+            public void StudentImageLoadFailed(Object error) {
+                Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading failed");
+            }
+        });
+        firebaseHandoutOperation.LoadCurrentStudentName(new FirebaseHandoutOperation.OnStudentNameLoaded() {
+            @Override
+            public void StudentNameLoaded(String student_name) {
+                display_tv.setText(student_name);
+            }
+
+            @Override
+            public void StudentNameLoadFailed(Object error) {
+
+            }
+        });
+//        if (current_user != null) {
+//            Uri photo_url = current_user.getPhotoUrl();
+//            String user_name = current_user.getDisplayName();
+//            display_tv.setText(user_name);
+//        }
 
     }
 
@@ -233,8 +258,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         onlineBook_fragment = new OnlineBook_fragment();
         galleryBook_fragment = new GalleryBook_fragment();
         pdf_Book_fragment = new PDFBook_fragment();
+        discussion_fragment = new Discussion_fragment();
         adapter.addFragments(myBook_fragment, "My Books");
         adapter.addFragments(onlineBook_fragment, "Online Books");
+        adapter.addFragments(discussion_fragment, "Discussions");
         adapter.addFragments(pdf_Book_fragment, "PDF Books");
         adapter.addFragments(galleryBook_fragment, "Gallery");
         pager.setAdapter(adapter);
@@ -311,6 +338,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.guide:
 
+                break;
+            case R.id.pdf:
+                startActivity(new Intent(this, MyPdfActivity.class));
+                break;
+            case R.id.gallery:
+                startActivity(new Intent(this, MyGalleryActivity.class));
                 break;
             case R.id.settings:
 

@@ -65,6 +65,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeOverlay" />
         <activity android:name=".activities.OnlineBookDetailsActivity" />
+        <activity android:name=".activities.BookDiscussionActivity" />
+        <activity android:name=".activities.MyPdfActivity" />
+        <activity android:name=".activities.MyGalleryActivity" />
     </application>
 
 </manifest>

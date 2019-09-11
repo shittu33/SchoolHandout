@@ -10,6 +10,14 @@
             android:icon="@drawable/ic_person_black_24dp"
             android:title="@string/my_profile" />
         <item
+            android:id="@+id/pdf"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/my_Pdfs" />
+        <item
+            android:id="@+id/gallery"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/my_gallery" />
+        <item
             android:id="@+id/guide"
             android:icon="@drawable/ic_library_books_black_24dp"
             android:title="@string/guide" />

@@ -1,50 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="190dp"
-    android:gravity="center"
     android:background="@drawable/list_head"
+    android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <ImageView
+        android:id="@+id/user_img"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:gravity="center"
-        >
-
-        <ImageView
-            android:id="@+id/user_img"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:scaleType="centerInside"
-            android:src="@drawable/trimed_logo" />
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:scaleType="centerInside"
-            android:src="@drawable/course_book"
-            android:visibility="gone"/>
-
-
-    </LinearLayout>
+        android:scaleType="centerCrop"
+        android:src="@drawable/trimed_logo" />
 
     <TextView
         android:id="@+id/user_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MY UDUS HANDOUT"
+        android:layout_gravity="bottom"
         android:layout_marginTop="20dp"
-        android:textSize="20sp"
+        android:shadowRadius="16"
+        android:text="MY UDUS HANDOUT"
+        android:textAlignment="center"
         android:textColor="#fefe"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:typeface="serif"
-        android:textAlignment="center"/>
+        android:typeface="serif" />
 
 
-</LinearLayout>
+</FrameLayout>

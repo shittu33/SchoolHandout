@@ -73,10 +73,6 @@ public class OnlineBookDetailsActivity extends AppCompatActivity {
 
     private void initAdapters() {
         Intent intent = getIntent();
-//        String image_path = intent.getStringExtra(HANDOUT_COVER);
-//        String no_of_page = String.valueOf(intent.getIntExtra(HANDOUT_NO_PAGES,0));
-//        String handout_poster = intent.getStringExtra(HANDOUT_POSTER);
-//        int no_of_likers = intent.getIntExtra(LIKERS,0);
         handout = (Handout) intent.getSerializableExtra(OnlineBook_fragment.HANDOUT_EXTRA);
         if (handout != null) {
             String image_path = handout.getCover_url();

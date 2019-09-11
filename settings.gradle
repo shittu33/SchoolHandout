@@ -1,0 +1,1 @@
+include ':app', ':PageFlip', ':PhotoEditor', ':testingmodle', ':amazing_picker', ':adaptablecurlpage', ':mylibrary', ':mysqlitedbconnection', ':udushandoutadmin', ':shelfview'

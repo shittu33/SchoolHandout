@@ -37,5 +37,7 @@
     <string name="cancel">Cancel</string>
     <string name="handouts">Handouts:</string>
     <string name="by_1510310093">posted by 1510310093</string>
+    <string name="my_Pdfs">My Pdf Books</string>
+    <string name="my_gallery">My Gallery Books</string>
 
 </resources>
