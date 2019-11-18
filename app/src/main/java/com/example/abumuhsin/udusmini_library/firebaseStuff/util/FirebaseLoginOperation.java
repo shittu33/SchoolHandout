@@ -1,11 +1,11 @@
-package com.example.abumuhsin.udusmini_library.FirebaseStuff.util;
+package com.example.abumuhsin.udusmini_library.firebaseStuff.util;
 
 import android.app.Activity;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Student;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

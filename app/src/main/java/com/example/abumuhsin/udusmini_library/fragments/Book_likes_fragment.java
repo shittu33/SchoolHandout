@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.R;
+import com.example.abumuhsin.udusmini_library.adapters.LikerAdapter;
+import com.example.abumuhsin.udusmini_library.utils.DividerDecoration;
 import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
 
 
@@ -53,13 +55,12 @@ public class Book_likes_fragment extends Fragment {
     RecyclerView.Adapter likers_adapter;
 
     private void initAdapters() {
-        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        likes_RecyclerView.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        likes_RecyclerView.setLayoutManager(linearLayoutManager);
         likers_adapter = new LikerAdapter(this,handout);
+        DividerDecoration dividerItemDecoration = new DividerDecoration(Book_likes_fragment.this.requireContext(),R.drawable.divider);
+        likes_RecyclerView.addItemDecoration(dividerItemDecoration);
         likes_RecyclerView.setAdapter(likers_adapter);
-//        OnlineBookDetailsActivity activity = (OnlineBookDetailsActivity) getActivity();
-
-//        images_folder = new ArrayList<>();
     }
 
 

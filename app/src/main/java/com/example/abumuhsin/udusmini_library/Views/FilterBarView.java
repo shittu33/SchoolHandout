@@ -77,7 +77,6 @@ public class FilterBarView extends LinearLayout {
         top_filter_recycler_adapter = new Top_filter_recycler_adapter(getContext(), top_list, new Top_filter_recycler_adapter.OnTopFilterItemClick() {
             @Override
             public void onTopFilterItemClicked(int position, TextView textView) {
-//                FilterBarView.this.onTopFilterItemClicked(position,topList.get(position).getFilter_column(), textView.getText().toString());
                 onFilterItemClick.onTopFilterItemClicked(position,topList.get(position).getFilter_column(), textView.getText().toString(),topList);
             }
         });
@@ -94,7 +93,6 @@ public class FilterBarView extends LinearLayout {
             @Override
             public void onSecondFilterItemClicked(int position, TextView textView) {
                 String filter_column = secondList.get(position).getFilter_column();
-//                FilterBarView.this.onSecondFilterItemClicked(position, filter_column,textView.getText().toString());
                 onFilterItemClick.onSecondFilterItemClicked(position,filter_column,textView.getText().toString(),secondList);
             }
         });
@@ -103,6 +101,12 @@ public class FilterBarView extends LinearLayout {
     public void ReloadTopFilters(LinkedList<top_filter_model> top_list) {
         this.top_list = top_list;
         top_filter_recycler_adapter.notifyDataSetChanged();
+//        top_filter_recycler_adapter.notifyItemInserted(top_list.size()-1);
+    }
+    public void ReloadSecondFilters(ArrayList<top_filter_model> secondList) {
+        this.second_list = secondList;
+//        second_filter_recycler_adapter.notifyDataSetChanged();
+        second_filter_recycler_adapter.notifyItemInserted(secondList.size()-1);
     }
     OnFilterItemClick onFilterItemClick;
 

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cover_bac"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/full_scalp_strip"
+        android:background="@color/yellow_strip" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleX="1.02"
+        android:scaleY="1.02">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="#448513" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/nature1"
+                app:layout_constraintBottom_toTopOf="@+id/guideline11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <TextView
+                android:id="@+id/course_code1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginEnd="38dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/full_scalp_elipse_border"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="CMP 303"
+                android:textAlignment="center"
+                android:textColor="#D1CECE"
+                android:textSize="60sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guideline12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline13" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.71" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.78" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.82" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.14" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.03" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.62" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/white_bac_black_border"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline14">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Title :"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/course_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:text="Course :"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                    android:id="@+id/course_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="Computer Science "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="#000"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView"
+                    app:layout_constraintEnd_toEndOf="@+id/view"
+                    app:layout_constraintStart_toEndOf="@+id/textView" />
+
+                <TextView
+                    android:id="@+id/department"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="Computer Science Engineering"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textColor="#000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/view"
+                    app:layout_constraintStart_toStartOf="@+id/view"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="28dp"
+                    android:background="#000"
+                    app:layout_constraintBottom_toBottomOf="@id/department"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/course_tag"
+                    app:layout_constraintTop_toBottomOf="@+id/department" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:shadowRadius="16"
+                android:text="Lecture Note"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/course_code1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.76" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/full_scalp_strip"
+        android:background="@color/yellow_strip" />
+
+</LinearLayout>

@@ -1,10 +1,26 @@
 package com.example.abumuhsin.udusmini_library.utils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class UdusDepartmentAndFacultyProvider {
     private static String[] faculties;
     private static String[][] fact_dept_array;
+    String[] abrv = new String[]{
+            "BCH", "BIO", "GEO"
+    };
+    static HashMap<String, String> dept_abrv_map = new HashMap<>();
+
+    public static void initDepartment() {
+        dept_abrv_map.put("BCH", "Biochemistry");
+    }
+
+    public static String getDepartmentFromAbrv(String Abrv) {
+        return dept_abrv_map.get(Abrv);
+    }
+
+    String[] depts = new String[]{"Biochemistry", "Biological Sciences", "Geology", "Mathematics", "Microbiology", "Physics"
+            , "Pure and Applied Chemistry"};
 
     static {
         faculties = new String[]{
@@ -16,7 +32,7 @@ public class UdusDepartmentAndFacultyProvider {
                 new String[]{
                         "Select your Department"
                 },
-                //science
+                //Science
                 new String[]{
                         "Select your Department"
                         , "Biochemistry"
@@ -71,7 +87,7 @@ public class UdusDepartmentAndFacultyProvider {
                         , "Electrical and Electronics Engineering"
                         , "Environmental Resources Management"
                         , "Information and Communication Technology"
-                        , "Mechanical Enigineering"
+                        , "Mechanical Engineering"
                 },
                 //Law
                 new String[]{
@@ -94,7 +110,7 @@ public class UdusDepartmentAndFacultyProvider {
                 new String[]{
                         "Select your Department"
                         ,
-                        "Eocnomics"
+                        "Economics"
                         , "Geography"
                         , "Political Science"
                         , "Sociology"

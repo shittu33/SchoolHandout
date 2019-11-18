@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Udus mini-Library</string>
+    <string name="app_name">Udus Handout</string>
     <string name="title_activity_main">PageFlip Demo</string>
     <string name="about_mesh_pixels">
         1. Changing "Mesh Pixels" will only take effect in next time!

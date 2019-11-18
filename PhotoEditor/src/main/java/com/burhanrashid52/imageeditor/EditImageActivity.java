@@ -209,35 +209,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
         }
     }
-    @SuppressLint("MissingPermission")
-    private void saveImageSecretlyThenStartCrop() {
-        if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            File file = new File(received_pic_path);
-            if (file.exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                file.delete();
-            }
-            SaveSettings saveSettings = new SaveSettings.Builder()
-                    .setClearViewsEnabled(true)
-                    .setTransparencyEnabled(true)
-                    .build();
-
-            mPhotoEditor.saveAsFile(file.getAbsolutePath(), saveSettings, new PhotoEditor.OnSaveListener() {
-                @Override
-                public void onSuccess(@NonNull String imagePath) {
-                    mPhotoEditorView.getSource().setImageURI(Uri.fromFile(new File(imagePath)));
-                    CropImage.activity(Uri.fromFile(new File(received_pic_path)))
-                            .start(EditImageActivity.this);
-                }
-
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-
-                }
-            });
-        }
-
-    }
         @SuppressLint("MissingPermission")
     private void saveImage() {
         if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {

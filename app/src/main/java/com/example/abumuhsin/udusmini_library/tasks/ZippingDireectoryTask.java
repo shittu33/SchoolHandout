@@ -7,10 +7,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.abumuhsin.udusmini_library.CoverSuplier;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.FirebaseHandoutOperation;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Student;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.util.FirebaseLoginOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.activities.MainActivity;
 import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
 import com.example.abumuhsin.udusmini_library.models.LocalHandout;
@@ -129,17 +129,19 @@ public class ZippingDireectoryTask extends AsyncTask<Void, File, File> {
                     LocalHandout local_handout = myBook_fragment.getPics_title_list().get(book_position);
                     int total_number_of_pages = local_handout.getPage_no();
                     String book_title = local_handout.getTitle();
-                    String abrv = local_handout.getCourse_code().split(" ")[0];
-                    String code = local_handout.getCourse_code().split(" ")[1];
+                    String course_abrv = CoverSuplier.getAbrvFromCourseCode(local_handout.getCourse_code());
+                    String code = CoverSuplier.getCourseCodeNumber(local_handout.getCourse_code());
                     Handout handout = new Handout(
                             local_handout.getCourse_code()
                             , book_title
                             , student.getAdm_no(), student.getStudent_faculty()
-                            , CoverSuplier.getDeptFromAbrv(abrv)
+                            , course_abrv
                             , CoverSuplier.getLevelFromCode(code)
                             , local_handout.getCover()
                             , local_handout.getCover_type()
-                            , total_number_of_pages);
+                            , total_number_of_pages
+                    );
+                    handout.setIs_gst(CoverSuplier.isHandoutGst(course_abrv));
                     myBook_fragment.getHandoutOperation().UploadHandout(handout, Uri.fromFile(file), new FirebaseHandoutOperation.OnHandoutUpload() {
                         @Override
                         public void onHandoutUploaded(Handout handout) {

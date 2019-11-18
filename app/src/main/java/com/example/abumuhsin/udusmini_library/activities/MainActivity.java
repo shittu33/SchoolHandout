@@ -2,7 +2,9 @@ package com.example.abumuhsin.udusmini_library.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,26 +21,45 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.FirebaseHandoutOperation;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.adapters.pagerAdapter;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.fragments.Discussion_fragment;
+import com.example.abumuhsin.udusmini_library.fragments.Download_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.GalleryBook_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.OnlineBook_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.PDFBook_fragment;
 import com.example.abumuhsin.udusmini_library.utils.GlideApp;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.tenclouds.fluidbottomnavigation.FluidBottomNavigation;
+import com.tenclouds.fluidbottomnavigation.FluidBottomNavigationItem;
+import com.tenclouds.fluidbottomnavigation.listener.OnTabSelectedListener;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.abumuhsin.udusmini_library.firebaseStuff.services.FirebaseMessageService.TOKEN_NODE;
+import static com.example.abumuhsin.udusmini_library.firebaseStuff.services.FirebaseMessageService.USERS_TOKEN_NODE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
         , OnlineLocalHandoutListener, TabLayout.OnTabSelectedListener, AdapterView.OnItemSelectedListener {
@@ -54,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //    public static final int FACULTY_INDEX = 1;
     public static final int GST_INDEX = 2;
     public static final int AUTHOR_INDEX = 1;
+    public static final int FACULTY_INDEX = 0;
     int selected_fragment = 0;
     private final String TAG = "active";
     private DrawerLayout draw;
@@ -74,26 +96,121 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Spinner filter_spinner;
     private ArrayAdapter<String> filter_adapter;
     private Discussion_fragment discussion_fragment;
+    private Download_fragment download_fragment;
 
     public ViewPager getPager() {
         return pager;
     }
 
+    OnTabSelectedListener onBottomTabSelectedListener = new OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(int position) {
+            switch (position) {
+                case 0:
+//                    FragmentManager manager2 = getSupportFragmentManager();
+//                    manager2.beginTransaction().replace(R.id.frag, new OnlineBook_fragment()).commit();
+//                    setTitle("Status Download");
+                    startActivity(new Intent(MainActivity.this,BookDiscussionActivity.class));
+                    break;
+                case 1:
+                    FragmentManager manager = getSupportFragmentManager();
+                    manager.beginTransaction().replace(R.id.frag, new MyBook_fragment()).commit();
+                    setTitle("Book Fragment");
+                    break;
+                case 2:
+                    FragmentManager manager3 = getSupportFragmentManager();
+                    manager3.beginTransaction().replace(R.id.frag, new Download_fragment()).commit();
+                    setTitle("Download Fragment");
+            }
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 24) {
+            try {
+                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+                m.invoke(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "something went wrong with storage stuffs");
+            }
+        }
+        if (savedInstanceState == null) {
+            try {
+                FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+                FirebaseMessaging.getInstance().subscribeToTopic("CMP");
+//                FirebaseApp firebaseApp = FirebaseApp.initializeApp(this);
+//                if (firebaseApp != null) {
+//                    firebaseApp.setAutomaticResourceManagementEnabled(true);
+//                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "something went wrong with either persistence or subscription");
+            }
+        }
         setContentView(R.layout.activity_main);
         init();
         settingUpTabs();
+        setUpBottomNav();
         settingUpNavigation();
         FirebaseLoginOperation.get(this);
-//        HandleNavHeader();
+        FirebaseUser firebaseCurrentUser = FirebaseLoginOperation.getCurrentUser();
+        if (firebaseCurrentUser != null) {
+            initFCM();
+        }
+    }
+
+    private void setUpBottomNav() {
+        FluidBottomNavigation fluidBottomNavigation = findViewById(R.id.fluidBottomNavigation);
+        List<FluidBottomNavigationItem> list = new ArrayList<>();
+        list.add( new FluidBottomNavigationItem(getString(R.string.books),ContextCompat.getDrawable(this, R.drawable.ic_news)));
+        list.add( new FluidBottomNavigationItem(
+                getString(R.string.books),
+                ContextCompat.getDrawable(this, R.drawable.ic_chat)));
+        list.add( new FluidBottomNavigationItem(
+                getString(R.string.books),
+                ContextCompat.getDrawable(this, R.drawable.ic_inbox)));
+        fluidBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        fluidBottomNavigation.setBackColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        fluidBottomNavigation.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        fluidBottomNavigation.setIconColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        fluidBottomNavigation.setIconSelectedColor(ContextCompat.getColor(this, R.color.iconSelectedColor));
+
+        fluidBottomNavigation.setItems(list);
+        fluidBottomNavigation.setSelectedTabPosition(1);
+        fluidBottomNavigation.setOnTabSelectedListener(onBottomTabSelectedListener);
+    }
+
+    private void initFCM() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String newToken = instanceIdResult.getToken();
+                Log.e("newToken", newToken);
+                SendRegTokenToDatabase(newToken);
+            }
+        });
+    }
+
+    private void SendRegTokenToDatabase(String newToken) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            databaseReference.child(USERS_TOKEN_NODE)
+                    .child(currentUser.getUid())
+                    .child(TOKEN_NODE)
+                    .setValue(newToken);
+        }else {
+            Log.e(TAG, "No user Login yet");
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        adapter.clearAll();
+        //        adapter.clearAll();
     }
 
     @Override
@@ -129,11 +246,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
             case DEPARTMENT_INDEX:
-                if (isMyBooksSelected()) {
-                    myBook_fragment.LoadBooksWithDepartment();
-                } else if (isOnlineBooksSelected()) {
-
-                }
+//                if (isMyBooksSelected()) {
+//                    myBook_fragment.LoadBooksWithDepartment();
+//                } else if (isOnlineBooksSelected()) {
+//                    onlineBook_fragment.LoadHandoutWithFaculties();
+//                }
                 break;
             case AUTHOR_INDEX:
                 if (isMyBooksSelected()) {
@@ -152,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initViews() {
-//        tab_ViewItem = LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         add_Btn = findViewById(R.id.add_Btn);
         filter_spinner = findViewById(R.id.filter_spinner);
         androidx.appcompat.widget.SearchView searchView = findViewById(R.id.search_view);
@@ -176,12 +292,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
                 if (isMyBooksSelected()) {
                     myBook_fragment.onSerchQuery(query);
+                } else if (isOnlineBooksSelected()) {
+                    onlineBook_fragment.onSerchQuery(query);
                 }
                 return false;
             }
@@ -190,6 +309,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onQueryTextChange(String newText) {
                 if (isMyBooksSelected()) {
                     myBook_fragment.onSerchQuery(newText);
+                } else if (isOnlineBooksSelected()) {
+                    onlineBook_fragment.onSerchQuery(newText);
                 }
                 return false;
             }
@@ -202,16 +323,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headerView = nav.getHeaderView(0);
         final ImageView user_img_view = headerView.findViewById(R.id.user_img);
         final TextView display_tv = headerView.findViewById(R.id.user_full_name);
-        firebaseHandoutOperation.LoadCurrentStudentImage(new FirebaseHandoutOperation.OnStudentImageLoaded() {
+        firebaseHandoutOperation.LoadCurrentStudentImage(false, new FirebaseHandoutOperation.OnStudentImageLoaded() {
             @Override
             public void StudentImageLoaded(String student_image) {
-                GlideApp.with(MainActivity.this).load(student_image).placeholder(R.drawable.trimed_logo).into(user_img_view);
-                Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading succeed");
+                try {
+                    GlideApp.with(MainActivity.this).load(student_image).placeholder(R.drawable.trimed_logo).into(user_img_view);
+                    Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading succeed");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading failed with glide");
+                }
             }
 
             @Override
             public void StudentImageLoadFailed(Object error) {
-                Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading failed");
+                Log.i(FirebaseHandoutOperation.OPERATION_TAG, "profile pic loading failed with database");
             }
         });
         firebaseHandoutOperation.LoadCurrentStudentName(new FirebaseHandoutOperation.OnStudentNameLoaded() {
@@ -256,14 +382,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myBook_fragment = new MyBook_fragment();
         sendZipBundleToMyBook();
         onlineBook_fragment = new OnlineBook_fragment();
-        galleryBook_fragment = new GalleryBook_fragment();
-        pdf_Book_fragment = new PDFBook_fragment();
+//        galleryBook_fragment = new GalleryBook_fragment();
+//        pdf_Book_fragment = new PDFBook_fragment();
         discussion_fragment = new Discussion_fragment();
+        download_fragment = new Download_fragment();
         adapter.addFragments(myBook_fragment, "My Books");
-        adapter.addFragments(onlineBook_fragment, "Online Books");
+//        adapter.addFragments(onlineBook_fragment, "Online Books");
         adapter.addFragments(discussion_fragment, "Discussions");
-        adapter.addFragments(pdf_Book_fragment, "PDF Books");
-        adapter.addFragments(galleryBook_fragment, "Gallery");
+        adapter.addFragments(download_fragment, "History");
         pager.setAdapter(adapter);
         tab.setupWithViewPager(pager);
         tab.addOnTabSelectedListener(this);
@@ -294,8 +420,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (zip_uri != null) {
                     Log.i(TAG, " b4 zip path");
                     zip_file_path = zip_uri.getPath();
-
-//                    zip_file_path = FileUtils.getUriRealPath(this,zip_uri);
                     Log.i(TAG, "zip file path is " + zip_file_path);
                 } else {
                     Log.i(TAG, "zip_uri is empty ");

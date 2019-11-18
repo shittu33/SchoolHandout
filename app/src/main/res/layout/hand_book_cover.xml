@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cover_bac"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/yellow_strip" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleX="1.02"
+        android:scaleY="1.02">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="#CBD696" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/guideline19"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="sans-serif"
+                    android:shadowColor="#eee"
+                    android:shadowRadius="16"
+                    android:text="USMANU DANFODIYO UNIVERSITY,SOKOTO"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:shadowColor="#eee"
+                    android:shadowRadius="16"
+                    android:text="FACULTY OF SCIENCE"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="#CE0321"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+
+                    />
+            </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageView2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="38dp"
+                android:layout_marginRight="38dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/trimed_logo"
+                app:civ_border_color="#E0344F"
+                app:civ_border_width="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline11"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline18" />
+
+
+            <TextView
+                android:id="@+id/course_code1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#744020"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="DEPARTMENT OF"
+                android:textAlignment="center"
+                android:textColor="#D1CECE"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guideline13"
+                app:layout_constraintEnd_toStartOf="@+id/guideline21"
+                app:layout_constraintStart_toStartOf="@+id/guideline22"
+                app:layout_constraintTop_toTopOf="@+id/guideline20" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:background="#771121"
+                app:layout_constraintBottom_toTopOf="@+id/guideline13"
+                app:layout_constraintEnd_toStartOf="@+id/course_code1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline20" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:background="#771121"
+                app:layout_constraintBottom_toTopOf="@+id/guideline13"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/course_code1"
+                app:layout_constraintTop_toTopOf="@+id/guideline20" />
+
+            <View
+                android:id="@+id/view9"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="#771121"
+                app:layout_constraintBottom_toTopOf="@+id/guideline14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="38dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="52dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:background="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="#6D3618"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="STUDENT LECTURE MATERIAL"
+                    android:textAlignment="center"
+                    android:textColor="#D1CECE"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:background="#FFFFFF" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.45" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.78" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.55" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.79" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.64" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.17" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.14" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:fontFamily="sans-serif-black"
+                android:padding="1dp"
+                android:shadowRadius="16"
+                android:text="BIOLOGICAL SCIENCE ZOOLOGY UNIT"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/blue"
+                android:textSize="28dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/course_code1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.84" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.19" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/yellow_strip" />
+
+</LinearLayout>

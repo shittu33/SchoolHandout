@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Student;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.util.FirebaseLoginOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
 import com.google.firebase.database.DatabaseError;

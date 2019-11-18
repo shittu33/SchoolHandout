@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.R;
+import com.example.abumuhsin.udusmini_library.models.title_content_model;
+import com.example.abumuhsin.udusmini_library.utils.DividerDecoration;
 import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
-import com.example.amazing_picker.models.Model_images;
 
 import java.util.ArrayList;
 
@@ -23,14 +26,15 @@ import java.util.ArrayList;
  * Created by Abu Muhsin on 31/05/2018.
  */
 
-public class Book_data_fragment extends Fragment{
+public class Book_data_fragment extends Fragment {
 
     private View view;
-    private RecyclerView likes_RecyclerView;
-    public ArrayList<Model_images> images_folder;
+    private RecyclerView details_recycler;
+    private Handout handout;
+//    public ArrayList<Model_images> images_folder;
 
-    public Book_data_fragment() {
-
+    public Book_data_fragment(Handout handout) {
+        this.handout = handout;
     }
 
     @Nullable
@@ -48,31 +52,58 @@ public class Book_data_fragment extends Fragment{
     }
 
     private void intiViews(View view) {
-        likes_RecyclerView = view.findViewById(R.id.recycler);
+        details_recycler = view.findViewById(R.id.recycler);
     }
 
+    ArrayList<title_content_model> list = new ArrayList<>();
+
     private void initAdapters() {
-        images_folder = new ArrayList<>();
-        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false);
-        likes_RecyclerView.setLayoutManager(gridLayoutManager);
-        likes_RecyclerView.setAdapter(new RecyclerView.Adapter() {
+        list.add(new title_content_model("Course title", handout.getHandout_title()));
+        list.add(new title_content_model("Course code", handout.getCourse_code()));
+        list.add(new title_content_model("Author", handout.getPoster()));
+        list.add(new title_content_model("Level", handout.getStudent_level()));
+        list.add(new title_content_model("Course name", handout.getDepartment()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        DividerDecoration dividerItemDecoration = new DividerDecoration(Book_data_fragment.this.requireContext(),R.drawable.divider);
+        details_recycler.addItemDecoration(dividerItemDecoration);
+        details_recycler.setLayoutManager(linearLayoutManager);
+
+        details_recycler.setAdapter(new RecyclerView.Adapter() {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return null;
+                View view = LayoutInflater.from(requireContext()).inflate(R.layout.data_item, parent, false);
+                return new ViewHolder(view);
             }
-
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+                ((ViewHolder) holder).bindData(list.get(position));
             }
 
             @Override
             public int getItemCount() {
-                return 0;
+                return list.size();
             }
         });
     }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView title;
+        private TextView value;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.title_tv);
+            value = itemView.findViewById(R.id.value_tv);
+        }
+
+        public void bindData(title_content_model info) {
+            title.setText(info.getTitle());
+//            title.append(":");
+            value.setText(info.getContent());
+        }
+    }
+
     public static final String MSG_EXTRA = "msg_indicator";
     public static final String BOOK_NAME_EXTRA = "msg_book";
     public static final String IMAGES_EXTRA = "msg_images";

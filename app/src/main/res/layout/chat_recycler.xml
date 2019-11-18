@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.stfalcon.chatkit.messages.MessagesList
+        android:id="@+id/messagesList"
+        app:incomingTextSize="14sp"
+        app:outcomingTextSize="14sp"
+        app:incomingTimeTextSize="14sp"
+        app:outcomingTimeTextSize="14sp"
+        app:incomingBubblePaddingTop="6dp"
+        app:incomingBubblePaddingBottom="6dp"
+        app:outcomingBubblePaddingTop="6dp"
+        app:outcomingBubblePaddingBottom="6dp"
+        app:incomingBubblePaddingLeft="6dp"
+        app:incomingBubblePaddingRight="6dp"
+        app:outcomingBubblePaddingLeft="6dp"
+        app:outcomingBubblePaddingRight="6dp"
+        app:outcomingImageTimeTextSize="12sp"
+        app:incomingImageTimeTextSize="12sp"
+        app:dateHeaderTextSize="12sp"
+        app:dateHeaderPadding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:outcomingDefaultBubbleColor="#6D79BD"
+        android:layout_above="@+id/input" />
+
+    <com.stfalcon.chatkit.messages.MessageInput
+        android:id="@+id/input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:inputHint="Enter message"/>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="70dp"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<EditText-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:background="@android:drawable/dialog_holo_light_frame"-->
+            <!--android:layout_height="match_parent" />-->
+        <!--<Button-->
+            <!--android:text="Send"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
+</RelativeLayout>

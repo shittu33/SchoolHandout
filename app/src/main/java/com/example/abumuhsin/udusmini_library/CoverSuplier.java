@@ -33,8 +33,10 @@ public class CoverSuplier {
                 return getSimpleCover(context, book_name, course_code);
             case SIMPLE_COVER2:
                 return getSampleCover2(context, book_name, course_code);
+            case FULL_SCALP:
+                return getFullScalpCover(context,book_name,course_code);
             default:
-                return getSimple2(context, book_name, course_code);
+                return getFullScalpCover(context, book_name, course_code);
 
         }
     }
@@ -46,6 +48,28 @@ public class CoverSuplier {
         title2.setText(book_name);
         sub_title.setText(course_code);
         return view2;
+    }
+    private static View getFullScalpCover(Context context, String book_name, String course_code) {
+        View view = LayoutInflater.from(context).inflate(R.layout.full_scalp_cover, null);
+        TextView couse_code_tv = view.findViewById(R.id.course_code1);
+        TextView couse_title_tv = view.findViewById(R.id.course_title);
+        TextView couse_name_tv = view.findViewById(R.id.department);
+        String dept_code4 = course_code.substring(0, 3);
+        couse_title_tv.setText(book_name);
+        couse_code_tv.setText(course_code);
+        couse_name_tv.setText(getDeptFromAbrv(dept_code4));
+        return view;
+    }
+    private static View getHandBookCover(Context context, String book_name, String course_code) {
+        View view = LayoutInflater.from(context).inflate(R.layout.hand_book_cover, null);
+        TextView couse_code_tv = view.findViewById(R.id.course_code1);
+        TextView couse_title_tv = view.findViewById(R.id.course_title);
+        TextView couse_name_tv = view.findViewById(R.id.department);
+        String dept_code4 = course_code.substring(0, 3);
+        couse_title_tv.setText(book_name);
+        couse_code_tv.setText(course_code);
+        couse_name_tv.setText(getDeptFromAbrv(dept_code4));
+        return view;
     }
     private static View getSimpleCover(Context context, String book_name, String course_code) {
         View view4 = LayoutInflater.from(context).inflate(R.layout.simple_cover, null);
@@ -60,21 +84,24 @@ public class CoverSuplier {
     }
 
     public static String getCourseCodeNumber(String course_code) {
-        if (course_code.length() <= 8) {
-            if (course_code.length() == 6) {
-                return course_code.substring(3, 6);
-            } else if (course_code.length() == 7) {
-                if (course_code.contains(" ")) {
-                    return course_code.split(" ")[1];
-                } else {
-                    return course_code.substring(3, 7);
-                }
-            } else if (course_code.length() == 8 && course_code.contains(" ")) {
-//                abrv = course_code.split(" ")[0];
-                return course_code.split(" ")[1];
-            }
-        }
-        return "";
+//        if (course_code.length() <= 8) {
+//            if (course_code.length() == 6) {
+//                return course_code.substring(3, 6);
+//            } else if (course_code.length() == 7) {
+//                if (course_code.contains(" ")) {
+//                    return course_code.split(" ")[1];
+//                } else {
+//                    return course_code.substring(3, 7);
+//                }
+//            } else if (course_code.length() == 8 && course_code.contains(" ")) {
+////                abrv = course_code.split(" ")[0];
+//            }
+//        }
+//        return "";
+        return course_code.split(" ")[1];
+    }
+    public static boolean isHandoutGst(String course_abrv){
+        return course_abrv.equalsIgnoreCase("GST");
     }
     public static String getLevelFromCode(String code){
         char first_char = code.charAt(0);
@@ -95,10 +122,9 @@ public class CoverSuplier {
         return "200";
     }
     public static String getAbrvFromCourseCode(String course_code){
-        return course_code.substring(0,3);
+        return course_code.split(" ")[0];
     }
     public static String getDeptFromAbrv(String course_abrv){
-
         switch (course_abrv) {
             case "CMP":
                 return "Mathematics/CMP";
@@ -151,6 +177,6 @@ public class CoverSuplier {
 
     public static Cover_type getRandomType() {
         Random random = new Random();
-        return Cover_type.values()[random.nextInt(5)];
+        return Cover_type.values()[random.nextInt(6)];
     }
 }

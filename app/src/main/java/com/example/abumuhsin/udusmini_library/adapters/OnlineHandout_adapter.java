@@ -8,14 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.FirebaseHandoutOperation;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.Views.GridOptionButton;
 import com.example.abumuhsin.udusmini_library.Views.LikeButton;
@@ -24,7 +26,7 @@ import com.example.abumuhsin.udusmini_library.utils.GlideApp;
 
 import java.util.ArrayList;
 
-public class OnlineHandout_adapter extends BaseAdapter implements View.OnClickListener, LikeButton.OnLikeButtonListener {
+public class OnlineHandout_adapter extends BaseAdapter implements View.OnClickListener, LikeButton.OnLikeButtonListener, Filterable {
 
     private Fragment fragment;
     private ArrayList<OnlineHandout> handouts;
@@ -34,13 +36,13 @@ public class OnlineHandout_adapter extends BaseAdapter implements View.OnClickLi
     FirebaseHandoutOperation firebaseHandoutOperation;
 
 
-    public OnlineHandout_adapter(Fragment fragment,ArrayList<OnlineHandout> handouts, OnBook_OptionsClickListener onBook_optionsClickListener) {
+    public OnlineHandout_adapter(Fragment fragment, ArrayList<OnlineHandout> handouts, OnBook_OptionsClickListener onBook_optionsClickListener) {
         firebaseHandoutOperation = new FirebaseHandoutOperation(fragment.requireContext());
         this.fragment = fragment;
         this.handouts = handouts;
-//        ListenForAddedHandout();
         this.onBook_optionsClickListener = onBook_optionsClickListener;
     }
+
     @Override
     public int getCount() {
         return handouts.size();
@@ -121,8 +123,10 @@ public class OnlineHandout_adapter extends BaseAdapter implements View.OnClickLi
         }
         switch (view.getId()) {
             case R.id.comment_btn:
+                onBook_optionsClickListener.onCommentBook(position, getItem(position));
 //                Todo
                 Toast.makeText(fragment.requireContext(), "about to comment on handout of index" + position, Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.download_btn:
 //                Todo
@@ -145,10 +149,136 @@ public class OnlineHandout_adapter extends BaseAdapter implements View.OnClickLi
         });
     }
 
-//    @Override
+    //    @Override
 //    public void onUnlike(final View view, int position) {
 //        firebaseHandoutOperation.UnLikeHandout(handouts.get(position));
 //    }
+    private OnlineHandout_adapter.ArrayFilter mFilter;
+
+    @Override
+    public Filter getFilter() {
+        if (mFilter == null) {
+            mFilter = new OnlineHandout_adapter.ArrayFilter();
+        }
+
+        return mFilter;
+
+    }
+
+    private ArrayList<OnlineHandout> mOriginalValues;
+    private final Object mLock = new Object();
+
+    private class ArrayFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence prefix) {
+
+            FilterResults results = new FilterResults();
+
+            if (mOriginalValues == null) {
+
+                synchronized (mLock) {
+
+                    mOriginalValues = new ArrayList<>(handouts);
+
+                }
+
+            }
+
+            if (prefix == null || prefix.length() == 0) {
+
+                ArrayList<OnlineHandout> list;
+
+                synchronized (mLock) {
+
+                    list = new ArrayList<>(mOriginalValues);
+
+                }
+
+                results.values = list;
+
+                results.count = list.size();
+
+            } else {
+
+                String prefixString = prefix.toString().toLowerCase();
+
+                ArrayList<OnlineHandout> values;
+
+                synchronized (mLock) {
+
+                    values = new ArrayList<>(mOriginalValues);
+
+                }
+
+                final int count = values.size();
+
+                final ArrayList<OnlineHandout> newValues = new ArrayList<>();
+
+                for (int i = 0; i < count; i++) {
+
+                    final OnlineHandout value = values.get(i);
+
+                    final String valueText = value.getHandout().getHandout_title().toLowerCase();
+
+                    final String course_code = value.getHandout().getCourse_code().toLowerCase();
+                    // First match against the whole, non-splitted value
+                    if (valueText.contains(prefixString) || course_code.contains(prefixString)) {
+
+                        newValues.add(value);
+
+                    } else {
+
+                        final String[] words = valueText.split(" ");
+
+                        final int wordCount = words.length;
+
+                        // Start at index 0, in case valueText starts with space(s)
+
+                        for (int k = 0; k < wordCount; k++) {
+
+                            if (words[k].startsWith(prefixString)) {
+
+                                newValues.add(value);
+
+                                break;
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+                results.values = newValues;
+
+                results.count = newValues.size();
+
+            }
+
+            return results;
+
+        }
+
+        @Override
+
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            handouts = (ArrayList<OnlineHandout>) results.values;
+
+            if (results.count > 0) {
+
+                notifyDataSetChanged();
+
+            } else {
+
+                notifyDataSetInvalidated();
+
+            }
+
+        }
+
+    }
 
     public interface OnBook_OptionsClickListener {
         void onDeleteClick(int position, String book_name);
@@ -164,5 +294,7 @@ public class OnlineHandout_adapter extends BaseAdapter implements View.OnClickLi
         void onSharePdf(int position, String book_name);
 
         void onShareBook(int position, String book_name);
+
+        void onCommentBook(int position, Handout book_name);
     }
 }

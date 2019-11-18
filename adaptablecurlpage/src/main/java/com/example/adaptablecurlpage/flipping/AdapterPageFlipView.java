@@ -630,7 +630,6 @@ public class AdapterPageFlipView extends AdapterView<Adapter> {
             last_index=adapterIndex;
         }
     }
-
     public void flippedToView(int indexInAdapter) {
         Log.i(TAG, String.format("flippedToView: %d, isPost %s", indexInAdapter, null));
         if (indexInAdapter >= 0 && indexInAdapter < adapterDataCount) { //let say count is 5

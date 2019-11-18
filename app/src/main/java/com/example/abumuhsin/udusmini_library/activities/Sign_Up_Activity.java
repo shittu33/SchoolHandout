@@ -22,9 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.RegisteredStudent;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Student;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.util.FirebaseLoginOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.RegisteredStudent;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.utils.UdusDepartmentAndFacultyProvider;
 import com.google.android.gms.tasks.OnCompleteListener;

@@ -1,7 +1,6 @@
 package com.example.abumuhsin.udusmini_library.fragments;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.activities.FlipBooKActivity;
 import com.example.abumuhsin.udusmini_library.adapters.Gallery_recyler_adapter;
-import com.example.abumuhsin.udusmini_library.utils.DeviceGalleryLoaderTask;
+import com.example.abumuhsin.udusmini_library.utils.DeviceGalleryAsyncTask;
 import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
 import com.example.amazing_picker.models.Model_images;
 
@@ -30,7 +29,7 @@ import java.util.ArrayList;
  * Created by Abu Muhsin on 31/05/2018.
  */
 
-public class GalleryBook_fragment extends Fragment implements Gallery_recyler_adapter.OnFolderCLickListener {
+public class GalleryBook_fragment extends Fragment implements Gallery_recyler_adapter.OnFolderCLickListener, DeviceGalleryAsyncTask.OnLoadingImages {
 
     private View view;
     private RecyclerView gallery_RecyclerView;
@@ -48,24 +47,10 @@ public class GalleryBook_fragment extends Fragment implements Gallery_recyler_ad
         init(view);
         return view;
     }
-
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        saveState();
-//    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-//        init(view);
-//        DeviceGalleryLoaderTask.get(this).LoadDirrectoryFromStorage();
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        DeviceGalleryLoaderTask.get(this).LoadDirrectoryFromStorage();
+        new DeviceGalleryAsyncTask(this.requireContext(), this).execute();
     }
 
     @Override
@@ -121,4 +106,22 @@ public class GalleryBook_fragment extends Fragment implements Gallery_recyler_ad
         new Fragment_Utils().RestoreState(getFragmentManager(), this, "yes");
     }
 
+    @Override
+    public void onImageFolderAdded(String folder, ArrayList<String> images, boolean is_folder, int int_position) {
+        if (is_folder) {
+            images_folder.get(int_position).setAl_imagepath(images);
+        }else {
+            Model_images model_images = new Model_images();
+            model_images.setAl_imagepath(images);
+            model_images.setStr_folder(folder);
+            images_folder.add(model_images);
+
+        }
+    }
+
+
+    @Override
+    public void onLoadFinished() {
+        gallery_recyler_adapter.notifyDataSetChanged();
+    }
 }

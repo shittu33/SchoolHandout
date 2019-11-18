@@ -1,4 +1,4 @@
-package com.example.abumuhsin.udusmini_library.FirebaseStuff.model;
+package com.example.abumuhsin.udusmini_library.firebaseStuff.model;
 
 import java.io.Serializable;
 

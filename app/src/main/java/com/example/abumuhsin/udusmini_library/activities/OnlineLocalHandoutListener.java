@@ -1,6 +1,6 @@
 package com.example.abumuhsin.udusmini_library.activities;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 
 import java.io.File;
 

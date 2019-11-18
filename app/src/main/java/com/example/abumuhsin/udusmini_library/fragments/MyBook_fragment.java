@@ -1,6 +1,7 @@
 package com.example.abumuhsin.udusmini_library.fragments;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -31,10 +32,10 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.abumuhsin.udusmini_library.CoverSuplier;
 import com.example.abumuhsin.udusmini_library.Enums.Cover_type;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.FirebaseHandoutOperation;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Student;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.util.FirebaseLoginOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.Tables.BOOK_Table;
 import com.example.abumuhsin.udusmini_library.Tables.HandoutFilterTable;
@@ -46,6 +47,7 @@ import com.example.abumuhsin.udusmini_library.activities.FlipBooKActivity;
 import com.example.abumuhsin.udusmini_library.activities.OnlineBookDetailsActivity;
 import com.example.abumuhsin.udusmini_library.activities.OnlineLocalHandoutListener;
 import com.example.abumuhsin.udusmini_library.adapters.Grid_adapter;
+import com.example.abumuhsin.udusmini_library.base.BaseFragment;
 import com.example.abumuhsin.udusmini_library.models.HandoutFilter;
 import com.example.abumuhsin.udusmini_library.models.LocalHandout;
 import com.example.abumuhsin.udusmini_library.models.top_filter_model;
@@ -70,7 +72,7 @@ import static com.example.abumuhsin.udusmini_library.CoverSuplier.getAbrvFromCou
 import static com.example.abumuhsin.udusmini_library.CoverSuplier.getCourseCodeNumber;
 import static com.example.abumuhsin.udusmini_library.CoverSuplier.getCoverOfType;
 import static com.example.abumuhsin.udusmini_library.CoverSuplier.getLevelFromCode;
-import static com.example.abumuhsin.udusmini_library.FirebaseStuff.FirebaseHandoutOperation.OPERATION_TAG;
+import static com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation.OPERATION_TAG;
 import static com.example.abumuhsin.udusmini_library.utils.Constants.COURSE_CODE;
 import static com.example.abumuhsin.udusmini_library.utils.Constants.DEPARTMENT;
 import static com.example.abumuhsin.udusmini_library.utils.Constants.LEVEL;
@@ -85,7 +87,7 @@ import static com.example.abumuhsin.udusmini_library.utils.View_Utils.Select_Vie
  * Created by Abu Muhsin on 31/05/2018.
  */
 
-public class MyBook_fragment extends androidx.fragment.app.Fragment implements AdapterView.OnItemClickListener,
+public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemClickListener,
         AdapterView.OnItemLongClickListener, AbsListView.MultiChoiceModeListener, Grid_adapter.OnBook_OptionsClickListener, View.OnClickListener
         , OnlineLocalHandoutListener, FilterBarView.OnFilterItemClick {
     public static final String COVER_DEBUG = "cover_debug";
@@ -130,6 +132,11 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
     public MyBook_fragment() {
     }
 
+    @Override
+    protected int getLayoutId() {
+        return 0;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -137,6 +144,7 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
         init();
         return view;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,9 +155,6 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState();
-    }
-
-    public void LoadRecentBooks() {
     }
 
     @Override
@@ -166,8 +171,8 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
         }
     }
 
-    public void onSerchQuery(String search_txt){
-        if (grid_adapter!=null) {
+    public void onSerchQuery(String search_txt) {
+        if (grid_adapter != null) {
             Filter search_filter = grid_adapter.getFilter();
             search_filter.filter(search_txt);
         }
@@ -230,33 +235,63 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
     }
 
     public boolean isCourseCodeValid(String course_code) {
-        if (course_code.length() <= 8) {
+        if (course_code.length() <= 9) {
             String code = "";
             String abrv = "";
             if (course_code.length() == 6) {
+                //if course code is 6 in length ,then the first 3 is abrv and the next is code.
                 abrv = course_code.substring(0, 3);
                 code = course_code.substring(3, 6);
             } else if (course_code.length() == 7) {
-                if (course_code.contains(" ")) {
+                //if course code is 7 in length and it contain space,then just split it and seperate abrv and code
+                if (StringContainGap(course_code)) {
                     abrv = course_code.split(" ")[0];
                     code = course_code.split(" ")[1];
                 } else {
-                    abrv = course_code.substring(0, 3);
-                    code = course_code.substring(3, 7);
+                    //if there is no space in between
+                    if (!Character.isDigit(course_code.charAt(3))) {
+                        //if the 4th character is not a digit,then the abrvation is 4 in length
+                        abrv = course_code.substring(0, 4);
+                        code = course_code.substring(4, 7);
+                    } else {
+                        //if the 4th character is a digit,then the abrvation is just 3 and code is 4
+                        abrv = course_code.substring(0, 3);
+                        code = course_code.substring(3, 7);
+                    }
                 }
-            } else if (course_code.length() == 8 && course_code.contains(" ")) {
+            } else if (course_code.length() == 8) {
+                if (StringContainGap(course_code)) {
+                    //if there is space in between
+                    abrv = course_code.split(" ")[0];
+                    code = course_code.split(" ")[1];
+                } else {
+                    //if there is no space in between
+                    abrv = course_code.substring(0, 4);
+                    code = course_code.substring(4, 8);
+
+                }
+            }else if (course_code.length()==9){
                 abrv = course_code.split(" ")[0];
                 code = course_code.split(" ")[1];
             }
             this.course_code = abrv + " " + code;
             boolean is_just_six = (abrv + code).length() == 6;
             boolean is_just_seven = (abrv + code).length() == 7;
+            boolean is_just_eigth = (abrv + code).length() == 8;
             boolean is_code_digit = Character.isDigit(code.charAt(0));
-            return (is_just_six || is_just_seven) && is_code_digit;
+            return (is_just_six || is_just_seven || is_just_eigth) && is_code_digit;
+        } else {
+            Log.i(TAG, "this course code is too long");
         }
         return false;
     }
 
+    public boolean StringContainGap(String data) {
+        int indexOfSpace = data.indexOf(" ");
+        return data.contains(" ") && (indexOfSpace != data.length() - 1 || indexOfSpace!=0);
+    }
+
+    private static final String TAG = "MyBook_fragment";
     Cover_type current_added_cover_type;
 
     @Override
@@ -339,10 +374,26 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
 
     private void init() {
         initViews();
+        if (requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            initOthers();
+        }
+    }
+
+    private void initOthers() {
         initHandoutDatabase();
         initAdapters();
         handoutOperation = new FirebaseHandoutOperation(this.getContext());
+        LoadBooksWithDepartment();
 
+    }
+
+
+    @Override
+    public void isPermissionGranted(boolean isGranted, String permission) {
+        if (isGranted) {
+            initOthers();
+            book_table.LoadBookInfo(this);
+        }
     }
 
     private void initHandoutDatabase() {
@@ -352,7 +403,6 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
         pic_table = new PICTURES_Table(udus_handout_database);
         picture_bucketTable = new Picture_BucketTable(udus_handout_database);
         handoutFilterTable = new HandoutFilterTable(udus_handout_database);
-
         Log.i(BOOKSDEBUG, "initHandoutDatabase: ends");
     }
 
@@ -375,7 +425,6 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
         pics_title_list = new ArrayList<>();
         grid_adapter = new Grid_adapter(this, pics_title_list, this);
         filterBarView.setOnFilterItemClick(this);
-//        filterBarView.setUpFilterAdapters();
         book_gridView.setAdapter(grid_adapter);
         book_gridView.setOnItemClickListener(this);
         book_gridView.setOnItemLongClickListener(this);
@@ -384,7 +433,9 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
     @Override
     public void onResume() {
         super.onResume();
-        book_table.LoadBookInfo(this);
+        if (book_table != null) {
+            book_table.LoadBookInfo(this);
+        }
 
     }
 
@@ -657,8 +708,6 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
     }
 
 
-
-
     //    @Override
     private boolean is_opening_with;
 
@@ -701,6 +750,7 @@ public class MyBook_fragment extends androidx.fragment.app.Fragment implements A
         second_level_list.clear();
         if (selected_text.equals("Dept")) {
             LoadBooksWithDepartment();
+            book_table.LoadBookInfo(this);
             return;
         }
         book_table.LoadHandoutWithFilter(MyBook_fragment.this, selected_text, column, topList);

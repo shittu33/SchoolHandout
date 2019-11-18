@@ -15,12 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.FirebaseHandoutOperation;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.Handout;
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.util.FirebaseLoginOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.Views.Coordinator_layout;
 import com.example.abumuhsin.udusmini_library.adapters.Profile_infoAdapter;
+import com.example.abumuhsin.udusmini_library.utils.DividerDecoration;
 import com.example.abumuhsin.udusmini_library.utils.GlideApp;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -53,9 +54,11 @@ public class profile_Activity extends AppCompatActivity {
     private void initAdapters() {
         FirebaseHandoutOperation firebaseHandoutOperation = new FirebaseHandoutOperation(this);
         RecyclerView info_recycler = findViewById(R.id.info_recycler);
-        RecyclerView gallery_recycler = findViewById(R.id.gallery_recycler);
         LinearLayoutManager info_linear = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         LinearLayoutManager gallery_linear = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        DividerDecoration dividerItemDecoration = new DividerDecoration(info_recycler.getContext(),R.drawable.divider);
+        info_recycler.addItemDecoration(dividerItemDecoration);
+        RecyclerView gallery_recycler = findViewById(R.id.gallery_recycler);
         info_recycler.setLayoutManager(info_linear);
         gallery_recycler.setLayoutManager(gallery_linear);
         coordinator_layout.setTitle("My profile");
@@ -65,7 +68,7 @@ public class profile_Activity extends AppCompatActivity {
         final ImageView cover_image = coordinator_layout.getCover_img();
         final TextView display_tv = coordinator_layout.getUser_full_name();
         //Set user photo
-        firebaseHandoutOperation.LoadCurrentStudentImage(new FirebaseHandoutOperation.OnStudentImageLoaded() {
+        firebaseHandoutOperation.LoadCurrentStudentImage(false, new FirebaseHandoutOperation.OnStudentImageLoaded() {
             @Override
             public void StudentImageLoaded(String student_image) {
                 try {

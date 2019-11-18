@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.MainActivity"
-            android:label="Books"
+            android:label="Udus Handout"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,8 +66,27 @@
             android:theme="@style/AppThemeOverlay" />
         <activity android:name=".activities.OnlineBookDetailsActivity" />
         <activity android:name=".activities.BookDiscussionActivity" />
-        <activity android:name=".activities.MyPdfActivity" />
-        <activity android:name=".activities.MyGalleryActivity" />
+        <activity android:name=".activities.MyPdfActivity"
+            android:theme="@style/AppThemeOverlay"
+            android:parentActivityName=".activities.MainActivity"
+            android:label="My Pdf Books"
+            />
+        <activity android:name=".activities.MyGalleryActivity"
+            android:theme="@style/AppThemeOverlay"
+            android:parentActivityName=".activities.MainActivity"
+            android:label="My Gallery Books"
+            />
+        <activity android:name=".activities.DiscussionActivity" />
+
+        <service
+            android:name=".firebaseStuff.services.FirebaseMessageService"
+            android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

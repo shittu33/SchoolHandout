@@ -53,6 +53,7 @@ import com.example.abumuhsin.udusmini_library.utils.App_Preferences;
 import com.example.abumuhsin.udusmini_library.utils.FileUtils;
 import com.example.abumuhsin.udusmini_library.utils.PdfBackLoaderTask;
 import com.example.abumuhsin.udusmini_library.utils.PdfForwardLoader;
+import com.example.abumuhsin.udusmini_library.utils.PdfPagesNoGenerator;
 import com.example.abumuhsin.udusmini_library.utils.PdfUtils;
 import com.example.abumuhsin.udusmini_library.utils.View_Utils;
 import com.example.adaptablecurlpage.flipping.AdapterPageFlipView;
@@ -178,9 +179,11 @@ public class FlipBooKActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public Intent other_app_intent;
+    PdfPagesNoGenerator pdfPagesNoGenerator;
 
     //Initializations...
     private void init() {
+        pdfPagesNoGenerator = new PdfPagesNoGenerator();
         dont_hide = false;
         is_pdf_from_otherApp = false;
         is_pics_from_device = false;
@@ -787,6 +790,10 @@ public class FlipBooKActivity extends AppCompatActivity implements View.OnClickL
                 if (PdfBackLoaderTask.get(FlipBooKActivity.this).is_pdf_thread_objectRunning()) {
                     PdfBackLoaderTask.get(FlipBooKActivity.this).JustStop_pdfThread();
                 }
+//                pdfPagesNoGenerator.flippedToView(page_no);
+//                Integer[] pages = new Integer[pdfPagesNoGenerator.getBufferedPages().size()];
+//                pdfPagesNoGenerator.getBufferedPages().toArray(pages);
+//                new PdfPageSaverForwardTask(pdf_path, page_no).execute(pages);
                 PdfBackLoaderTask.get(FlipBooKActivity.this).LoadPdfToStorage(pdf_path, PdfUtils.getActivePdf_ImagePath( /*new File(tmp_book).getName()*/tmp_book + "_dir", page_no));
                 PdfForwardLoader.get(FlipBooKActivity.this).LoadPdfToStorage(pdf_path, PdfUtils.getActivePdf_ImagePath( /*new File(tmp_book).getName()*/tmp_book + "_dir", page_no), true);
                 PdfBackLoaderTask.get(FlipBooKActivity.this).setOnPdfPageDownloadListener(new PdfBackLoaderTask.OnPdfPageDownloadListener() {
@@ -1096,9 +1103,9 @@ public class FlipBooKActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.float_edit_btn:
                 int current_page = mAdapterFlipView.getSelectedItemPosition();
-                if (current_page >0 && current_page<flip_list.size()-1) {
+                if (current_page > 0 && current_page < flip_list.size() - 1) {
                     startEditing();
-                }else if (current_page==0){
+                } else if (current_page == 0) {
                     EditCover();
                 }
                 break;

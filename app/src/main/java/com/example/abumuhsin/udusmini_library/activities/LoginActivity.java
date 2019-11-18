@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.abumuhsin.udusmini_library.FirebaseStuff.model.RegisteredStudent;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.RegisteredStudent;
 import com.example.abumuhsin.udusmini_library.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.udus_login_activity);
         init();
-        init_Firebase();
     }
 
     @Override
@@ -95,7 +94,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
-
     private String adm_no;
 
     private String password;

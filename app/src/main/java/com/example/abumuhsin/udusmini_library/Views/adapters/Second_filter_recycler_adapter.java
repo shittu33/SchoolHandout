@@ -47,7 +47,7 @@ public class Second_filter_recycler_adapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txt = ((TextView) itemView);
+            txt = itemView.findViewById(R.id.filer_txt);
             txt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

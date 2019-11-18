@@ -6,5 +6,6 @@ public  enum Cover_type {
     SIMPLE3,
     SIMPLE_COVER,
     SIMPLE_COVER2,
-    REAL_COVER
+    REAL_COVER,
+    FULL_SCALP
 }
