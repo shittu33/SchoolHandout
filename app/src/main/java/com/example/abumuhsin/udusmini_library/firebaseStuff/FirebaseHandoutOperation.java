@@ -10,13 +10,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.abumuhsin.udusmini_library.adapters.Message;
+import com.example.abumuhsin.udusmini_library.adapters.User;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.DiscussData;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.DiscussMessage;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.RegisteredStudent;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
-import com.example.abumuhsin.udusmini_library.adapters.Message;
-import com.example.abumuhsin.udusmini_library.adapters.User;
 import com.example.abumuhsin.udusmini_library.fragments.Dialog;
 import com.example.abumuhsin.udusmini_library.utils.FileUtils;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -355,74 +355,31 @@ public class FirebaseHandoutOperation {
         });
     }
 
+    private static final String TAG = "FirebaseHandoutOperatio";
+
     public void LoadAllHandouts(final onLoadingHandoutInformation onLoadingHandoutInformation) {
+        Log.i(TAG, "b4 initializing handouts_reference");
         DatabaseReference handouts_reference = firebaseDatabase.getReference().child("Handouts");
+        Log.i(TAG, "after initializing handouts_reference");
         handouts_reference.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.i(TAG, "inside onDataChange");
                 onLoadingHandoutInformation.onAllHandoutAdded(dataSnapshot);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.i(TAG, "inside onDataChange");
             }
         });
+        Log.i(TAG, "b4 ChildEventListener");
         handouts_reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                final Handout handout = dataSnapshot.getValue(Handout.class);
-                LoadHandoutUnder(handout, dataSnapshot, onLoadingHandoutInformation);
-//                if (handout != null) {
-//                    handout.setHandout_id(dataSnapshot.getKey());
-//                    final StorageReference cover_bucket_reference = firebaseStorage.getReferenceFromUrl(handout.getCover_url());
-//                    final File dest_file;
-//                    dest_file = new File(FileUtils.getOnlineHandoutFile(handout.getHandout_id()));
-//                    if (!dest_file.exists()) {
-//                        cover_bucket_reference.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                handout.setCover_url(dest_file.getPath());
-//                                String poster_adm_no = handout.getPoster();
-//                                databaseReference.child("registered student").child(poster_adm_no).addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                        RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
-//                                        if (registeredStudent != null) {
-//                                            handout.setPoster(registeredStudent.getFull_name());
-//                                            onLoadingHandoutInformation.onHandoutAdded(handout);
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                                    }
-//                                });
-//                                Log.i(OPERATION_TAG, "cover download success");
-//                            }
-//                        });
-//                    } else {
-//                        handout.setCover_url(dest_file.getPath());
-//                        String poster_adm_no = handout.getPoster();
-//                        databaseReference.child("registered student").child(poster_adm_no).addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
-//                                if (registeredStudent != null) {
-//                                    handout.setPoster(registeredStudent.getFull_name());
-//                                    onLoadingHandoutInformation.onHandoutAdded(handout);
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                            }
-//                        });
-//                    }
-////                    } catch (IOException e) {
-////                        Log.i(OPERATION_TAG, "something happen to the file");
-////                        e.printStackTrace();
-////                    }
-//                }
+                Log.i(TAG, "addChildEventListener: onChildAdded");
+//                final Handout handout = dataSnapshot.getValue(Handout.class);
+                LoadHandoutUnder(dataSnapshot, onLoadingHandoutInformation);
+                Log.i(TAG, "onChildAdded: after LoadHandoutUnder ");
             }
 
             @Override
@@ -446,15 +403,14 @@ public class FirebaseHandoutOperation {
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                Log.i(TAG, "addChildEventListener: onChildMoved ");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.i(TAG, "addChildEventListener: onCancelled ");
             }
         });
-
     }
 
     public void LoadAllHandoutsWhereFilter(final String filter, final String alternative_filter, final String fetched_column
@@ -482,8 +438,8 @@ public class FirebaseHandoutOperation {
                         handouts_reference.child(handout_id).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Handout handout = dataSnapshot.getValue(Handout.class);
-                                LoadHandoutUnder(handout, dataSnapshot, onLoadingHandoutInformation);
+//                                Handout handout = dataSnapshot.getValue(Handout.class);
+                                LoadHandoutUnder(dataSnapshot, onLoadingHandoutInformation);
                             }
 
                             @Override
@@ -543,7 +499,7 @@ public class FirebaseHandoutOperation {
                             boolean is_faculty_and_department = fetched_column.equals(LEVEL_CAT_NODE) && dataSnapshot.hasChild(filter) && dataSnapshot.hasChild(alternative_filter);
                             boolean is_normal_filter = !fetched_column.equals(LEVEL_CAT_NODE) && dataSnapshot.hasChild(filter);
                             if (is_faculty_and_department || is_normal_filter) {
-                                LoadHandoutUnder(handout, dataSnapshot, onLoadingHandoutInformation);
+                                LoadHandoutUnder(dataSnapshot, onLoadingHandoutInformation);
                             }
 
                         }
@@ -589,13 +545,29 @@ public class FirebaseHandoutOperation {
 
     }
 
-    private void LoadHandoutUnder(final Handout handout, DataSnapshot dataSnapshot, final onLoadingHandoutInformation onLoadingHandoutInformation) {
+    private void LoadHandoutUnder(DataSnapshot dataSnapshot, final onLoadingHandoutInformation onLoadingHandoutInformation) {
+            final Handout handout = dataSnapshot.getValue(Handout.class);
         if (handout != null) {
+            Log.i(OPERATION_TAG, "handout is not null");
             handout.setHandout_id(dataSnapshot.getKey());
-            final StorageReference cover_bucket_reference = firebaseStorage.getReferenceFromUrl(handout.getCover_url());
+            Log.i(OPERATION_TAG, "LoadHandoutUnder: handout id is " + handout.getHandout_id());
+            Log.i(OPERATION_TAG, "LoadHandoutUnder: handout path is " + handout.getHandout_url());
+            Log.i(OPERATION_TAG, "LoadHandoutUnder: handout cover path is " + handout.getCover_url());
+            Log.i(OPERATION_TAG, "LoadHandoutUnder: handout url is " + firebaseStorage.getReferenceFromUrl(handout.getHandout_url()));
+            Log.i(OPERATION_TAG, "LoadHandoutUnder: handout cover url is " + firebaseStorage.getReferenceFromUrl(handout.getCover_url()));
+            StorageReference cover_bucket_reference = null;
+            try {
+                cover_bucket_reference = firebaseStorage.getReferenceFromUrl(handout.getCover_url());
+                Log.i(OPERATION_TAG, "LoadHandoutUnder: after cover_bucket_reference");
+            } catch (Exception e) {
+                Log.i(OPERATION_TAG, "LoadHandoutUnder: " + e.getMessage());
+                e.printStackTrace();
+            }
             final File dest_file;
             dest_file = new File(FileUtils.getOnlineHandoutFile(handout.getHandout_id()));
+            Log.i(OPERATION_TAG, "LoadHandoutUnder: after dest_file");
             if (!dest_file.exists()) {
+                Log.i(OPERATION_TAG, "LoadHandoutUnder: handout img doesn't exist");
                 cover_bucket_reference.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -604,6 +576,7 @@ public class FirebaseHandoutOperation {
                         databaseReference.child("registered student").child(poster_adm_no).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Log.i(OPERATION_TAG, "LoadHandoutUnder: inside onDataChange");
                                 RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
                                 if (registeredStudent != null) {
                                     handout.setPoster(registeredStudent.getFull_name());
@@ -619,28 +592,30 @@ public class FirebaseHandoutOperation {
                     }
                 });
             } else {
+                Log.i(OPERATION_TAG, "dest image doesn't exist");
                 handout.setCover_url(dest_file.getPath());
                 String poster_adm_no = handout.getPoster();
                 databaseReference.child("registered student").child(poster_adm_no).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Log.i(OPERATION_TAG, "LoadHandoutUnder: onDataChange");
                         RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
                         if (registeredStudent != null) {
+                            Log.i(OPERATION_TAG, "LoadHandoutUnder: registeredStudent");
                             handout.setPoster(registeredStudent.getFull_name());
                             onLoadingHandoutInformation.onHandoutAdded(handout);
+                            Log.i(OPERATION_TAG, "LoadHandoutUnder: onHandoutAdded");
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.i(OPERATION_TAG, "LoadHandoutUnder: onCancelled");
                     }
                 });
             }
-//                    } catch (IOException e) {
-//                        Log.i(OPERATION_TAG, "something happen to the file");
-//                        e.printStackTrace();
-//                    }
         }
+        Log.i(OPERATION_TAG, "escape LoadHandoutUnder");
     }
     public static void getServerKey(final OnServerKeyRetrieved onServerKeyRetrieved){
         Query query = FirebaseDatabase.getInstance().getReference().child("server")

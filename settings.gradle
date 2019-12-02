@@ -1,1 +1,1 @@
-include ':app', ':PageFlip', ':PhotoEditor', ':testingmodle', ':amazing_picker', ':adaptablecurlpage', ':mylibrary', ':mysqlitedbconnection', ':udushandoutadmin', ':shelfview', ':fluidbottomnavigation'
+include ':app', ':PageCurl', ':PhotoEditor', ':testingmodle', ':amazing_picker', ':adaptablecurlpage', ':mylibrary', ':mysqlitedbconnection', ':udushandoutadmin', ':shelfview', ':fluidbottomnavigation'

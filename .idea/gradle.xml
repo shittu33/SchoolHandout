@@ -8,7 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/PageFlip" />
+            <option value="$PROJECT_DIR$/PageCurl" />
             <option value="$PROJECT_DIR$/PhotoEditor" />
             <option value="$PROJECT_DIR$/adaptablecurlpage" />
             <option value="$PROJECT_DIR$/amazing_picker" />
@@ -22,6 +22,7 @@
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>
     </option>
   </component>

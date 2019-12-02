@@ -25,5 +25,5 @@
         android:padding="6dp"
         android:text="Cmp"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textColor="#1D7940" />
+        android:textColor="#eee" />
 </androidx.cardview.widget.CardView>

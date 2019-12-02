@@ -98,36 +98,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Discussion_fragment discussion_fragment;
     private Download_fragment download_fragment;
 
-    public ViewPager getPager() {
-        return pager;
-    }
-
-    OnTabSelectedListener onBottomTabSelectedListener = new OnTabSelectedListener() {
-        @Override
-        public void onTabSelected(int position) {
-            switch (position) {
-                case 0:
-//                    FragmentManager manager2 = getSupportFragmentManager();
-//                    manager2.beginTransaction().replace(R.id.frag, new OnlineBook_fragment()).commit();
-//                    setTitle("Status Download");
-                    startActivity(new Intent(MainActivity.this,BookDiscussionActivity.class));
-                    break;
-                case 1:
-                    FragmentManager manager = getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.frag, new MyBook_fragment()).commit();
-                    setTitle("Book Fragment");
-                    break;
-                case 2:
-                    FragmentManager manager3 = getSupportFragmentManager();
-                    manager3.beginTransaction().replace(R.id.frag, new Download_fragment()).commit();
-                    setTitle("Download Fragment");
-            }
-
-        }
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        InitFileVersionCompatibility();
+        EnableFirebasePersistence(savedInstanceState);
+        init();
+        settingUpTabs();
+        setUpBottomNav();
+        settingUpNavigation();
+        FirebaseLoginOperation.get(this);
+        FirebaseUser firebaseCurrentUser = FirebaseLoginOperation.getCurrentUser();
+        if (firebaseCurrentUser != null) {
+            initFCM();
+        }
+    }
+
+    private void InitFileVersionCompatibility() {
         if (Build.VERSION.SDK_INT >= 24) {
             try {
                 Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
@@ -137,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.e(TAG, "something went wrong with storage stuffs");
             }
         }
+    }
+
+    private void EnableFirebasePersistence(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             try {
                 FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -150,16 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.e(TAG, "something went wrong with either persistence or subscription");
             }
         }
-        setContentView(R.layout.activity_main);
-        init();
-        settingUpTabs();
-        setUpBottomNav();
-        settingUpNavigation();
-        FirebaseLoginOperation.get(this);
-        FirebaseUser firebaseCurrentUser = FirebaseLoginOperation.getCurrentUser();
-        if (firebaseCurrentUser != null) {
-            initFCM();
-        }
+
     }
 
     private void setUpBottomNav() {
@@ -382,12 +364,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myBook_fragment = new MyBook_fragment();
         sendZipBundleToMyBook();
         onlineBook_fragment = new OnlineBook_fragment();
-//        galleryBook_fragment = new GalleryBook_fragment();
-//        pdf_Book_fragment = new PDFBook_fragment();
         discussion_fragment = new Discussion_fragment();
         download_fragment = new Download_fragment();
         adapter.addFragments(myBook_fragment, "My Books");
-//        adapter.addFragments(onlineBook_fragment, "Online Books");
+        adapter.addFragments(onlineBook_fragment, "Online Books");
         adapter.addFragments(discussion_fragment, "Discussions");
         adapter.addFragments(download_fragment, "History");
         pager.setAdapter(adapter);
@@ -529,6 +509,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public ViewPager getPager() {
+        return pager;
+    }
+
+    OnTabSelectedListener onBottomTabSelectedListener = new OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(int position) {
+            switch (position) {
+                case 0:
+//                    FragmentManager manager2 = getSupportFragmentManager();
+//                    manager2.beginTransaction().replace(R.id.frag, new OnlineBook_fragment()).commit();
+//                    setTitle("Status Download");
+                    startActivity(new Intent(MainActivity.this,BookDiscussionActivity.class));
+                    break;
+                case 1:
+                    FragmentManager manager = getSupportFragmentManager();
+                    manager.beginTransaction().replace(R.id.frag, new MyBook_fragment()).commit();
+                    setTitle("Book Fragment");
+                    break;
+                case 2:
+                    FragmentManager manager3 = getSupportFragmentManager();
+                    manager3.beginTransaction().replace(R.id.frag, new Download_fragment()).commit();
+                    setTitle("Download Fragment");
+            }
+
+        }
+    };
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
 

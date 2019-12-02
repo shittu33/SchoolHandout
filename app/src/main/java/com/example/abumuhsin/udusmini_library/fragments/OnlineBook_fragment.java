@@ -59,7 +59,6 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
     ProgressDialog progressDialog;
     ProgressBar h_load_prog_bar;
     OnlineHandout_adapter onlineHandout_adapter;
-    //    ArrayAdapter<String> onlineHandout_adapter;
     private ArrayList<OnlineHandout> handouts = new ArrayList<>();
     private LinkedList<top_filter_model> first_level = new LinkedList<>();
     private FilterBarView filterBarView;
@@ -67,6 +66,64 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
 
 
     public OnlineBook_fragment() {
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.online_book_layout, container, false);
+        initView(view);
+        return view;
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ListenForAddedHandout();
+        LoadHandoutWithFaculties();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        FirebaseLoginOperation.get(this.requireActivity());
+        firebaseHandoutOperation = new FirebaseHandoutOperation(this.getContext());
+//        FirebaseLoginOperation.get(this.requireActivity());
+        // if hosting Activity doesn't implement OnlineLocalHandoutListener interface then throw error
+        if (context instanceof OnlineLocalHandoutListener) {
+            onlineLocalHandoutListener = (OnlineLocalHandoutListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement onlineLocalHandoutListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        onlineLocalHandoutListener = null;
+    }
+
+    private void initView(View view) {
+        filterBarView = view.findViewById(R.id.filter_bar);
+        h_load_prog_bar = view.findViewById(R.id.h_load_prog_bar);
+        handout_grid_view = view.findViewById(R.id.online_grid_view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            handout_grid_view.setNestedScrollingEnabled(true);
+        }
+        onlineHandout_adapter = new OnlineHandout_adapter(this, handouts, this);
+        handout_grid_view.setAdapter(onlineHandout_adapter);
+        handout_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(OnlineBook_fragment.this.requireContext(), "this is cool inside", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OnlineBook_fragment.this.requireContext(), OnlineBookDetailsActivity.class);
+                intent.putExtra(HANDOUT_EXTRA, onlineHandout_adapter.getItem(i));
+                startActivity(intent);
+            }
+        });
+        filterBarView.setOnFilterItemClick(this);
     }
 
     private void LoadHandoutsWithFilter(String filter, String alternative_filter, String fetched_node) {
@@ -265,42 +322,6 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
         filterBarView.setUpSecondFilterAdapter(second_level_list);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.online_book_layout, container, false);
-        initView(view);
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ListenForAddedHandout();
-        LoadHandoutWithFaculties();
-    }
-
-    private void initView(View view) {
-        filterBarView = view.findViewById(R.id.filter_bar);
-        h_load_prog_bar = view.findViewById(R.id.h_load_prog_bar);
-        handout_grid_view = view.findViewById(R.id.online_grid_view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            handout_grid_view.setNestedScrollingEnabled(true);
-        }
-        onlineHandout_adapter = new OnlineHandout_adapter(this, handouts, this);
-        handout_grid_view.setAdapter(onlineHandout_adapter);
-        handout_grid_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(OnlineBook_fragment.this.requireContext(), "this is cool inside", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(OnlineBook_fragment.this.requireContext(), OnlineBookDetailsActivity.class);
-                intent.putExtra(HANDOUT_EXTRA, onlineHandout_adapter.getItem(i));
-                startActivity(intent);
-            }
-        });
-        filterBarView.setOnFilterItemClick(this);
-    }
-
     private void DownloadHandout(int i) {
         Handout handout = onlineHandout_adapter.getItem(i);
         progressDialog = new ProgressDialog(OnlineBook_fragment.this.requireContext());
@@ -345,20 +366,26 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
 
     public void ListenForAddedHandout() {
         if (handouts.size() < 1) {
+            Log.i(MyBook_fragment.BOOKSDEBUG, "handout size is less than one");
             h_load_prog_bar.setVisibility(View.VISIBLE);
             firebaseHandoutOperation = new FirebaseHandoutOperation(requireContext());
+            Log.i(MyBook_fragment.BOOKSDEBUG, "b4 load all handout");
             firebaseHandoutOperation.LoadAllHandouts(new FirebaseHandoutOperation.onLoadingHandoutInformation() {
                 @Override
                 public void onHandoutAdded(final Handout handout) {
+                    Log.i(MyBook_fragment.BOOKSDEBUG, "inside handout added");
                     firebaseHandoutOperation.checkIfCurrentUserLikeHandout(handout.getHandout_id(), new FirebaseHandoutOperation.OnUserLikeListener() {
                         @Override
                         public void onUserLiked(String handout_uid, boolean is_like) {
+                            Log.i(MyBook_fragment.BOOKSDEBUG, "inside is_user liked");
                             if (is_like) {
+                                Log.i(MyBook_fragment.BOOKSDEBUG, "handout is liked");
                                 OnlineHandout onlineHandout = new OnlineHandout(handout, true);
                                 if (!handouts.contains(onlineHandout)) {
                                     handouts.add(onlineHandout);
                                 }
                             } else {
+                                Log.i(MyBook_fragment.BOOKSDEBUG, "handout is not liked");
                                 OnlineHandout onlineHandout = new OnlineHandout(handout, false);
                                 if (!handouts.contains(onlineHandout)) {
                                     handouts.add(onlineHandout);
@@ -372,10 +399,11 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
 
                 @Override
                 public void onHandoutChanged(final Handout handout) {
-
+                    Log.i(MyBook_fragment.BOOKSDEBUG, "inside onHandoutChanged");
                     firebaseHandoutOperation.checkIfCurrentUserLikeHandout(handout.getHandout_id(), new FirebaseHandoutOperation.OnUserLikeListener() {
                         @Override
                         public void onUserLiked(String handout_uid, boolean is_like) {
+                            Log.i(MyBook_fragment.BOOKSDEBUG, "inside onUserLiked");
                             final int index_of_changed_handout = getHandoutIndex(new OnlineHandout(handout, false), handouts);
                             if (is_like) {
                                 handouts.set(index_of_changed_handout, new OnlineHandout(handout, true));
@@ -393,11 +421,13 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
                 public void onHandoutRemoved(Handout handout) {
                     handouts.remove(getHandoutIndex(new OnlineHandout(handout, false), handouts));
                     onlineHandout_adapter.notifyDataSetChanged();
+                    Log.i(MyBook_fragment.BOOKSDEBUG, "inside onHandoutRemoved");
                 }
 
                 @Override
                 public void onAllHandoutAdded(DataSnapshot handout) {
                     h_load_prog_bar.setVisibility(View.GONE);
+                    Log.i(MyBook_fragment.BOOKSDEBUG, "inside onAllHandoutAdded");
                 }
             });
 
@@ -415,27 +445,6 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
         return -1;
     }
 
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        FirebaseLoginOperation.get(this.requireActivity());
-        firebaseHandoutOperation = new FirebaseHandoutOperation(this.getContext());
-        FirebaseLoginOperation.get(this.requireActivity());
-        // if hosting Activity doesn't implement OnlineLocalHandoutListener interface then throw error
-        if (context instanceof OnlineLocalHandoutListener) {
-            onlineLocalHandoutListener = (OnlineLocalHandoutListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement onlineLocalHandoutListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        onlineLocalHandoutListener = null;
-    }
 
     public void Test() {
         Toast.makeText(this.getContext(), "on upload book online!!!", Toast.LENGTH_SHORT).show();
