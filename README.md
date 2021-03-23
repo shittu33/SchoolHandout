@@ -1,2 +1,3 @@
-# UdusHandout
-An Android App that help student keep record of their handout in a beutiful way.
+# School Handout
+An Interactive App that Allow Students to share handouts, and Socialize.
+With their friends.
