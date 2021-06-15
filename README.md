@@ -8,3 +8,16 @@ with their friends.
 <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/Screenshot_20210614-090529.png"> 
 <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/Screenshot_20210614-090554.png">
 
+## Features
+* Signup
+* Login
+* Profile
+* Local Handouts
+* Online Hanouts
+* Curl Page Flip
+* Book Discussion
+
+## Backend
+* Firebase
+* Sqlite
+
