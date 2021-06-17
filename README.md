@@ -19,12 +19,12 @@ with their friends.
 * Curl Page Flip
 * Book Discussion
 
-## Book Features
+## Handout Features
 * Flip Book
+* Pdf to Handout
+* Camera to Handout
+* Gallery to Handout
 * Covert to Pdf
-* Pdf Handout
-* Gallery Handout
-
 
 ## Backend
 * Firebase
