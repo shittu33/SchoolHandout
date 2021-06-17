@@ -11,14 +11,14 @@
         android:endColor="#f6164521"
         android:startColor="#184626"
         android:useLevel="false" />
-    <corners android:radius="2.8dp" />
+    <corners android:radius="0.8dp" />
     <padding
         android:bottom="10dp"
         android:left="10dp"
         android:right="10dp"
         android:top="10dp" />
     <stroke
-        android:width="1.0dp"
+        android:width="0.01dp"
         android:color="#03250b" />
 
 

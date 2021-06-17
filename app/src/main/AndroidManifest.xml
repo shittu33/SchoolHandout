@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <application
+        android:requestLegacyExternalStorage="true"
+        android:fullBackupContent="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -37,21 +39,22 @@
         </activity>
         <activity
             android:name=".activities.FlipBooKActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/SampleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEND" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="application/pdf" />
-            </intent-filter>
-            <intent-filter tools:ignore="AppLinkUrlError">
-                <action android:name="android.intent.action.VIEW" />
+<!--                <data android:mimeType="application/pdf" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter tools:ignore="AppLinkUrlError">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="application/pdf" />
-            </intent-filter>
+<!--                <data android:mimeType="application/pdf" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -77,6 +80,30 @@
             android:label="My Gallery Books"
             />
         <activity android:name=".activities.DiscussionActivity" />
+        <activity android:name=".activities.FlipGalleryActivity"
+            android:parentActivityName=".activities.MyGalleryActivity"
+            android:theme="@style/SampleTheme"/>
+        <activity android:name=".activities.FlipPdfActivity"
+            android:parentActivityName=".activities.MyPdfActivity"
+            android:theme="@style/SampleTheme">
+
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/pdf" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".test.TestFlipBooKActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/SampleTheme"/>
+        <activity android:name=".test.TFlipGalleryActivity"
+            android:parentActivityName=".activities.MyGalleryActivity"
+            android:theme="@style/SampleTheme"/>
+        <activity android:name=".test.TFlipPdfActivity"
+            android:parentActivityName=".activities.MyPdfActivity"
+            android:theme="@style/SampleTheme"/>
 
         <service
             android:name=".firebaseStuff.services.FirebaseMessageService"

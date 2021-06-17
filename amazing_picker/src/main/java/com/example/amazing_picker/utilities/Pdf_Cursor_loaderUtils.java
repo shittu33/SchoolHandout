@@ -38,7 +38,8 @@ public class Pdf_Cursor_loaderUtils {
             column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
             while (cursor.moveToNext()) {
                 absolutePathOfPdfs = cursor.getString(column_index_data);
-                path_of_folder = cursor.getString(column_index_folder_name);
+                String tmp_folder = cursor.getString(column_index_folder_name);
+                path_of_folder = tmp_folder!=null?tmp_folder:"others";
                 Log.e(PIC_TAG, path_of_folder);
                 for (int i = 0; i < all_pdfs.size(); i++) {
                     if (all_pdfs.get(i).getStr_folder().equals(path_of_folder)) {

@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.example.abumuhsin.udusmini_library.tasks.UnZippingToBookTask.SHARED_TIME;
+import static com.example.abumuhsin.udusmini_library.tasks.UnZippingToBookTask.SHARE_ID;
 import static com.example.mysqlitedbconnection.csv.Constants.AND;
 import static com.example.mysqlitedbconnection.csv.Constants.BOOK;
 import static com.example.mysqlitedbconnection.csv.Constants.BOOK_TITLE;
@@ -50,9 +52,23 @@ public class PICTURES_Table extends Table implements Serializable {
         );
     }
 
+    private static final String TAG = "PICTURES_Table";
     public ArrayList<String> get_BookPaths(String book_name){
+        final ArrayList<String> list = new ArrayList<>();
         Where where_book = new Where(BOOK_TITLE, book_name);
-        return loop_String_Column(PATH,get_AND_Where_Equalstatement(where_book));
+        String filter_statement = get_AND_Where_Equalstatement(where_book)
+                + " "
+                + get_ASCENDING_ORDER_BY_StatementForColumns(PAGE_INDEX);
+        loop_column_with_listener(PATH, filter_statement, new Loop_column_listener() {
+            @Override
+            public void onDataAddedProgress(Cursor cursor, int columnIndex, String column_type) {
+                String data = cursor.getString(columnIndex);
+                list.add(data);
+                Log.e(TAG," the data is " + data);
+            }
+        });
+        return list;
+//        return loop_String_Column(PATH,get_AND_Where_Equalstatement(where_book));
     }
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void SavePicturesTOCSV(String book_name,File exprt_dir) {
@@ -64,13 +80,13 @@ public class PICTURES_Table extends Table implements Serializable {
             csvFile.createNewFile();
             csv_writer = new CSV_writer(new FileWriter(csvFile));
             Cursor csvCursor = fetch_All_Where(get_StringEqual_Sign_Statement(BOOK_TITLE, book_name));
-            csv_writer.writeNext(new String[]{PATH,PAGE_INDEX,BOOK_TITLE});
+            csv_writer.writeNext(new String[]{BOOK_TITLE,PATH,PAGE_INDEX});
             while (csvCursor.moveToNext()) {
                 String[] columns = new String[3];
-                columns[0] = csvCursor.getString(csvCursor.getColumnIndex(PATH)).replace(book_name,book_name+"_share");
+                columns[0] = csvCursor.getString(csvCursor.getColumnIndex(BOOK_TITLE))/*+"_share"*/;
+                columns[1] = csvCursor.getString(csvCursor.getColumnIndex(PATH))/*.replace(book_name,book_name+"_share")*/;
                 int page_index = csvCursor.getInt(csvCursor.getColumnIndex(PAGE_INDEX));
-                columns[1] = Integer.toString(page_index);
-                columns[2] = csvCursor.getString(csvCursor.getColumnIndex(BOOK_TITLE))+"_share";
+                columns[2] = Integer.toString(page_index);
                 csv_writer.writeNext(columns);
             }
             csv_writer.close();
@@ -96,6 +112,7 @@ public class PICTURES_Table extends Table implements Serializable {
                 ContentValues contentValues = new ContentValues();
 //                String book_name =csv_file.getName().replace(".csv","");
 //                contentValues.put(TITLE,book_name);
+                String book_name = null;
                 while ((columns = csv_reader.readNext()) != null) {
                     if (i == 0) {
                         data_columns = columns;
@@ -107,6 +124,17 @@ public class PICTURES_Table extends Table implements Serializable {
                                 if (data_columns[x].equals(PAGE_INDEX)){
                                     contentValues.put(data_columns[x],Integer.parseInt(column));
                                 }else {
+                                    if (data_columns[x].equals(BOOK_TITLE)){
+                                        book_name =column;
+                                        boolean is_book_exist = is_book_exist(column);
+                                        if (is_book_exist) {
+                                            column = column + SHARE_ID + SHARED_TIME;
+                                        }
+                                    }else if (data_columns[x].equals(PATH)){
+                                        if (book_name!=null &&  is_book_exist(book_name) ) {
+                                            column = column.replace(book_name,book_name+SHARE_ID + SHARED_TIME);
+                                        }
+                                    }
                                     contentValues.put(data_columns[x],column);
                                 }
                                 Log.i(DEBUG_TABLES, data_columns[x] + " = " + column);
@@ -125,6 +153,9 @@ public class PICTURES_Table extends Table implements Serializable {
         }
     }
 
+    public boolean is_book_exist(String book) {
+        return is_In_Column(BOOK_TITLE, book);
+    }
     public void insert_picture(Picture_table_model picture_table_model) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(PATH, picture_table_model.getPicture_path());

@@ -2,7 +2,7 @@ package com.example.abumuhsin.udusmini_library.Tables;
 
 import android.content.ContentValues;
 
-import com.example.abumuhsin.udusmini_library.models.HandoutFilter;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.HandoutFilter;
 import com.example.abumuhsin.udusmini_library.utils.Constants;
 import com.example.mysqlitedbconnection.csv.sqlite.DatabaseCreator;
 import com.example.mysqlitedbconnection.csv.sqlite.Models.Where;

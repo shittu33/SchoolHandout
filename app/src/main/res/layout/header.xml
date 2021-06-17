@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="190dp"
-    android:background="@drawable/list_head"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
+    android:background="@drawable/list_head"
+    android:paddingTop="10dp"
+    android:paddingStart="23dp"
+    android:paddingEnd="23dp"
+    android:paddingBottom="5dp"
     android:orientation="vertical">
 
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_img"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:civ_border_width="2dp"
+        android:layout_weight="1"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
         android:src="@drawable/trimed_logo" />
@@ -19,15 +26,14 @@
         android:id="@+id/user_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="20dp"
         android:shadowRadius="16"
+        android:layout_marginTop="8dp"
         android:text="MY UDUS HANDOUT"
         android:textAlignment="center"
         android:textColor="#fefe"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:typeface="serif" />
+        android:typeface="monospace" />
 
 
-</FrameLayout>
+</LinearLayout>

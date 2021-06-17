@@ -113,21 +113,26 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     public boolean is_AllformFilled() {
         getTextFromFields();
-        return is_formFilled(adm_no) && is_formFilled(adm_no) && is_formFilled(password);
+        return is_formFilled(adm_no)  && is_formFilled(password);
     }
 
+    private static final String TAG = "LoginActivity";
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn:
                 if (is_AllformFilled()) {
                     final ProgressDialog dialog = ProgressDialog.show(this, "", "Authenticating....");
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.setCancelable(true);
                     databaseReference.child("registered student").child(adm_no).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             RegisteredStudent registeredStudent = dataSnapshot.getValue(RegisteredStudent.class);
                             if (registeredStudent != null) {
                                 String user_email = registeredStudent.getEmail();
+                                Log.e(TAG,"the email is "+ user_email);
+                                Log.e(TAG,"the password is "+ password);
                                 firebaseAuth.signInWithEmailAndPassword(user_email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {

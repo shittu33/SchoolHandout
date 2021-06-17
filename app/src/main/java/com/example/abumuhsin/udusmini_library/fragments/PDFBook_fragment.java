@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.activities.FlipBooKActivity;
 import com.example.abumuhsin.udusmini_library.adapters.Device_pdf_recycler_adapter;
-import com.example.abumuhsin.udusmini_library.utils.DevicePdfAsyncTask;
+import com.example.abumuhsin.udusmini_library.tasks.DevicePdfAsyncTask;
 import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
 
 import java.util.ArrayList;

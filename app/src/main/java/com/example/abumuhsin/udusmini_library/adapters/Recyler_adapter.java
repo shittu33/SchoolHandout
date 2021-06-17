@@ -17,11 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.activities.FlipBooKActivity;
-import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
 
 /**
  * Created by Abu Muhsin on 17/12/2018.
@@ -73,7 +74,6 @@ public class Recyler_adapter extends RecyclerView.Adapter<Recyler_adapter.ViewHo
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!flipBooKActivity.is_from_pdf() || !flipBooKActivity.is_pics_from_device) {
                     if (images.get(holder.getAdapterPosition()).equals("add")) {
                         try {
                             flipBooKActivity.StartDeviceCamera();
@@ -81,9 +81,6 @@ public class Recyler_adapter extends RecyclerView.Adapter<Recyler_adapter.ViewHo
                             e.printStackTrace();
                         }
                     }
-                } else {
-                    Toast.makeText(context, "This features are not available for device books yet" + position, Toast.LENGTH_SHORT).show();
-                }
             }
         });
         final String msg = "dragDebug";
@@ -104,8 +101,8 @@ public class Recyler_adapter extends RecyclerView.Adapter<Recyler_adapter.ViewHo
                         , v
                         , 0);
 
-                ((FlipBooKActivity) context).findViewById(R.id.float_crop).setVisibility(View.VISIBLE);
-                ((FlipBooKActivity) context).findViewById(R.id.float_delete).setVisibility(View.VISIBLE);
+//                ((FlipBooKActivity) context).findViewById(R.id.float_crop).setVisibility(View.VISIBLE);
+//                ((FlipBooKActivity) context).findViewById(R.id.float_delete).setVisibility(View.VISIBLE);
                 Log.d(msg, "after drag fired");
                 return true;
             }
@@ -128,13 +125,13 @@ public class Recyler_adapter extends RecyclerView.Adapter<Recyler_adapter.ViewHo
 
                     case DragEvent.ACTION_DRAG_ENTERED:
                         Log.d("drag_imageDebug", "ACTION_DRAG_ENTERED");
-                        flipBooKActivity.showRecyclerzoomIndicatorBonds((ViewGroup) v.getParent().getParent());
+                        showRecyclerzoomIndicatorBonds((ViewGroup) v.getParent().getParent());
 //                        Log.i("drag_imageDebug", "ImageView " + v.getTag().toString() + " entered");
                         return true;
 
                     case DragEvent.ACTION_DRAG_EXITED:
 //                        Log.d(msg, "ACTION_DRAG_EXITED");
-                        flipBooKActivity.HideRecyclerzoomIndicatorBonds((ViewGroup) v.getParent().getParent());
+                        HideRecyclerzoomIndicatorBonds((ViewGroup) v.getParent().getParent());
                         return true;
 
                     case DragEvent.ACTION_DROP:
@@ -144,18 +141,18 @@ public class Recyler_adapter extends RecyclerView.Adapter<Recyler_adapter.ViewHo
                         String path = item.getText().toString();
                         if (path.equals(flipBooKActivity.getFlip_list().get(current_page_index).getImage_path())) {
 //                            flipBooKActivity.saveAPathAsPages_Bucket(path, adapter_position);
-                            MyBook_fragment.page_table.deletePictureFromThisPage(flipBooKActivity
-                                    , flipBooKActivity.getFlip_list().get(current_page_index));
+//                            MyBook_fragment.page_table.deletePictureFromThisPage(flipBooKActivity
+//                                    , flipBooKActivity.getFlip_list().get(current_page_index));
 //                            Toast.makeText(context, "you just drop data to recycler", Toast.LENGTH_SHORT).show();
                         }
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
 //                        ((ImageView) v).clearColorFilter();
 //                        v.invalidate();
-                        flipBooKActivity.HideRecyclerzoomIndicatorBonds((ViewGroup) v.getParent().getParent());
+                        HideRecyclerzoomIndicatorBonds((ViewGroup) v.getParent().getParent());
 //                        page_editingActivity.getBottomSheetBehavior().setState(BottomSheetBehavior.STATE_COLLAPSED);
-                        ((FlipBooKActivity) context).findViewById(R.id.float_crop).setVisibility(View.GONE);
-                        ((FlipBooKActivity) context).findViewById(R.id.float_delete).setVisibility(View.GONE);
+//                        ((FlipBooKActivity) context).findViewById(R.id.float_crop).setVisibility(View.GONE);
+//                        ((FlipBooKActivity) context).findViewById(R.id.float_delete).setVisibility(View.GONE);
                         if (event.getResult()) {
                             Toast.makeText(context, "drop is okay", Toast.LENGTH_SHORT).show();
                         } else {
@@ -171,6 +168,13 @@ public class Recyler_adapter extends RecyclerView.Adapter<Recyler_adapter.ViewHo
 
     }
 
+    public void showRecyclerzoomIndicatorBonds(ViewGroup viewGroup) {
+        viewGroup.findViewById(R.id.recycler_zoom_indicator).setVisibility(View.VISIBLE);
+    }
+
+    public void HideRecyclerzoomIndicatorBonds(ViewGroup viewGroup) {
+        viewGroup.findViewById(R.id.recycler_zoom_indicator).setVisibility(GONE);
+    }
     @Override
     public int getItemCount() {
         return images.size();

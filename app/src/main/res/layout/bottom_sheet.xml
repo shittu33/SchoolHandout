@@ -9,34 +9,77 @@
     android:orientation="vertical"
     tools:showIn="@layout/sample_main">
 
-    <include layout="@layout/import_layout_item" />
-
-    <com.warkiz.widget.IndicatorSeekBar
-        android:id="@+id/indicator_seekbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:isb_indicator_color="@color/samplePrimaryDark"
-        app:isb_indicator_text_color="@color/white"
-        app:isb_indicator_text_size="18sp"
-        app:isb_max="1000"
-        app:isb_min="1.0"
-        app:isb_only_thumb_draggable="false"
-        app:isb_progress="25"
-        app:isb_seek_smoothly="true"
-        app:isb_show_indicator="rounded_rectangle"
-        app:isb_show_tick_marks_type="oval"
-        app:isb_show_tick_texts="false"
-        app:isb_thumb_color="@color/colorPrimary"
-        app:isb_thumb_size="20dp"
-        app:isb_tick_marks_drawable="@mipmap/ic_launcher"
-        app:isb_tick_marks_size="13dp"
-        app:isb_tick_texts_color="@color/white"
-        app:isb_tick_texts_size="15sp"
-        app:isb_ticks_count="0"
-        app:isb_track_background_color="@color/colorPrimary"
-        app:isb_track_background_size="2dp"
-        app:isb_track_progress_color="@color/primaryDarkColorRed"
-        app:isb_track_progress_size="4dp" />
+        android:layout_height="40dp"
+        android:background="@color/white_two"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="10dp">
+
+        <ImageButton
+            android:id="@+id/bkwd_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:tint="@color/colorPrimary" />
+
+        <com.warkiz.widget.IndicatorSeekBar
+            android:id="@+id/indicator_seekbar"
+            android:layout_width="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:isb_indicator_color="@color/samplePrimaryDark"
+            app:isb_indicator_text_color="@color/white"
+            app:isb_indicator_text_size="18sp"
+            app:isb_max="1000"
+            app:isb_min="1.0"
+            app:isb_only_thumb_draggable="false"
+            app:isb_progress="25"
+            app:isb_seek_smoothly="true"
+            app:isb_show_indicator="rounded_rectangle"
+            app:isb_show_tick_marks_type="oval"
+            app:isb_show_tick_texts="false"
+            app:isb_thumb_color="@color/colorPrimary"
+            app:isb_thumb_size="20dp"
+            app:isb_tick_marks_drawable="@mipmap/ic_launcher"
+            app:isb_tick_marks_size="13dp"
+            app:isb_tick_texts_color="@color/white"
+            app:isb_tick_texts_size="15sp"
+            app:isb_ticks_count="0"
+            app:isb_track_background_color="@color/colorPrimary"
+            app:isb_track_background_size="2dp"
+            app:isb_track_progress_color="@color/primaryDarkColorRed"
+            app:isb_track_progress_size="4dp" />
+
+        <TextView
+            android:id="@+id/prog_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="20/30"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            android:textColor="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/fwd_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+            android:tint="@color/colorPrimary" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.9dp"
+        android:background="#6F6E6E" />
 
     <include
         layout="@layout/page_footer"

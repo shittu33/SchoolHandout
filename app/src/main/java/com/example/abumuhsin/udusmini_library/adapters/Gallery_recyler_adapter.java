@@ -61,10 +61,6 @@ public class Gallery_recyler_adapter extends RecyclerView.Adapter<Gallery_recyle
             folder_name=folder_name.substring(0,19) +"...";
         }
         try {
-//            Glide.with(context)
-//                    .load(Uri.fromFile(new File(first_image)))
-////                    .placeholder(R.drawable.ic_folder_open_black_24dp)
-//                    .into(holder.img);
             GlideApp.with(context)
                     .load(Uri.fromFile(new File(first_image)))
                     .placeholder(R.drawable.ic_folder_open_black_24dp)

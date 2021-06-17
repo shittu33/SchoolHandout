@@ -1,60 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/head"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/head"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="8dp"
+    app:cardMaxElevation="10dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/cardview_shadow_end_color"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="3dp"
-        app:cardMaxElevation="4dp">
-    <!--android:id="@+id/card_head"-->
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="start"
+        android:layout_margin="1dp"
+        android:background="@color/accentColor"
+        android:gravity="start"
+        android:orientation="horizontal"
+        >
 
-        <FrameLayout
-            android:id="@+id/card_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_margin="1dp"
-            android:background="@drawable/list_white"
-            android:gravity="start"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:visibility="gone"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_arrow_back_white_24dp" />
 
-            <TextView
-                android:id="@+id/txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="title"
-                android:textColor="#ffffff"
-                android:textSize="15sp"
-                android:textStyle="bold|italic"
-                android:typeface="monospace" />
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            android:text="Book title"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/float_edit_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|top"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/ic_mode_edit_black"
-                app:fab_colorNormal="#fff"
-                app:fab_size="mini" />
+        <ImageButton
+            android:id="@+id/more_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:tint="@color/white"
+            android:src="@drawable/ic_more_vert_black_24dp" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/exit_book_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|top"
-                android:src="@drawable/ic_cancel_event_for_book"
-                app:fab_colorNormal="#fff"
-                app:fab_size="mini" />
+        <ImageButton
+            android:id="@+id/edit_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@color/transparent"
+            android:tint="@color/white"
+            android:src="@drawable/ic_mode_edit_black" />
+        <ImageButton
+            android:id="@+id/add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/transparent"
+            android:tint="@color/white"
+            android:src="@drawable/ic_add_circle_outline_black" />
 
-        </FrameLayout>
-    </androidx.cardview.widget.CardView>
+        <ImageButton
+            android:id="@+id/remove__btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/transparent"
+            android:tint="@color/white"
+            android:src="@drawable/ic_remove_circle_outline_black" />
+
+    </androidx.appcompat.widget.Toolbar>
+</androidx.cardview.widget.CardView>
 

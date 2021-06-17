@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.Views.GridOptionButton;
 import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
-import com.example.abumuhsin.udusmini_library.models.LocalHandout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.LocalHandout;
 import com.example.abumuhsin.udusmini_library.utils.GlideApp;
 
 import java.util.ArrayList;

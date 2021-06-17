@@ -186,7 +186,7 @@
                 app:isb_track_progress_size="4dp" />
 
             <FrameLayout
-                android:id="@+id/card_frame"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

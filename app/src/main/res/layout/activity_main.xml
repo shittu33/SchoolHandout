@@ -17,17 +17,17 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/list_back"
+        android:background="#EBEBEB"
+        app:itemTextAppearance="@style/TextAppearance.AppCompat"
         android:fitsSystemWindows="false"
         app:headerLayout="@layout/header"
-        app:itemBackground="@drawable/list"
-        app:itemIconTint="#bababa"
-        app:itemTextAppearance="@style/TextAppearance.AppCompat.Button"
-        app:itemTextColor="#fefe"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="#121412"
         app:menu="@menu/draw_menu"
-        app:theme="@style/Widget.AppCompat.DrawerArrowToggle">
+        style="@style/Theme.AppCompat.Light"
+        android:theme="@style/Theme.AppCompat.Light"
+        >
 
     </com.google.android.material.navigation.NavigationView>
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

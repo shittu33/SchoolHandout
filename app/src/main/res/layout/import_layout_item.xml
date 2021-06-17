@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/import_nav"
     android:orientation="horizontal"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center_horizontal"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     tools:showIn="@layout/bottom_sheet">
@@ -40,6 +40,7 @@
        android:id="@+id/pdf_btn"
        app:fab_showShadow="true"
        android:visibility="gone"
+       android:tint="@color/colorPrimary"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:src="@drawable/ic_picture_as_pdf_black_24dp"

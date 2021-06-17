@@ -174,6 +174,7 @@ public class AdapterPageFlipView extends AdapterView<Adapter> {
 //            onPageFlippedListener.onPageFlipped(selectedView, position, selectedView.getId());
             Log.i(TAG, "after FlipListener");
 
+
             is_selected_view = true;
             if (next < adapterDataCount) {
                 bufferedViews.addLast(viewFromAdapter(next, true));
@@ -210,6 +211,7 @@ public class AdapterPageFlipView extends AdapterView<Adapter> {
     public int getAdapterDataCount() {
         return adapterDataCount;
     }
+
 
     public enum FlipSpeed {
         VERY_FAST,
@@ -481,29 +483,8 @@ public class AdapterPageFlipView extends AdapterView<Adapter> {
         addViewInLayout(mPageFlipView, -1, new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT), false);
         Log.i(TAG, "After addViewInLayout");
-//        MyViewGestureListener gestureListener = new MyViewGestureListener(this);
-//        final GestureDetector gestureDetector = new GestureDetector(this.getContext(), gestureListener);
-//        setOnTouchListener(new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                return gestureDetector.onTouchEvent(motionEvent);
-//            }
-//        });
-
-
         return mPageFlipView;
     }
-
-//    OnAdapterFlipPressListener onAdapterFlipPressListener;
-
-//    public void setOnAdapterFlipPressListener(OnAdapterFlipPressListener onAdapterFlipPressListener) {
-//        this.onAdapterFlipPressListener = onAdapterFlipPressListener;
-//    }
-
-//    public boolean OnSingleTapConfirmed(MotionEvent e) {
-//        onAdapterFlipPressListener.onClick(this);
-//        return true;
-//    }
 
 
     public void MakeAdapterVisible() {
@@ -710,12 +691,14 @@ public class AdapterPageFlipView extends AdapterView<Adapter> {
         if (is_to_flip()) {
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    onPageFlippedListener.onHold(getSelectedView(),adapterIndex);
                     is_click_trigger = true;
                     mPageFlipView.onFingerDown(ev.getX(), ev.getY());
                     last_position = ev.getX();
                     return !is_click_not_toFlip(ev);
 //                     return false;
                 case MotionEvent.ACTION_UP:
+                    onPageFlippedListener.onRelease(getSelectedView(),adapterIndex);
                     if (mPageFlipView.isShown()) {
                         mPageFlipView.onFingerUp(ev.getX(), ev.getY());
                         return !is_click_not_toFlip(ev);
@@ -874,6 +857,18 @@ boolean is_click_trigger = false;
         return FlipBackwardDuration;
     }
 
+    public int getInfiniteFlipForwardDuration() {
+        return infiniteFlipForwardDuration;
+    }
+
+    public int getInfiniteFlipForwardinterval() {
+        return infiniteFlipForwardinterval;
+    }
+
+    public int getInfiniteFlipBackwardinterval() {
+        return infiniteFlipBackwardinterval;
+    }
+
     public void setFlipBackwardDuration(int flipBackwardDuration) {
         FlipBackwardDuration = flipBackwardDuration;
     }
@@ -896,6 +891,10 @@ boolean is_click_trigger = false;
 
     public void flip_infinitely(final float x, final float y, final int flip_duration,
                                 final boolean flip_forward) {
+        if (adapterDataCount>1 && adapterIndex == adapterDataCount-2){
+            Log.i(TAG,"this is the last page page " +adapterIndex + "of count " + adapterDataCount);
+            onPageFlippedListener.onEndPageReached(getSelectedView(),adapterIndex,flip_forward);
+        }
         PageFlip mPageFlip = getmPageFlip();
         PageFlipView mPageFlipView = getmPageFlipView();
         if (!mPageFlip.isAnimating() && mPageFlip.getFirstPage() != null) {
@@ -914,6 +913,7 @@ boolean is_click_trigger = false;
                         @Override
                         public void run() {
                             flip_infinitely(x, y, flip_duration, flip_forward);
+                            Log.i(TAG,"is_flipping_infinitely");
                         }
                     };
                     //400-200(very fast forward),150-120(very fast backward)
@@ -932,6 +932,7 @@ boolean is_click_trigger = false;
     public void StopInfiniteFlip() {
         if (infinite_flip_run != null && infinite_flip_thread != null) {
             infinite_flip_thread.removeCallbacks(infinite_flip_run);
+            Log.i(TAG,"StopInfiniteFlip");
         }
     }
 
@@ -983,9 +984,6 @@ boolean is_click_trigger = false;
     }
 
 //----------------------------Others----------------------------------------------------------
-//THis gave an error while using it on  genyMotion with this error->
-//    java.lang.NullPointerException: Attempt to invoke virtual method
-// 'android.view.InputDevice$MotionRange android.view.InputDevice.getMotionRange(int)' on a null object reference
 
     public boolean is_click_not_toFlip(MotionEvent e) {
         InputDevice inputDevice = e.getDevice();
@@ -1101,6 +1099,9 @@ boolean is_click_trigger = false;
         void onRestorePage(int page_no, boolean is_forward);
 
         void onResetFlipSpeed();
+        void onHold(View v,int pos);
+        void onRelease(View v,int pos);
+        void onEndPageReached(View v, int pos, boolean flip_forward);
     }
 
     //Refresh trials...........

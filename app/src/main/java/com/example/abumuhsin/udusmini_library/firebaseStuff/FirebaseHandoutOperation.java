@@ -17,10 +17,13 @@ import com.example.abumuhsin.udusmini_library.firebaseStuff.model.DiscussMessage
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.RegisteredStudent;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
-import com.example.abumuhsin.udusmini_library.fragments.Dialog;
+import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
+import com.example.abumuhsin.udusmini_library.models.Dialog;
 import com.example.abumuhsin.udusmini_library.utils.FileUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -34,6 +37,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
@@ -122,13 +126,17 @@ public class FirebaseHandoutOperation {
     }
 
     public void LoadStudentImage(final String uid, final boolean is_from_cache, final OnStudentImageLoaded onStudentImageLoaded) {
+        final File dest_file = new File(FileUtils.getOnlineProfileFile(uid));
+        if (dest_file.exists()) {
+            onStudentImageLoaded.StudentImageLoaded(dest_file.getPath());
+            return;
+        }
         databaseReference.child("Students Info").child(uid).child("student_image_path").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String url = dataSnapshot.getValue(String.class);
-                StorageReference student_image_bucket_file = null;
                 if (url != null) {
-                    student_image_bucket_file = firebaseStorage.getReferenceFromUrl(url);
+                    StorageReference student_image_bucket_file = firebaseStorage.getReferenceFromUrl(url);
                     final File dest_file = new File(FileUtils.getOnlineProfileFile(uid));
                     if (!dest_file.exists() || !is_from_cache) {
                         student_image_bucket_file.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -313,6 +321,7 @@ public class FirebaseHandoutOperation {
                 });
 
     }
+
     private void setHandoutCategory(Handout handout) {
         String handout_dept = handout.getDepartment();
         String handout_fact = handout.getFaculty();
@@ -336,6 +345,7 @@ public class FirebaseHandoutOperation {
         handout_cat_reference.child(handout_level).setValue(true);
         handout_cat_reference.child(handout_code).setValue(true);
     }
+
     public void LoadOnlineHandout(String handout_id, final OnGetOnlineHandout onGetOnlineHandout) {
         DatabaseReference handouts_reference = firebaseDatabase.getReference().child("Handouts").child(handout_id);
         handouts_reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -490,6 +500,7 @@ public class FirebaseHandoutOperation {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 final Handout handout = dataSnapshot.getValue(Handout.class);
+                final DataSnapshot handout_shot = dataSnapshot;
                 if (handout != null) {
                     handout.setHandout_id(dataSnapshot.getKey());
                     String handout_id = handout.getHandout_id();
@@ -499,7 +510,7 @@ public class FirebaseHandoutOperation {
                             boolean is_faculty_and_department = fetched_column.equals(LEVEL_CAT_NODE) && dataSnapshot.hasChild(filter) && dataSnapshot.hasChild(alternative_filter);
                             boolean is_normal_filter = !fetched_column.equals(LEVEL_CAT_NODE) && dataSnapshot.hasChild(filter);
                             if (is_faculty_and_department || is_normal_filter) {
-                                LoadHandoutUnder(dataSnapshot, onLoadingHandoutInformation);
+                                LoadHandoutUnder(handout_shot, onLoadingHandoutInformation);
                             }
 
                         }
@@ -546,7 +557,7 @@ public class FirebaseHandoutOperation {
     }
 
     private void LoadHandoutUnder(DataSnapshot dataSnapshot, final onLoadingHandoutInformation onLoadingHandoutInformation) {
-            final Handout handout = dataSnapshot.getValue(Handout.class);
+        final Handout handout = dataSnapshot.getValue(Handout.class);
         if (handout != null) {
             Log.i(OPERATION_TAG, "handout is not null");
             handout.setHandout_id(dataSnapshot.getKey());
@@ -617,14 +628,15 @@ public class FirebaseHandoutOperation {
         }
         Log.i(OPERATION_TAG, "escape LoadHandoutUnder");
     }
-    public static void getServerKey(final OnServerKeyRetrieved onServerKeyRetrieved){
+
+    public static void getServerKey(final OnServerKeyRetrieved onServerKeyRetrieved) {
         Query query = FirebaseDatabase.getInstance().getReference().child("server")
                 .orderByValue();
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String server_key = dataSnapshot.getChildren().iterator().next().getValue().toString();
-                Log.i(OPERATION_TAG,"hey i found the key :" + server_key);
+                Log.i(OPERATION_TAG, "hey i found the key :" + server_key);
                 onServerKeyRetrieved.onServerKeyRetrieved(server_key);
             }
 
@@ -635,21 +647,21 @@ public class FirebaseHandoutOperation {
         });
     }
 
-    public static void getUserTokens(final OnUserTokenRetrieved onUserTokenRetrieved){
+    public static void getUserTokens(final OnUserTokenRetrieved onUserTokenRetrieved) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child(USERS_TOKEN_NODE).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.i(OPERATION_TAG,"About to find tokens");
+                Log.i(OPERATION_TAG, "About to find tokens");
                 String key = dataSnapshot.getKey();
-                if (key!=null) {
-                    Log.i(OPERATION_TAG,"key is not null");
-                    Log.i(OPERATION_TAG,"key is " + key);
+                if (key != null) {
+                    Log.i(OPERATION_TAG, "key is not null");
+                    Log.i(OPERATION_TAG, "key is " + key);
                     String token = dataSnapshot.child(TOKEN_NODE).getValue(String.class);
-                    Log.i(OPERATION_TAG,"token is " + token);
+                    Log.i(OPERATION_TAG, "token is " + token);
                     onUserTokenRetrieved.onUserTokenRetrieved(token);
-                }else {
-                    Log.i(OPERATION_TAG,"no user token is found");
+                } else {
+                    Log.i(OPERATION_TAG, "no user token is found");
                 }
             }
 
@@ -700,23 +712,28 @@ public class FirebaseHandoutOperation {
         firebaseDatabase.getReference().child("Handouts").child(handout.getHandout_id()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final Handout handout1 = dataSnapshot.getValue(Handout.class);
-                if (handout1 != null) {
-                    String handout_url = handout1.getHandout_url();
+                final Handout online_handout = dataSnapshot.getValue(Handout.class);
+                if (online_handout != null) {
+                    String handout_url = online_handout.getHandout_url();
                     final StorageReference bucket_reference = firebaseStorage.getReferenceFromUrl(handout_url);
+//                    final StorageReference cover_reference = firebaseStorage.getReferenceFromUrl(online_handout.getCover_url());
                     try {
-                        final File dest_file = File.createTempFile("zip", "zip");
-                        bucket_reference.getFile(dest_file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        final File dest_zip_file = File.createTempFile("zip", "zip");
+                        bucket_reference.getFile(dest_zip_file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                onCompleteHandoutDownload.onHandoutDownloaded(handout1, dest_file);
-                                Toast.makeText(context, "File " + dest_file.getName() + "is downloaded", Toast.LENGTH_SHORT).show();
+                            public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    onCompleteHandoutDownload.onHandoutDownloaded(online_handout, dest_zip_file, null);
+                                } else {
+                                    onCompleteHandoutDownload.onHandoutDownloadFailed(task.getException());
+                                }
+//
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 onCompleteHandoutDownload.onHandoutDownloadFailed(e);
-                                Toast.makeText(context, "File " + dest_file.getName() + "has failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Handout zip File " + dest_zip_file.getName() + "has failed", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
                             @Override
@@ -729,7 +746,7 @@ public class FirebaseHandoutOperation {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-//                    final File dest_file = new File(FileUtils.getDownloadFilePath(),handout1.getHandout_title()+" "+ handout1.getPoster()+ ".zip");
+//                    final File dest_file = new File(FileUtils.getDownloadFilePath(),online_handout.getHandout_title()+" "+ online_handout.getPoster()+ ".zip");
 
                 } else {
                     Log.i(OPERATION_TAG, "handout is null here men");
@@ -1334,7 +1351,7 @@ public class FirebaseHandoutOperation {
     }
 
     public interface OnCompleteHandoutDownload {
-        void onHandoutDownloaded(Handout handout, File dest_file);
+        void onHandoutDownloaded(Handout handout, File zip_file, File cover_file);
 
         void onHandoutDownloadFailed(Object exception);
 

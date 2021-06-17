@@ -4,5 +4,6 @@
     <dimen name="like_txt">1sp</dimen>
     <dimen name="top_level_filter_padding">8dp</dimen>
     <dimen name="second_level_margin">4dp</dimen>
+    <dimen name="second_level_margin_tòp">2dp</dimen>
 
 </resources>

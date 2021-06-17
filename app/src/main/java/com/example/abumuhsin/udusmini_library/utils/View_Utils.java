@@ -22,7 +22,7 @@ import android.view.animation.TranslateAnimation;
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator;
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
-import com.example.abumuhsin.udusmini_library.models.LocalHandout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.LocalHandout;
 import com.transitionseverywhere.TransitionManager;
 import com.transitionseverywhere.TransitionSet;
 import com.transitionseverywhere.extra.Scale;

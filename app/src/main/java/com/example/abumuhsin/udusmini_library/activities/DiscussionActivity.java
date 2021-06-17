@@ -89,8 +89,6 @@ public class DiscussionActivity extends AppCompatActivity {
             handout = (Handout) intent.getSerializableExtra(OnlineBook_fragment.HANDOUT_EXTRA);
             ListenToDiscussions(handout);
         }
-        Message message = new Message("1", "fdsfsd", new User("3", "shittu", null), new Date(32423));
-        Message message2 = new Message("2", "fdsfsd", new User("3", "shittu", null), new Date(32423));
         Message message3 = new Message("3", "fdsfsd", new User("3", "shittu", null), new Date(32423));
     }
 

@@ -19,6 +19,7 @@
     /*Drag colors*/
     <color name="light_yellow">#7dffff89</color>
     <color name="light_blue">#a22c5bb1</color>
+    <color name="deep_blue">#A2132F63</color>
     <color name="light_green">#9c3cf420</color>
     <color name="light_red">#b799080a</color>
     <color name="red">#f599080a</color>

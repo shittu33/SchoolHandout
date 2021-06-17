@@ -6,8 +6,9 @@
     <com.stfalcon.chatkit.dialogs.DialogsList
         android:id="@+id/dialogsList"
         app:dialogDividerEnabled="true"
-        app:dialogDividerColor="@color/colorPrimary"
+        app:dialogDividerColor="#3F3F3F"
         android:layout_width="match_parent"
+        app:dialogTitleTextStyle="bold"
         app:dialogMessageAvatarEnabled="true"
         android:layout_height="match_parent"/>
 

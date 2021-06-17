@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.adapters.Device_pdf_recycler_adapter;
-import com.example.abumuhsin.udusmini_library.utils.DevicePdfAsyncTask;
+import com.example.abumuhsin.udusmini_library.tasks.DevicePdfAsyncTask;
+import com.example.abumuhsin.udusmini_library.test.TFlipPdfActivity;
 
 import java.util.ArrayList;
 
@@ -78,7 +79,7 @@ public class MyPdfActivity extends AppCompatActivity implements Device_pdf_recyc
     }
     @Override
     public void OnPdfClicked(String pdf_name, int position) {
-        Intent intent = new Intent(this, FlipBooKActivity.class);
+        Intent intent = new Intent(this, TFlipPdfActivity.class);
         intent.putExtra(PDF_MSG_EXTRA, FROM_PDF);
         intent.putExtra(PDF_BOOK_NAME_EXTRA, pdf_name);
         Log.i(GALLERY_TAG, "before starting Flip Activity");

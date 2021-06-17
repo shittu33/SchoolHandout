@@ -88,18 +88,18 @@ public class FileUtils {
         }
     }
 
-    public static File unzipStream(InputStream inputStream, File targetDirectory) throws IOException {
+    public static File unzipStream(InputStream inputStream, File targetDirectory, String uzip_file_name) throws IOException {
         File zip_parent_dir = null;
         ZipInputStream zis = new ZipInputStream(
                 new BufferedInputStream(inputStream));
         try {
             ZipEntry ze;
             int count;
-            int index =0;
+            int index = 0;
             byte[] buffer = new byte[8192];
             while ((ze = zis.getNextEntry()) != null) {
                 File file = new File(targetDirectory, ze.getName());
-                if (index==0)zip_parent_dir=file;
+                if (index == 0) zip_parent_dir = file;
                 File dir = ze.isDirectory() ? file : file.getParentFile();
                 if (!dir.isDirectory() && !dir.mkdirs()) {
                     throw new FileNotFoundException("Failed to ensure directory: " +
@@ -283,7 +283,7 @@ public class FileUtils {
     }
 
     public static String getBookCoverPath(String book_name) {
-        return getBookFilesPath(book_name)+ File.separator + "cover_page.cover";
+        return getBookFilesPath(book_name) + File.separator + "cover_page.cover";
     }
 
     public static String getBooksFilesPath() {
@@ -329,6 +329,7 @@ public class FileUtils {
             book_dir.mkdirs();
         return book_dir.getAbsolutePath();
     }
+
     public static String getOnlineFilePathRoot() {
         String path = getUdusAppRootDirectory() + File.separator + "Online_Files";
         File book_dir = new File(path);
@@ -336,14 +337,17 @@ public class FileUtils {
             book_dir.mkdirs();
         return book_dir.getAbsolutePath();
     }
+
     public static String getOnlineHandoutFile(String handout_id) {
         String cover_name = "cover" + handout_id + ".handout";
         return getOnlineFilePathRoot() + File.separator + cover_name;
     }
+
     public static String getOnlineProfileFile(String student_id) {
         String pic_name = "profilePic" + student_id + ".profile";
         return getOnlineFilePathRoot() + File.separator + pic_name;
     }
+
     public static boolean DeleteHandoutCoverImage(String handout_id) {
         File handout_cover_file = new File(getOnlineHandoutFile(handout_id));
         if (handout_cover_file.exists()) {
@@ -351,6 +355,7 @@ public class FileUtils {
         }
         return false;
     }
+
     public static boolean DeleteProfileImage(String student_id) {
         File profile_image = new File(getOnlineProfileFile(student_id));
         if (profile_image.exists()) {
@@ -398,6 +403,18 @@ public class FileUtils {
         return null;
     }
 
+    public static void copyFile(File input_file, File dest_file) throws IOException {
+        FileInputStream fis = new FileInputStream(input_file);
+        FileOutputStream fos = new FileOutputStream(dest_file);
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fis.read(bytes)) >= 0) {
+            fos.write(bytes, 0, length);
+        }
+        fis.close();
+        fos.close();
+    }
+
     public static File saveScaledImage(File dest, File src, int require_width, int require_height) {
         Bitmap bitmap = getDownSizedBitmapFromPath(src.getPath(), require_width, require_height);
         return saveImage(bitmap, dest, 100);
@@ -407,11 +424,26 @@ public class FileUtils {
         Bitmap bitmap = getDownSizedBitmapFromPath(src.getPath(), 800, 800);
         return saveImage(bitmap, dest, 100);
     }
+
+    private static final String TAG = "FileUtils";
+
+    public static File saveAPathAsPages(Activity activity, String current_book, final String path, int from) {
+        File dest = new File(getImagePagesFilePath(current_book),
+                getRealDateAndTime(from) + "_" + new File(path).getName().replace(".", "") + "." + from);
+
+        int dest_width = View_Utils.getScreenResolution(activity).width;
+        int dest_height = View_Utils.getScreenResolution(activity).height;
+        Bitmap bitmap = getDownSizedBitmapFromPath(path, dest_width, dest_height);
+        saveImage(bitmap, dest, 70);
+        Log.i(TAG, dest.getPath() + " is saved!!!");
+        return dest;
+    }
+
     public static String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
@@ -425,17 +457,17 @@ public class FileUtils {
         }
     }
 
-    public static Bitmap takeScreenshot(View view,Context context) {
+    public static Bitmap takeScreenshot(View view, Context context) {
         int width = view.getWidth();
         int height = view.getHeight();
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
-        view.measure(measuredWidth,measuredHeight );
+        view.measure(measuredWidth, measuredHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        if (measuredWidth > 0 && measuredHeight> 0) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        view.draw(canvas);
+        if (measuredWidth > 0 && measuredHeight > 0) {
+            Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            view.draw(canvas);
             return bitmap;
         } else {
             return null;

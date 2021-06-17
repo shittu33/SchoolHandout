@@ -4,6 +4,7 @@ package com.example.abumuhsin.udusmini_library.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,10 +33,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.abumuhsin.udusmini_library.CoverSuplier;
 import com.example.abumuhsin.udusmini_library.Enums.Cover_type;
-import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
-import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
-import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
-import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.Tables.BOOK_Table;
 import com.example.abumuhsin.udusmini_library.Tables.HandoutFilterTable;
@@ -43,17 +40,21 @@ import com.example.abumuhsin.udusmini_library.Tables.PAGES_Table;
 import com.example.abumuhsin.udusmini_library.Tables.PICTURES_Table;
 import com.example.abumuhsin.udusmini_library.Tables.Picture_BucketTable;
 import com.example.abumuhsin.udusmini_library.Views.FilterBarView;
-import com.example.abumuhsin.udusmini_library.activities.FlipBooKActivity;
 import com.example.abumuhsin.udusmini_library.activities.OnlineBookDetailsActivity;
 import com.example.abumuhsin.udusmini_library.activities.OnlineLocalHandoutListener;
 import com.example.abumuhsin.udusmini_library.adapters.Grid_adapter;
 import com.example.abumuhsin.udusmini_library.base.BaseFragment;
-import com.example.abumuhsin.udusmini_library.models.HandoutFilter;
-import com.example.abumuhsin.udusmini_library.models.LocalHandout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.HandoutFilter;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.LocalHandout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Student;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
 import com.example.abumuhsin.udusmini_library.models.top_filter_model;
-import com.example.abumuhsin.udusmini_library.tasks.Convert_to_pdfTask;
 import com.example.abumuhsin.udusmini_library.tasks.UnZippingToBookTask;
-import com.example.abumuhsin.udusmini_library.tasks.ZippingDireectoryTask;
+import com.example.abumuhsin.udusmini_library.tasks.ZippingDirectoryTask;
+import com.example.abumuhsin.udusmini_library.test.TConvert_to_pdfTask;
+import com.example.abumuhsin.udusmini_library.test.TestFlipBooKActivity;
 import com.example.abumuhsin.udusmini_library.utils.App_Preferences;
 import com.example.abumuhsin.udusmini_library.utils.FileUtils;
 import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
@@ -130,6 +131,7 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
     }
 
     public MyBook_fragment() {
+//        this.zip_uri = zip_uri;
     }
 
     @Override
@@ -147,17 +149,6 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
 
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        saveState();
-    }
-
-    @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Bundle arguments = getArguments();
@@ -166,7 +157,7 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
             zip_uri = arguments.getParcelable("zip_uri");
             if (zip_uri != null) {
                 Log.i("active", "uri is not null");
-                AddZipBook(zip_uri);
+                AddZipBook(null, zip_uri, null);
             }
         }
     }
@@ -179,18 +170,17 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
     }
 
     @Override
-    public void onHandoutDownloadFromOnline(Handout handout, File dest_file) {
-        AddZipBook(Uri.fromFile(dest_file));
+    public void onHandoutDownloadFromOnline(Handout handout, File zip_file, File cover_file) {
+        AddZipBook(handout.getHandout_title(),Uri.fromFile(zip_file), cover_file);
     }
 
-    public void AddZipBook(Uri zip_uri) {
+    public void AddZipBook(String handout_title, Uri zip_uri, File cover_file) {
         try {
             File dest_directory = new File(getBooksFilesPath());
             InputStream inputStream = requireActivity().getContentResolver().openInputStream(zip_uri);
-            Log.i("active", "InputStream was generated from uri of path " + zip_uri.getPath());
-//            FileUtils.unzipStream(inputStream,dest_directory);
-//            String book_name = zip_uri.getPath().split("/")[zip_uri.getPath().split("/").length-1];
-            new UnZippingToBookTask(this, dest_directory, inputStream, false).execute();
+            String path = zip_uri.getPath();
+            Log.i("active", "InputStream was generated from uri of path " + path);
+            new UnZippingToBookTask(this, handout_title, dest_directory, inputStream,cover_file, false).execute();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
@@ -270,7 +260,7 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
                     code = course_code.substring(4, 8);
 
                 }
-            }else if (course_code.length()==9){
+            } else if (course_code.length() == 9) {
                 abrv = course_code.split(" ")[0];
                 code = course_code.split(" ")[1];
             }
@@ -288,7 +278,7 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
 
     public boolean StringContainGap(String data) {
         int indexOfSpace = data.indexOf(" ");
-        return data.contains(" ") && (indexOfSpace != data.length() - 1 || indexOfSpace!=0);
+        return data.contains(" ") && (indexOfSpace != data.length() - 1 || indexOfSpace != 0);
     }
 
     private static final String TAG = "MyBook_fragment";
@@ -391,13 +381,15 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
     @Override
     public void isPermissionGranted(boolean isGranted, String permission) {
         if (isGranted) {
-            initOthers();
+//            initOthers();
             book_table.LoadBookInfo(this);
         }
     }
 
     private void initHandoutDatabase() {
-        udus_handout_database = new DatabaseCreator(getContext(), FileUtils.getDatabasePath("Handoutdb.Sqlite"), null, 1);
+        Log.i(BOOKSDEBUG, "initHandoutDatabase: start");
+        udus_handout_database = new DatabaseCreator(getContext(), /*"Handoutdb.Sqlite"*/FileUtils.getDatabasePath("Handoutdb.Sqlite"), null, 1);
+        Log.i(BOOKSDEBUG, "initHandoutDatabase: created");
         book_table = new BOOK_Table(udus_handout_database);
         page_table = new PAGES_Table(udus_handout_database);
         pic_table = new PICTURES_Table(udus_handout_database);
@@ -451,7 +443,7 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
                 book_gridView.setItemChecked(position, false);
             }
         } else {
-            Intent intent = new Intent(getActivity(), FlipBooKActivity.class);
+            Intent intent = new Intent(getActivity(), TestFlipBooKActivity.class);
             Log.i(BOOKSDEBUG, "b4 bundles");
             intent.putExtra(BOOK_NAME, grid_adapter.getItem(position).getTitle());
             intent.putExtra(BOOK_COVER, grid_adapter.getItem(position).getCover());
@@ -638,6 +630,8 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
 
 
     //        book_clicked = book_name;
+    ProgressDialog progDialog;
+
     @Override
     public void onOpenWith(int position, String book_name) {
         is_opening_with = true;
@@ -647,10 +641,15 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
         if (pdf_file.exists()) {
             PdfUtils.play_pdf(this.requireActivity(), pdf_file);
         } else {
-            new Convert_to_pdfTask(null, this, pdf_file).execute();
+            ArrayList<String> book_images = pic_table.get_BookPaths(getBook_clicked());
+            progDialog = new ProgressDialog(this.requireContext());
+            progDialog.setTitle("Converting this book to pdf...");
+            progDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            new TConvert_to_pdfTask(false, book_images, convertPdfCallbacks).execute(pdf_file);
+//            new Convert_to_pdfTask(null, this, pdf_file).execute();
+
         }
     }
-
 
     @Override
     public void onUploadClick(int position, String book_name) {
@@ -674,8 +673,8 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
         book_clicked = book_name;
         no_of_pages = pics_title_list.get(position).getPage_no();
         File dir_to_upload = new File(getBookFilesPath(book_name));
-        File dest_file = new File(getUploadFilePath() + File.separator + book_name + "_share.zip");
-        new ZippingDireectoryTask(this, dir_to_upload, dest_file, position, is_for_share).execute();
+        File dest_file = new File(getUploadFilePath() + File.separator + book_name + ".zip");
+        new ZippingDirectoryTask(this, dir_to_upload, dest_file, position, is_for_share).execute();
     }
 
     @Override
@@ -687,7 +686,10 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
         if (pdf_file.exists()) {
             PdfUtils.share_pdf(this.requireActivity(), pdf_file);
         } else {
-            new Convert_to_pdfTask(null, this, pdf_file).execute();
+            ArrayList<String> book_images = pic_table.get_BookPaths(getBook_clicked());
+            new TConvert_to_pdfTask(false, book_images, convertPdfCallbacks).execute(pdf_file);
+//            new Convert_to_pdfTask(null, this, pdf_file).execute();
+//            PdfUtils.share_pdf(this.requireActivity(), file);
         }
     }
 
@@ -863,6 +865,44 @@ public class MyBook_fragment extends BaseFragment implements AdapterView.OnItemC
     }
 
 
+    private TConvert_to_pdfTask.ConvertPdfCallbacks convertPdfCallbacks = new TConvert_to_pdfTask.ConvertPdfCallbacks() {
+        @Override
+        public void onPdfConversionStarted(int book_size) {
+            progDialog.setMax(book_size);
+            progDialog.show();
+        }
+
+        @Override
+        public void onReadyToConvertInBackground(String path, ArrayList<String> images) {
+            try {
+                PdfUtils.add_image_to_pdfItext(MyBook_fragment.this.requireContext(), path, images, new PdfUtils.OnPdfListener() {
+                    @Override
+                    public void onPdf_progress(int i) {
+                        progDialog.setProgress(i);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onConversionError(String error_msg) {
+            progDialog.dismiss();
+            Toast.makeText(MyBook_fragment.this.requireContext(), error_msg, Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onPdfConversionSucceeded(File file, String success_msg) {
+            progDialog.dismiss();
+            Toast.makeText(MyBook_fragment.this.requireContext(), success_msg, Toast.LENGTH_SHORT).show();
+            if (is_opening_with) {
+                PdfUtils.play_pdf(MyBook_fragment.this.requireActivity(), file);
+            } else {
+                PdfUtils.share_pdf(MyBook_fragment.this.requireActivity(), file);
+            }
+        }
+    };
     public interface OnCoverConverted {
         void coverConverted(File cover_path);
     }

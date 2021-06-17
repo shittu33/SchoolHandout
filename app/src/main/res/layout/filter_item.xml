@@ -11,11 +11,13 @@
         android:orientation="vertical"
         android:padding="1dp"
         android:text="Cmp"
+        android:textColor="@color/black"
         android:textAppearance="@style/TextAppearance.AppCompat.Button" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:tint="@color/black"
         android:background="@drawable/ic_keyboard_arrow_right_black_24dp" />
 </LinearLayout>

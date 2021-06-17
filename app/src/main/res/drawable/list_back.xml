@@ -10,13 +10,13 @@
         android:endColor="#f61a4925"
         android:startColor="#1a4b29"
         android:useLevel="false" />
-    <corners android:radius="2.8dp" />
+    <corners android:radius="0.2dp" />
     <padding android:left="10dp"
         android:right="10dp"
         android:bottom="10dp"
-        android:top="40dp"/>
+        android:top="10dp"/>
     <stroke android:color="@color/primaryTextColorGreen"
-        android:width="0.9dp"
+        android:width="0dp"
          />
 
 

@@ -53,13 +53,14 @@ public class FilterBarView extends LinearLayout {
         LayoutParams top_layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int top_level_padding = (int) resources.getDimension(R.dimen.top_level_filter_padding);
         top_level_filter_recycler.setPadding(top_level_padding, top_level_padding, top_level_padding, top_level_padding);
-        top_level_filter_recycler.setBackgroundColor(resources.getColor(R.color.colorPrimary));
+        top_level_filter_recycler.setBackgroundColor(resources.getColor(R.color.white));
         top_level_filter_recycler.setLayoutParams(top_layoutParams);
         //Second level recycelr
         second_level_filter_recycler = new RecyclerView(context);
         LayoutParams second_layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         int second_level_margin = (int) resources.getDimension(R.dimen.second_level_margin);
-        second_layoutParams.topMargin = second_level_margin;
+        int second_level_margin_top = (int) resources.getDimension(R.dimen.second_level_margin_tòp);
+        second_layoutParams.topMargin = second_level_margin_top;
         second_layoutParams.leftMargin = second_level_margin;
         second_layoutParams.rightMargin = second_level_margin;
         second_layoutParams.bottomMargin = second_level_margin;

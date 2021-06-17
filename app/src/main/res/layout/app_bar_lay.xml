@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,9 +13,10 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme"
-        >
-    <!--app:elevation="6dp"-->
+        android:background="@color/white"
+        android:theme="@style/AppTheme">
+
+        <!--app:elevation="6dp"-->
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -39,9 +41,20 @@
                     android:id="@+id/filter_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="start|center">
+                    android:gravity="start|center"
+                    android:visibility="gone">
 
                 </Spinner>
+
+                <TextView
+                    android:id="@+id/title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Handouts"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -89,6 +102,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
+            android:visibility="gone"
             app:tabGravity="fill"
             app:tabIndicatorColor="#c5f94b"
             app:tabIndicatorHeight="3.5dp"
@@ -103,30 +117,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <com.dueeeke.tablayout.SegmentTabLayout
+            android:id="@+id/tl_1"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            app:tl_indicator_corner_radius="5dp"
+            app:tl_textSize="16sp"
+            tl:tl_indicator_anim_enable="true"
+            tl:tl_indicator_bounce_enable="false"
+            tl:tl_indicator_color="@color/colorPrimary"
+            tl:tl_indicator_margin_bottom="2dp"
+            tl:tl_indicator_margin_left="2dp"
+            tl:tl_indicator_margin_right="2dp"
+            tl:tl_indicator_margin_top="2dp"
+            tl:tl_tab_space_equal="true" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
 
     <com.tenclouds.fluidbottomnavigation.FluidBottomNavigation
         android:id="@+id/fluidBottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         app:accentColor="@color/colorPrimaryDark"
         app:backColor="@color/backColor"
         app:height="54dp"
-        android:layout_gravity="bottom"
-        app:layout_anchorGravity="bottom"
         app:iconColor="@color/colorPrimary"
         app:iconSelectedColor="@color/iconSelectedColor"
+        app:layout_anchorGravity="bottom"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:textColor="@color/colorPrimaryDark" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/BottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        android:background="#EEF3F2F2"
+        app:itemIconSize="19dp"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemRippleColor="#A7F5C4"
+        app:itemTextColor="@color/colorPrimary"
+        app:layout_anchorGravity="bottom"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:menu="@menu/bottom_nav_menu" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

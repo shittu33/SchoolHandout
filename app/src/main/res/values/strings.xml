@@ -11,10 +11,10 @@
     <string name="about_contact">
         3. Any question please mailto: esc.chao@gmail.com or file issue in github.
     </string>
-    <string name="books">Books</string>
+    <string name="books">Handouts</string>
     <string name="my_profile">My Profile</string>
     <string name="setting">Settings</string>
-    <string name="about">about</string>
+    <string name="about">About</string>
     <string name="guide">Guide</string>
     <string name="open">openDrawerContentDescRes</string>
     <string name="close">closeDrawerContentDescRes</string>
@@ -39,5 +39,11 @@
     <string name="by_1510310093">posted by 1510310093</string>
     <string name="my_Pdfs">My Pdf Books</string>
     <string name="my_gallery">My Gallery Books</string>
+    <string name="chat">Discussions</string>
+    <string name="history">History</string>
+    <string name="local">Local</string>
+    <string name="online">Online</string>
+    <string name="discussion">Discussions</string>
+    <string name="date_header_yesterday">Yesterday</string>
 
 </resources>

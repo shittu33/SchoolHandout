@@ -1,75 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <!--<androidx.cardview.widget.CardView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="19dp"-->
-    <!--android:layout_gravity="top"-->
-    <!--app:cardBackgroundColor="#eee"-->
-    <!--app:cardCornerRadius="6dp"-->
-    <!--app:cardElevation="18dp"-->
-    <!--app:cardMaxElevation="10dp">-->
     <TextView
         android:id="@+id/page_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_gravity="top"
         android:layout_marginBottom="0dp"
         android:background="@drawable/page_footer"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp" />
-    <!--android:text="1/90"-->
 
-    <!--</androidx.cardview.widget.CardView>-->
-
-
-    <!--<Button-->
-    <!--android:id="@+id/number"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="top|center"-->
-    <!--android:background="@drawable/register_draw"-->
-    <!--android:gravity="top"-->
-    <!--android:padding="15dp"-->
-    <!--android:text=""-->
-    <!--android:textAlignment="inherit"-->
-    <!--android:textColor="#000"-->
-    <!--android:textSize="19sp"-->
-    <!--android:textStyle="bold|italic"-->
-    <!--android:typeface="serif"-->
-    <!--android:visibility="gone">-->
-
-    <!--</Button>-->
-
-    <!--<com.example.abumuhsin.udusmini_library.Views.MyScrollView-->
-    <!--android:id="@+id/scrollView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:scrollbars="none">-->
-
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/relative_lay"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginTop="20dp">-->
 
     <FrameLayout
         android:id="@+id/frame_lay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="18dp"
         android:background="@color/white">
-
-        <!--<com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView-->
-            <!--android:id="@+id/sub_sample_view"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent" />-->
 
         <com.example.abumuhsin.udusmini_library.Views.TouchImageView
             android:id="@+id/z_image"
@@ -78,58 +29,7 @@
             android:src="@color/white"
             />
 
-        <View
-            android:id="@+id/v_top"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_gravity="top"
-            android:background="@color/red"
-            android:visibility="gone" />
-
-        <View
-            android:id="@+id/v_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_gravity="bottom"
-            android:background="@color/red"
-            android:visibility="gone" />
-
-        <View
-            android:id="@+id/v_start"
-            android:layout_width="5dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/red"
-            android:visibility="gone" />
-
-        <View
-            android:id="@+id/v_end"
-            android:layout_width="5dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@color/red"
-            android:visibility="gone" />
-
     </FrameLayout>
-
-    <!--<TextView-->
-    <!--android:id="@+id/title"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@id/frame_lay"-->
-    <!--android:background="@drawable/register_draw"-->
-    <!--android:padding="15dp"-->
-    <!--android:scrollbars="vertical|horizontal"-->
-    <!--android:text=""-->
-    <!--android:textAlignment="inherit"-->
-    <!--android:textColor="#000"-->
-    <!--android:textSize="19sp"-->
-    <!--android:textStyle="bold|italic"-->
-    <!--android:typeface="serif"-->
-    <!--android:visibility="gone" />-->
-
-    <!--</RelativeLayout>-->
-    <!--</com.example.abumuhsin.udusmini_library.Views.MyScrollView>-->
 
 
 </FrameLayout>

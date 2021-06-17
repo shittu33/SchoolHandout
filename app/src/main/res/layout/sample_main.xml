@@ -12,42 +12,32 @@
     <com.example.adaptablecurlpage.flipping.AdapterPageFlipView
         android:id="@+id/flip"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" />
+
+<!--    <include layout="@layout/page_header" />-->
+
+
+    <com.example.abumuhsin.udusmini_library.Views.PageHeaderView
+        android:id="@+id/p_header"
+        android:layout_gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         />
-
-    <include layout="@layout/page_header" />
-
 
     <View
         android:layout_width="match_parent"
         android:layout_height="13dp"
-        android:background="@color/transparent"
-        />
+        android:background="@color/transparent" />
 
-    <include layout="@layout/bottom_sheet" />
+    <include layout="@layout/import_layout_item" />
 
-    <ImageButton
-        android:id="@+id/float_crop"
-        android:layout_width="wrap_content"
+    <com.example.abumuhsin.udusmini_library.Views.PageBottomControlPanel
+        android:id="@+id/bottom_control_panel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start|bottom"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="135dp"
-        android:background="@drawable/elipse_border"
-        android:padding="7dp"
-        android:visibility="gone"/>
+        android:layout_gravity="bottom" />
 
-    <ImageButton
-        android:id="@+id/float_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="135dp"
-        android:background="@drawable/elipse_border"
-        android:padding="7dp"
-        android:visibility="gone"
-        />
+    <include
+        layout="@layout/bottom_sheet"
+        android:visibility="gone" />
 </FrameLayout>

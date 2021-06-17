@@ -7,7 +7,7 @@ public class MyBook_fragmentTest {
     @Test
     public void isCourseCodeValid() {
         String course_code = "cmpA324";
-        MyBook_fragment myBook_fragment = new MyBook_fragment();
+        MyBook_fragment myBook_fragment = new MyBook_fragment(zip_uri);
         if (myBook_fragment.isCourseCodeValid("cmp324")) {
             System.out.println(myBook_fragment.getCourse_code());
         }

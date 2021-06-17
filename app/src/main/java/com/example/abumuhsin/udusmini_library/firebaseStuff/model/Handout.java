@@ -43,6 +43,26 @@ public class Handout implements Serializable {
         this.no_of_pages = no_of_pages;
     }
 
+    public Handout(String course_code, String handout_title, String poster, String faculty
+            , boolean is_gst, String department, String student_level, int no_of_pages
+            , String handout_url, String handout_id, String cover_url
+            , String cover_type, boolean checked, long no_of_likers) {
+        this.course_code = course_code;
+        this.handout_title = handout_title;
+        this.poster = poster;
+        this.faculty = faculty;
+        this.is_gst = is_gst;
+        this.department = department;
+        this.student_level = student_level;
+        this.no_of_pages = no_of_pages;
+        this.handout_url = handout_url;
+        this.handout_id = handout_id;
+        this.cover_url = cover_url;
+        this.cover_type = cover_type;
+        this.checked = checked;
+        this.no_of_likers = no_of_likers;
+    }
+
     public void setNo_of_likers(long no_of_likers) {
         this.no_of_likers = no_of_likers;
     }

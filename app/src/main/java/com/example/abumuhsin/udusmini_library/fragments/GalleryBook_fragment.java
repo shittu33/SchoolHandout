@@ -18,8 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.activities.FlipBooKActivity;
 import com.example.abumuhsin.udusmini_library.adapters.Gallery_recyler_adapter;
-import com.example.abumuhsin.udusmini_library.utils.DeviceGalleryAsyncTask;
-import com.example.abumuhsin.udusmini_library.utils.Fragment_Utils;
+import com.example.abumuhsin.udusmini_library.tasks.DeviceGalleryAsyncTask;
 import com.example.amazing_picker.models.Model_images;
 
 import java.util.ArrayList;
@@ -97,31 +96,45 @@ public class GalleryBook_fragment extends Fragment implements Gallery_recyler_ad
         startActivity(intent);
         Log.i(GALLERY_TAG, "Flip Activity Started");
     }
+    private boolean is_pic_for_existing_folder = false;
+    private int int_position = 0;
 
-    private void saveState() {
-        new Fragment_Utils().saveState(this, "yes");
-    }
-
-    private void restoreState() {
-        new Fragment_Utils().RestoreState(getFragmentManager(), this, "yes");
-    }
 
     @Override
-    public void onImageFolderAdded(String folder, ArrayList<String> images, boolean is_folder, int int_position) {
-        if (is_folder) {
-            images_folder.get(int_position).setAl_imagepath(images);
-        }else {
-            Model_images model_images = new Model_images();
-            model_images.setAl_imagepath(images);
-            model_images.setStr_folder(folder);
-            images_folder.add(model_images);
-
+    public void onPreImageLoad() {
+        is_pic_for_existing_folder = false;
+        int_position = 0;
+        if (!images_folder.isEmpty()) {
+            images_folder.clear();
         }
     }
 
+    @Override
+    public void onImageANDFolderLoading(String path_of_folder, String absolutePathOfImage) {
+        for (int i = 0; i < images_folder.size(); i++) {
+            is_pic_for_existing_folder = images_folder.get(i).getStr_folder().equals(path_of_folder);
+            if (is_pic_for_existing_folder) {
+                int_position = i;
+                break;
+            }
+        }
+        if (is_pic_for_existing_folder) {
+            ArrayList<String> al_path = new ArrayList<>(images_folder.get(int_position).getAl_imagepath());
+            al_path.add(absolutePathOfImage);
+            images_folder.get(int_position).setAl_imagepath(al_path);
+        } else {
+            ArrayList<String> al_path = new ArrayList<>();
+            al_path.add(absolutePathOfImage);
+            final Model_images obj_model = new Model_images();
+            obj_model.setStr_folder(path_of_folder);
+            obj_model.setAl_imagepath(al_path);
+            images_folder.add(obj_model);
+        }
+    }
 
     @Override
     public void onLoadFinished() {
         gallery_recyler_adapter.notifyDataSetChanged();
     }
+
 }

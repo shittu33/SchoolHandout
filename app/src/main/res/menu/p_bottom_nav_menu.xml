@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/discussion"
+        android:icon="@drawable/ic_chat"
+        android:title="@string/discussion" />
+    <item
+        android:id="@+id/handouts"
+        android:icon="@drawable/ic_news"
+        android:title="@string/handouts" />
+    <item
+        android:id="@+id/hi"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="@string/history" />
+    <item
+        android:id="@+id/his"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="@string/history" />
+    <item
+        android:id="@+id/hist"
+        android:icon="@drawable/ic_history_black_24dp"
+        android:title="@string/history" />
+</menu>

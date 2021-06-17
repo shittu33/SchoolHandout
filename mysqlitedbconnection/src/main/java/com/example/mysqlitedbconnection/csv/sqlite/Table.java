@@ -681,6 +681,9 @@ public class Table implements Serializable {
     public ArrayList loop_column_of_any_type(String column, String where) {
         Cursor cursor = fetch_Column_Where(column, where);
         String type = getColumnTypeByName(column);
+        Class<String> s= String.class;
+//        Object j= "";
+//        j.getClass();
         ArrayList<Integer> tmpListInteger = new ArrayList<>();
         ArrayList<String> tmpList_String = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -701,7 +704,28 @@ public class Table implements Serializable {
         }
 
     }
+    /** this is for looping any type of column on your table plus listening to the progress
+     * its strictly advisable that you run this on a separate thread
+     * @param column : this is the column you want to fetch
+     * @param where : this is the where statement to filter your result
+     * @param loop_column_listener : this is the listener that listen to the looping progress
+     *
+     * */
+    public void loop_column_with_listener(String column, String where,Loop_column_listener loop_column_listener) {
+        Cursor cursor = fetch_Column_Where(column, where);
+        String column_type = getColumnTypeByName(column);
+        cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            do {
+                loop_column_listener.onDataAddedProgress(cursor, cursor.getColumnIndex(column), column_type);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
 
+    }
+public interface Loop_column_listener{
+        void onDataAddedProgress(Cursor cursor, int columnIndex, String column_type);
+}
     /**
      * This is a convenient method for looping through a column
      *
@@ -1217,8 +1241,8 @@ public class Table implements Serializable {
     }
 
     public boolean is_In_Column(String column, String value) {
-        ArrayList<String> page_numbers = loop_String_Column(column);
-        return page_numbers.contains(value);
+        ArrayList<String> values = loop_String_Column(column);
+        return values.contains(value);
     }
 
     public boolean is_In_Column_Where(String column, Object value, String where) {

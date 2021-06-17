@@ -3,13 +3,9 @@ package com.example.abumuhsin.udusmini_library.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.View;
 
 //import com.google.gson.Gson;
 //import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * Created by Abu Muhsin on 15/11/2018.
@@ -19,10 +15,10 @@ public class App_Preferences {
     private SharedPreferences mPreferences;
     private static String PREF_NAME = "App_Info";
     private SharedPreferences.Editor editor;
-    public final static int VERY_FAST = 0;
-    public final static int FAST = 1;
-    public final static int NORMAL = 2;
-    public final static int SLOW = 3;
+    public final static int VERY_FAST = 3;
+    public final static int FAST = 2;
+    public final static int NORMAL = 1;
+    public final static int SLOW = 0;
 
     @SuppressLint("CommitPrefEdits")
     public App_Preferences(Context mContext) {
@@ -58,6 +54,17 @@ public class App_Preferences {
         return mPreferences.getInt(which_book, 0);
     }
 
+    public void saveScreenState(String which_book, boolean b) {
+        editor.putBoolean(which_book + "_screen", b);
+        editor.apply();
+    }
+
+    public boolean getScreenState(String which_book) {
+        if (which_book == null) {
+            return true;
+        }
+        return mPreferences.getBoolean(which_book + "_screen",true);
+    }
 //    public void saveObject(String key, View view) {
 //        Gson gson = new Gson();
 //        String gson_of_object = gson.toJson(view);

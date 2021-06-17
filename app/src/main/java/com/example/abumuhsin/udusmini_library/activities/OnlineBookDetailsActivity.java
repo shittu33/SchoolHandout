@@ -128,7 +128,7 @@ public class OnlineBookDetailsActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         new FirebaseHandoutOperation(this).DownloadHandout(handout, new FirebaseHandoutOperation.OnCompleteHandoutDownload() {
             @Override
-            public void onHandoutDownloaded(Handout handout, File dest_file) {
+            public void onHandoutDownloaded(Handout handout, File zip_file, File cover_file) {
                 progressDialog.dismiss();
                 Toast.makeText(OnlineBookDetailsActivity.this, "handout is completely downloaded", Toast.LENGTH_SHORT).show();
             }

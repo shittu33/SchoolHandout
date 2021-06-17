@@ -2,18 +2,18 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PageCurl/PageCurl.iml" filepath="$PROJECT_DIR$/PageCurl/PageCurl.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PhotoEditor/PhotoEditor.iml" filepath="$PROJECT_DIR$/PhotoEditor/PhotoEditor.iml" />
       <module fileurl="file://$PROJECT_DIR$/Udusmini-Library.iml" filepath="$PROJECT_DIR$/Udusmini-Library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/adaptablecurlpage/adaptablecurlpage.iml" filepath="$PROJECT_DIR$/adaptablecurlpage/adaptablecurlpage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/amazing_picker/amazing_picker.iml" filepath="$PROJECT_DIR$/amazing_picker/amazing_picker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fluidbottomnavigation/fluidbottomnavigation.iml" filepath="$PROJECT_DIR$/fluidbottomnavigation/fluidbottomnavigation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mylibrary/mylibrary.iml" filepath="$PROJECT_DIR$/mylibrary/mylibrary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mysqlitedbconnection/mysqlitedbconnection.iml" filepath="$PROJECT_DIR$/mysqlitedbconnection/mysqlitedbconnection.iml" />
-      <module fileurl="file://$PROJECT_DIR$/shelfview/shelfview.iml" filepath="$PROJECT_DIR$/shelfview/shelfview.iml" />
-      <module fileurl="file://$PROJECT_DIR$/testingmodle/testingmodle.iml" filepath="$PROJECT_DIR$/testingmodle/testingmodle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/udushandoutadmin/udushandoutadmin.iml" filepath="$PROJECT_DIR$/udushandoutadmin/udushandoutadmin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PageCurl/Udusmini-Library.PageCurl.iml" filepath="$PROJECT_DIR$/.idea/modules/PageCurl/Udusmini-Library.PageCurl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PhotoEditor/Udusmini-Library.PhotoEditor.iml" filepath="$PROJECT_DIR$/.idea/modules/PhotoEditor/Udusmini-Library.PhotoEditor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adaptablecurlpage/Udusmini-Library.adaptablecurlpage.iml" filepath="$PROJECT_DIR$/.idea/modules/adaptablecurlpage/Udusmini-Library.adaptablecurlpage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/amazing_picker/Udusmini-Library.amazing_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/amazing_picker/Udusmini-Library.amazing_picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Udusmini-Library.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Udusmini-Library.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fluidbottomnavigation/Udusmini-Library.fluidbottomnavigation.iml" filepath="$PROJECT_DIR$/.idea/modules/fluidbottomnavigation/Udusmini-Library.fluidbottomnavigation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mylibrary/Udusmini-Library.mylibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/mylibrary/Udusmini-Library.mylibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mysqlitedbconnection/Udusmini-Library.mysqlitedbconnection.iml" filepath="$PROJECT_DIR$/.idea/modules/mysqlitedbconnection/Udusmini-Library.mysqlitedbconnection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shelfview/Udusmini-Library.shelfview.iml" filepath="$PROJECT_DIR$/.idea/modules/shelfview/Udusmini-Library.shelfview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testingmodle/Udusmini-Library.testingmodle.iml" filepath="$PROJECT_DIR$/.idea/modules/testingmodle/Udusmini-Library.testingmodle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/udushandoutadmin/Udusmini-Library.udushandoutadmin.iml" filepath="$PROJECT_DIR$/.idea/modules/udushandoutadmin/Udusmini-Library.udushandoutadmin.iml" />
     </modules>
   </component>
 </project>

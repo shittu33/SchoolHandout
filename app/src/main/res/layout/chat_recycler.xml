@@ -11,6 +11,7 @@
         android:id="@+id/messagesList"
         app:incomingTextSize="14sp"
         app:outcomingTextSize="14sp"
+        app:textAutoLink="all"
         app:incomingTimeTextSize="14sp"
         app:outcomingTimeTextSize="14sp"
         app:incomingBubblePaddingTop="6dp"

@@ -5,9 +5,10 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
-import com.example.abumuhsin.udusmini_library.models.HandoutFilter;
-import com.example.abumuhsin.udusmini_library.models.LocalHandout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.HandoutFilter;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.LocalHandout;
 import com.example.abumuhsin.udusmini_library.models.top_filter_model;
+import com.example.abumuhsin.udusmini_library.tasks.UnZippingToBookTask;
 import com.example.abumuhsin.udusmini_library.utils.FileUtils;
 import com.example.mysqlitedbconnection.csv.CSV_reader;
 import com.example.mysqlitedbconnection.csv.CSV_writer;
@@ -19,12 +20,17 @@ import com.example.mysqlitedbconnection.csv.sqlite.Table;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
+import static com.example.abumuhsin.udusmini_library.tasks.UnZippingToBookTask.SHARED_TIME;
+import static com.example.abumuhsin.udusmini_library.tasks.UnZippingToBookTask.SHARE_ID;
 import static com.example.abumuhsin.udusmini_library.utils.Constants.Handout_ID;
 import static com.example.mysqlitedbconnection.csv.Constants.AND;
 import static com.example.mysqlitedbconnection.csv.Constants.BOOK;
@@ -272,7 +278,7 @@ public class BOOK_Table extends Table implements Serializable {
                 columns[2] = Integer.toString(no_of_pages);
                 long date = csvCursor.getLong(csvCursor.getColumnIndex(DATE_CREATED));
                 columns[3] = Long.toString(date);
-                columns[4] = csvCursor.getString(csvCursor.getColumnIndex(TITLE)) + "_share";
+                columns[4] = csvCursor.getString(csvCursor.getColumnIndex(TITLE)) /*+ "_share"*/;
                 columns[5] = csvCursor.getString(csvCursor.getColumnIndex(COURSE_CODE));
                 csv_writer.writeNext(columns);
             }
@@ -284,7 +290,7 @@ public class BOOK_Table extends Table implements Serializable {
 
     }
 
-    public void ReadCsvToBookTable(File csv_file) {
+    public void ReadCsvToBookTable(File csv_file, File cover_file) {
         CSV_reader csv_reader = null;
         try {
             csv_reader = new CSV_reader(new InputStreamReader(new FileInputStream(csv_file)));
@@ -296,17 +302,23 @@ public class BOOK_Table extends Table implements Serializable {
                 String[] columns;
                 String[] data_columns = null;
                 int i = 0;
-//                String book_name =csv_file.getName().replace(".csv","");
-//                contentValues.put(TITLE,book_name);
-                ContentValues contentValues = null;
                 while ((columns = csv_reader.readNext()) != null) {
-//                    new String[]{BOOK_TYPE, FIRST_PAGE, NO_OF_PAGES, DATE_CREATED, TITLE}
                     if (i > 0) {
-                        contentValues = new ContentValues();
+                        ContentValues contentValues = new ContentValues();
                         String title = columns[4];
                         String course_code = columns[5];
                         String book_type = columns[0];
                         String first_page = columns[1];
+                        boolean is_book_exist = is_book_exist(title);
+                        if (is_book_exist) {
+                            title = title + SHARE_ID + SHARED_TIME;
+                        }else {
+                            Log.e(DEBUG_TABLES, "book doesn't exist so title is still" + title);
+                        }
+
+                        if (cover_file!=null) {
+                            first_page = cover_file.getPath();
+                        }
                         int no_of_page = Integer.parseInt(columns[2]);
                         Long date = Long.parseLong(columns[3]);
                         contentValues.put(TITLE, title);

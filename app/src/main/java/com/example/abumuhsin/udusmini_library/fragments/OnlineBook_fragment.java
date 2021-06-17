@@ -30,7 +30,7 @@ import com.example.abumuhsin.udusmini_library.activities.DiscussionActivity;
 import com.example.abumuhsin.udusmini_library.activities.OnlineBookDetailsActivity;
 import com.example.abumuhsin.udusmini_library.activities.OnlineLocalHandoutListener;
 import com.example.abumuhsin.udusmini_library.adapters.OnlineHandout_adapter;
-import com.example.abumuhsin.udusmini_library.models.OnlineHandout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.OnlineHandout;
 import com.example.abumuhsin.udusmini_library.models.top_filter_model;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -329,9 +329,9 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         firebaseHandoutOperation.DownloadHandout(handout, new FirebaseHandoutOperation.OnCompleteHandoutDownload() {
             @Override
-            public void onHandoutDownloaded(Handout handout, File dest_file) {
+            public void onHandoutDownloaded(Handout handout, File zip_file, File cover_file) {
                 progressDialog.dismiss();
-                onlineLocalHandoutListener.onHandoutDownloadFromOnline(handout, dest_file);
+                onlineLocalHandoutListener.onHandoutDownloadFromOnline(handout, zip_file,cover_file);
             }
 
             @Override
@@ -365,7 +365,7 @@ public class OnlineBook_fragment extends Fragment implements OnlineHandout_adapt
     private OnlineLocalHandoutListener onlineLocalHandoutListener;
 
     public void ListenForAddedHandout() {
-        if (handouts.size() < 1) {
+        if (handouts.size() < 1 && FirebaseLoginOperation.getCurrentUser()!=null) {
             Log.i(MyBook_fragment.BOOKSDEBUG, "handout size is less than one");
             h_load_prog_bar.setVisibility(View.VISIBLE);
             firebaseHandoutOperation = new FirebaseHandoutOperation(requireContext());

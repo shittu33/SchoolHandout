@@ -21,7 +21,7 @@ import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.Views.GridOptionButton;
 import com.example.abumuhsin.udusmini_library.Views.LikeButton;
-import com.example.abumuhsin.udusmini_library.models.OnlineHandout;
+import com.example.abumuhsin.udusmini_library.firebaseStuff.model.OnlineHandout;
 import com.example.abumuhsin.udusmini_library.utils.GlideApp;
 
 import java.util.ArrayList;

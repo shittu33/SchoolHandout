@@ -27,19 +27,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.dueeeke.tablayout.SegmentTabLayout;
+import com.dueeeke.tablayout.listener.OnTabSelectListener;
 import com.example.abumuhsin.udusmini_library.R;
 import com.example.abumuhsin.udusmini_library.adapters.pagerAdapter;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.FirebaseHandoutOperation;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.model.Handout;
 import com.example.abumuhsin.udusmini_library.firebaseStuff.util.FirebaseLoginOperation;
+import com.example.abumuhsin.udusmini_library.fragments.Books_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.Discussion_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.Download_fragment;
-import com.example.abumuhsin.udusmini_library.fragments.GalleryBook_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.MyBook_fragment;
 import com.example.abumuhsin.udusmini_library.fragments.OnlineBook_fragment;
-import com.example.abumuhsin.udusmini_library.fragments.PDFBook_fragment;
 import com.example.abumuhsin.udusmini_library.utils.GlideApp;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,7 +64,7 @@ import static com.example.abumuhsin.udusmini_library.firebaseStuff.services.Fire
 import static com.example.abumuhsin.udusmini_library.firebaseStuff.services.FirebaseMessageService.USERS_TOKEN_NODE;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
-        , OnlineLocalHandoutListener, TabLayout.OnTabSelectedListener, AdapterView.OnItemSelectedListener {
+        , OnlineLocalHandoutListener, AdapterView.OnItemSelectedListener {
     public static final int LOGIN_REQUEST_CODE = 43345;
     public static final int MY_BOOK_INDEX = 0;
     public static final int ONLINE_BOOK_INDEX = 1;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final int GST_INDEX = 2;
     public static final int AUTHOR_INDEX = 1;
     public static final int FACULTY_INDEX = 0;
+    public static final String IS_FOR_POS = "is_for_pos";
     int selected_fragment = 0;
     private final String TAG = "active";
     private DrawerLayout draw;
@@ -90,13 +93,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private pagerAdapter adapter;
     private MyBook_fragment myBook_fragment;
     private OnlineBook_fragment onlineBook_fragment;
-    private GalleryBook_fragment galleryBook_fragment;
-    private PDFBook_fragment pdf_Book_fragment;
     private ImageButton add_Btn;
     private Spinner filter_spinner;
     private ArrayAdapter<String> filter_adapter;
     private Discussion_fragment discussion_fragment;
     private Download_fragment download_fragment;
+    private SegmentTabLayout tabLayout_1;
+    private String[] mTitles = {"   Local    ", "    Online    "/*, "    Pdf ", "    Gallery "*/};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             try {
                 FirebaseDatabase.getInstance().setPersistenceEnabled(true);
                 FirebaseMessaging.getInstance().subscribeToTopic("CMP");
-//                FirebaseApp firebaseApp = FirebaseApp.initializeApp(this);
 //                if (firebaseApp != null) {
 //                    firebaseApp.setAutomaticResourceManagementEnabled(true);
 //                }
@@ -143,17 +145,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
-
+    FluidBottomNavigation fluidBottomNavigation;
+    BottomNavigationView bottomNavigationView;
     private void setUpBottomNav() {
-        FluidBottomNavigation fluidBottomNavigation = findViewById(R.id.fluidBottomNavigation);
+//        bottomNavigationView = findViewById(R.id.BottomNavigation);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavigationItemSelectedListener);
+//        bottomNavigationView.setSelectedItemId(R.id.handouts);
+        fluidBottomNavigation = findViewById(R.id.fluidBottomNavigation);
         List<FluidBottomNavigationItem> list = new ArrayList<>();
-        list.add( new FluidBottomNavigationItem(getString(R.string.books),ContextCompat.getDrawable(this, R.drawable.ic_news)));
+        list.add( new FluidBottomNavigationItem(getString(R.string.chat),ContextCompat.getDrawable(this, R.drawable.ic_chat)));
         list.add( new FluidBottomNavigationItem(
                 getString(R.string.books),
-                ContextCompat.getDrawable(this, R.drawable.ic_chat)));
+                ContextCompat.getDrawable(this, R.drawable.ic_news)));
         list.add( new FluidBottomNavigationItem(
-                getString(R.string.books),
-                ContextCompat.getDrawable(this, R.drawable.ic_inbox)));
+                getString(R.string.history),
+                ContextCompat.getDrawable(this, R.drawable.ic_history_black_24dp)));
         fluidBottomNavigation.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         fluidBottomNavigation.setBackColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         fluidBottomNavigation.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
@@ -196,8 +202,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onHandoutDownloadFromOnline(Handout handout, File dest_file) {
-        myBook_fragment.AddZipBook(Uri.fromFile(dest_file));
+    public void onHandoutDownloadFromOnline(Handout handout, File zip_file, File cover_file) {
+        myBook_fragment.AddZipBook(handout.getHandout_title(), Uri.fromFile(zip_file), cover_file);
     }
 
     private void init() {
@@ -252,6 +258,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initViews() {
         add_Btn = findViewById(R.id.add_Btn);
+        tabLayout_1 = findViewById(R.id.tl_1);
+        tabLayout_1.setTabData(mTitles);
+        tabLayout_1.setIndicatorColor(getResources().getColor(R.color.colorPrimary));
+        tabLayout_1.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                pager.setCurrentItem(position);
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+
         filter_spinner = findViewById(R.id.filter_spinner);
         androidx.appcompat.widget.SearchView searchView = findViewById(R.id.search_view);
         toolbar = findViewById(R.id.toolbar);
@@ -326,6 +347,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void StudentNameLoaded(String student_name) {
                 display_tv.setText(student_name);
+                display_tv.append("'s Handout");
             }
 
             @Override
@@ -333,11 +355,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-//        if (current_user != null) {
-//            Uri photo_url = current_user.getPhotoUrl();
-//            String user_name = current_user.getDisplayName();
-//            display_tv.setText(user_name);
-//        }
 
     }
 
@@ -346,34 +363,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (v.getId() == R.id.add_Btn) {
             pager.setCurrentItem(MY_BOOK_INDEX);
             myBook_fragment.add_A_Book();
-//            if (pager.getCurrentItem() == 0)
-//            else if (pager.getCurrentItem() == 1)
-//                onlineBook_fragment.Test();
         }
     }
 
     private void settingUpTabs() {
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
+        books_fragment = new Books_fragment();
         Intent intent = getIntent();
         if (intent != null) {
             setUpReceievedBook(intent);
         } else {
             Log.i(TAG, "intent is null");
         }
+//        FragmentManager manager = getSupportFragmentManager();
+//        manager.beginTransaction().add(R.id.frag, books_fragment).commit();
+//        setTitle("Books");
         myBook_fragment = new MyBook_fragment();
         sendZipBundleToMyBook();
         onlineBook_fragment = new OnlineBook_fragment();
-        discussion_fragment = new Discussion_fragment();
-        download_fragment = new Download_fragment();
-        adapter.addFragments(myBook_fragment, "My Books");
-        adapter.addFragments(onlineBook_fragment, "Online Books");
-        adapter.addFragments(discussion_fragment, "Discussions");
-        adapter.addFragments(download_fragment, "History");
+        adapter.addFragments(myBook_fragment, getResources().getString(R.string.local));
+        adapter.addFragments(onlineBook_fragment, getResources().getString(R.string.online));
         pager.setAdapter(adapter);
-        tab.setupWithViewPager(pager);
-        tab.addOnTabSelectedListener(this);
-        pager.setCurrentItem(selected_fragment);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout_1.setCurrentTab(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+//        tab.setupWithViewPager(pager);
+//        tab.addOnTabSelectedListener(this);
+//        pager.setCurrentItem(selected_fragment);
     }
 
     private void sendZipBundleToMyBook() {
@@ -416,13 +446,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                changeBarTitle("Options");
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                changeBarTitle("Books");
             }
         };
         toggle.syncState();
@@ -498,52 +526,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        if (tab.getPosition() == PDF_FRAGMENT_INDEX || tab.getPosition() == GALLERY_FRAGMENT_INDEX) {
-            filter_spinner.setVisibility(View.GONE);
-            add_Btn.setVisibility(View.GONE);
-        } else {
-            filter_spinner.setVisibility(View.VISIBLE);
-            add_Btn.setVisibility(View.VISIBLE);
-        }
-    }
-
     public ViewPager getPager() {
         return pager;
     }
+    Books_fragment books_fragment;
 
     OnTabSelectedListener onBottomTabSelectedListener = new OnTabSelectedListener() {
         @Override
         public void onTabSelected(int position) {
             switch (position) {
                 case 0:
-//                    FragmentManager manager2 = getSupportFragmentManager();
-//                    manager2.beginTransaction().replace(R.id.frag, new OnlineBook_fragment()).commit();
-//                    setTitle("Status Download");
-                    startActivity(new Intent(MainActivity.this,BookDiscussionActivity.class));
+                    hideBooks();
+                    FragmentManager manager2 = getSupportFragmentManager();
+                    manager2.beginTransaction().replace(R.id.frag, new Discussion_fragment()).commit();
+                    ChangeTitle(getResources().getString(R.string.discussion));
                     break;
                 case 1:
-                    FragmentManager manager = getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.frag, new MyBook_fragment()).commit();
-                    setTitle("Book Fragment");
+                    pager.setVisibility(View.VISIBLE);
+                    tabLayout_1.setVisibility(View.VISIBLE);
+                    ChangeTitle(getResources().getString(R.string.books));
                     break;
                 case 2:
+                    hideBooks();
                     FragmentManager manager3 = getSupportFragmentManager();
                     manager3.beginTransaction().replace(R.id.frag, new Download_fragment()).commit();
-                    setTitle("Download Fragment");
+                    ChangeTitle(getResources().getString(R.string.history));
             }
 
         }
     };
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
 
+    private void ChangeTitle(String title) {
+        ((TextView) findViewById(R.id.title_tv)).setText(title);
     }
 
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
+    private void hideBooks() {
+        pager.setVisibility(View.GONE);
+        tabLayout_1.setVisibility(View.GONE);
     }
 
 }
