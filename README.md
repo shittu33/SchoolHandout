@@ -4,11 +4,7 @@ with their friends.
 
 ## Preview
 <!-- <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/list2.png"> -->
-<div>
-<h6>Handout List</h6>
-<img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/list2.png">
-</div>
-<img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/discuss1.png">  <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/first.gif"> <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/fastFlip.gif">
+<img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/list2.png"> <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/discuss1.png">  <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/first.gif"> <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/fastFlip.gif">
 <img width="164" alt="preview" src="https://github.com/shittu33/SchoolHandout/blob/master/screens/toPdf.gif">
 
 
